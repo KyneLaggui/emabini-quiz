@@ -1,0 +1,13 @@
+.page {
+    position: relative; 
+    min-height: 100vh;
+    top: 0;
+    left: 80px;
+    transition: all 0.5s ease;
+    width: calc(100% - 80px);
+}
+
+.sidebar.active ~ .page {
+    left: 250px;
+    width: calc(100% - 250px);
+}
