@@ -5,6 +5,7 @@
     left: 80px;
     transition: all 0.5s ease;
     width: calc(100% - 80px);
+    padding: 60px 
 }
 
 .sidebar.active ~ .page {

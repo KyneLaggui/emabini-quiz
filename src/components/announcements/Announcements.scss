@@ -1,0 +1,37 @@
+.announcements-container {
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.top-announcement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notif-bell-container {
+    background: #CB292D;
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.notif-icon {
+    color: #fff;
+    font-size: 1.4rem
+}
+
+.announcements-word {
+    font-size: 1.4rem
+}
+
+.announcements-current-date {
+    color: #CB292D;
+}
+
+.announcements-preview {
+    background: var(--asideWhite);
+    height: 250px;
+}

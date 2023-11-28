@@ -5,15 +5,16 @@
 }
 
 .sidebar {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     width: 80px;
     background-color: #293747;
-    padding: 0.4rem 1.5rem 0.4rem 0.8rem;
+    padding: 0.4rem 0.5rem 0.4rem 0.8rem;
     transition: all 0.5s ease;
     border-top-right-radius: 20px;
+    z-index: 99;
 }
 
 .sidebar.active {
@@ -32,7 +33,7 @@
 }
 
 .sidebar.active #btn {
-    left: 90%;
+    left: 85%;
 }
 
 .sidebar .top .logo {
@@ -92,10 +93,6 @@
 #sidebar-ellipsis {
     color: white;
     cursor: pointer;
-}
-
-.bold {
-    font-weight: 600;
 }
 
 .sidebar p {
@@ -165,3 +162,10 @@
     display: none;
 }
 
+@media screen and (max-width: 550px) {
+    .sidebar.active {
+        width: 100%;
+        position: fixed;
+        border-radius: 0;
+    }
+}
