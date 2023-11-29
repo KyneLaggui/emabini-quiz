@@ -15,7 +15,9 @@ const Announcements = () => {
                 </div>
             </div>
             <div className="announcements-preview">
-
+                <div className="announcement-preview-row">
+                    No classes for today!
+                </div>
             </div>
         </div>
             
