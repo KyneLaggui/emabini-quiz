@@ -12,3 +12,15 @@
     left: 250px;
     width: calc(100% - 250px);
 }
+
+@media screen and (max-width: 550px) {
+    .page {
+        padding: 30px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .page {
+        padding: 10px;
+    }
+}

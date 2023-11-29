@@ -6,7 +6,6 @@
 
 :root {
   --asideWhite: #F3F6FF;
-
 }
 
 body {
@@ -23,6 +22,15 @@ code {
     monospace;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .bold {
   font-weight: 600;
+}
+
+.medium-text {
+  font-size: 1.4rem;
 }

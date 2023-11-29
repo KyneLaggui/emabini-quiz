@@ -1,0 +1,23 @@
+.course-card-container {
+    height: 300px;
+    width: 300px;
+    border-radius: 16px;
+    background: var(--asideWhite);
+    overflow: hidden;
+}
+
+.course-card-cover {
+    height: 180px;
+    background: #CB292D;
+    cursor: pointer;
+}
+
+.course-card-title {
+    font-weight: 500;
+    color: #2C2C42CC;
+}
+
+.course-card-detail {
+    padding: 20px;
+}
+

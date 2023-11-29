@@ -4,6 +4,8 @@ import PageLayout from '../../layouts/pageLayout/PageLayout';
 import ProfileDetailsHeader from '../../components/profileDetailsHeader/ProfileDetailsHeader';
 import StudentOverview from '../../components/studentOverview/StudentOverview';
 import Announcements from '../../components/announcements/Announcements';
+import Calendar from '../../components/calendar/Calendar';
+import CourseOverview from '../../components/courseRelated/coursesOverview/CourseOverview';
 
 const StudentHome = () => {
     return (
@@ -14,6 +16,8 @@ const StudentHome = () => {
                     <ProfileDetailsHeader />
                     <StudentOverview />
                     <Announcements />
+                    <Calendar />
+                    <CourseOverview />
                 </div>                
             </PageLayout>
         </>
