@@ -1,0 +1,58 @@
+.ca-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    background-color: var(--asideWhite);
+    width: 60rem;
+    gap: 1rem;
+    padding: 2rem;
+    border-radius: 12px;
+
+    h1 {
+        color: var(--blue);
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+}
+
+.each-announcements-container {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid black;
+
+    h3 {
+        color: var(--blue);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    p {
+        color: var(--asideWhite);
+        font-size: 0.875rem;
+        background-color: var(--redLO);
+        padding-inline: 11px;
+        padding-block: 4px;
+        border-radius: 4px;
+    }
+}
+
+.ca-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+     
+    p {
+        font-size: 0.875rem;
+        background-color: var(--yellow);
+        color: var(--asideWhite);
+        padding-inline: 11px;
+        padding-block: 4px;
+        border-radius: 4px;
+    }
+}
