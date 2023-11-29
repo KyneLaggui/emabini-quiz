@@ -15,8 +15,10 @@ const StudentHome = () => {
                 <div className="student-home-wrapper">
                     <ProfileDetailsHeader />
                     <StudentOverview />
-                    <Announcements />
-                    <Calendar />
+                    <div className="announcements-calendar-container">
+                        <Announcements />
+                        <Calendar />
+                    </div>                    
                     <CourseOverview />
                 </div>                
             </PageLayout>
