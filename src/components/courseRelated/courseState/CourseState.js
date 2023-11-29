@@ -17,7 +17,7 @@ const CourseState = ({quizTitle, quizDate, quizTime, quizState, quizWeek}) => {
 
     return (
         <div className="cs-week-cont">
-            <h1><Link>Week {quizWeek}</Link></h1>
+            
             <div className="cs-container">
                 
                 <div className="cs-left">

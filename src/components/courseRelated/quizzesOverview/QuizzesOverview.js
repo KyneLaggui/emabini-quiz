@@ -35,22 +35,33 @@ const QuizzesOverview = () => {
         
     
     ]
+
+    const groupedQuizzes = quizzes.reduce((acc, quiz) => {
+        const { quizWeek } = quiz;
+        if (!acc[quizWeek]) {
+            acc[quizWeek] = [];
+        }
+        acc[quizWeek].push(quiz);
+        return acc;
+    }, {});
+
+
   return (
     quizzes.length === 0 ? (
         <p>No quizzes found.</p>
     ) : (
-        <div className='courses-weeks'>
-            
-            <div className='courses-quizzes'>
-                { quizzes.map((quiz, i) => {
-                        return (
-                            <CourseState {...quiz} key={i}/>
-                        )
-                    })}
-            </div>
-           
         
-        </div>
+        Object.keys(groupedQuizzes).map((week, index) => (
+            <div key={index}>
+                <h1 className='week-titles'>Week {week}</h1>
+                <div className='courses-quizzes'>
+                    {groupedQuizzes[week].map((quiz, i) => (
+                        <CourseState {...quiz} key={i} />
+                    ))}
+                </div>
+            </div>
+        ))
+       
         
        
     )
