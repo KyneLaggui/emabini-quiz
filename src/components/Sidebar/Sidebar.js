@@ -31,7 +31,7 @@ const Sidebar = () => {
                         <span className={`tooltip bold`}>Home</span>        
                     </li>
                     <li>
-                        <NavLink to="/" className={`${activeLink} navlink`}> 
+                        <NavLink to="/student-courses" className={`${activeLink} navlink`}> 
                             <FaBookOpen className={`link-icon`}/>
                             <span className={`nav-item bold`}>Courses</span>
                         </NavLink>      

@@ -1,0 +1,56 @@
+.cs-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--asideWhite);
+    padding: 1rem;
+    width: 60rem;
+}
+
+.cs-left {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-direction: column;
+
+    h1 {
+       font-size: 1.125rem; 
+       color: var(--blue);
+    }
+    p {
+        font-size: 0.75rem;
+        color: var(--blueLO);
+    }
+}
+
+.cs-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    .cs-exam-state {
+        padding-inline: 0.6875rem;
+        padding-block: 0.25rem;
+        border-radius: 4px;
+
+      &.done {
+        background-color: var(--green);
+      }
+
+      &.tn {
+        background-color: var(--yellow) ;
+      }
+
+      &.na {
+        background-color: var(--redLO);
+      }
+    }  
+
+    h1 {
+        font-size: 0.875rem;
+        color: var(--asideWhite);
+        font-weight: 400;
+    }
+}

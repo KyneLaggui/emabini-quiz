@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/inter');
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +8,13 @@
 
 :root {
   --asideWhite: #F3F6FF;
+  --red: #CB292D;
+  --redLO: #d55457;
+  --yellow: #E89D1E;
+  --blue: #293747;
+  --blueLO: #565668;
+  --gray: #EDEDF0;
+  --green: #0CB75B;
 }
 
 body {
@@ -13,6 +22,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,3 +44,4 @@ a {
 .medium-text {
   font-size: 1.4rem;
 }
+
