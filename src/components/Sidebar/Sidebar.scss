@@ -169,9 +169,51 @@
 }
 
 @media screen and (max-width: 550px) {
+    .sidebar {
+        top: 0;
+        left: 0;
+        height: 60px;
+        display: flex;
+        width: 100%;
+        border-radius: 0;
+        justify-content: space-between;
+    }
+
     .sidebar.active {
         width: 100%;
         position: fixed;
-        border-radius: 0;
+    }
+
+    .sidebar ul li .tooltip {
+        display: none;
+    }
+
+    .sidebar .top .logo {
+        display: none;
+    }
+
+    .sidebar #btn, .sidebar.active #btn {
+        left: 0;
+        transform: translateX(0);
+        margin-left: 10px;
+    }
+
+    .sidebar ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    .sidebar ul li {
+        margin: 0;
+        width: auto;
+        height: auto;
+    }
+
+    .nav-item {
+        display: none;
+    }
+
+    .user {
+        display: none;
     }
 }
