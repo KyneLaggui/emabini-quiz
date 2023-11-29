@@ -7,11 +7,11 @@
 .calendar-header {
     display: flex;
     align-items: center;
-    padding: 25px 30px 10px;
+    padding: 0px 30px 10px;
     justify-content: space-between;
 
     .current-date {
-        font-size: 1.45rem;
+        font-size: 1.4rem;
         font-weight: 500;
     }
 
@@ -37,7 +37,7 @@
 }
 
 .calendar {
-    padding: 20px;
+    padding: 10px;
 
     .weeks li {
         font-weight: 500;

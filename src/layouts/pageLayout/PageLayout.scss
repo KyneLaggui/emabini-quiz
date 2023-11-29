@@ -5,7 +5,8 @@
     left: 80px;
     transition: all 0.5s ease;
     width: calc(100% - 80px);
-    padding: 60px 
+    padding: 60px; 
+    overflow: hidden;
 }
 
 .sidebar.active ~ .page {
@@ -16,11 +17,21 @@
 @media screen and (max-width: 550px) {
     .page {
         padding: 30px;
+        left: 0;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 60px;
     }
+
+    .sidebar.active ~ .page {
+        left: 0;
+        width: 100%;
+    }
+    
 }
 
 @media screen and (max-width: 450px) {
     .page {
-        padding: 10px;
+        padding: 0;
     }
 }
