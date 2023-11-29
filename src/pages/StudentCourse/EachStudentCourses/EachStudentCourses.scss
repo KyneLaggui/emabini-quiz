@@ -1,0 +1,43 @@
+.back-courses {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    color: var(--red);
+}
+
+.esc-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
+
+.courses-title {
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;   
+    flex-direction: column;
+
+    h1 {
+        font-size: 1.375rem;
+        color: var(--blue);
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1rem;
+        color: var(--blueLO);
+        font-weight: 500;
+    }
+}
+
+.courses-events {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
