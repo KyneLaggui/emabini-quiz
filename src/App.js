@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StudentHome from './pages/StudentHome/StudentHome';
 import StudentCourse from './pages/StudentCourse/StudentCourse';
 import EachStudentCourses from './pages/StudentCourse/EachStudentCourses/EachStudentCourses';
+import StudentProgress from './pages/StudentProgress/StudentProgress';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={ <StudentHome />}></Route>  
           <Route path="/student-courses" element={ <StudentCourse/>}></Route> 
           <Route path="/student-courses-id" element={ <EachStudentCourses/>}></Route>   
+          <Route path="/student-progress" element={ <StudentProgress/>}></Route>   
         </Routes>      
       </BrowserRouter>    
     </>

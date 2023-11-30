@@ -38,7 +38,7 @@ const Sidebar = () => {
                         <span className={`tooltip bold`}>Courses</span>        
                     </li>
                     <li>
-                        <NavLink to="/" className={`${activeLink} navlink`}> 
+                        <NavLink to="/student-progress" className={`${activeLink} navlink`}> 
                             <FaChartBar className={`link-icon`}/>
                             <span className={`nav-item bold`}>Progress</span>
                         </NavLink>      
