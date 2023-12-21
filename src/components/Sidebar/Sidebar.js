@@ -13,7 +13,13 @@ const Sidebar = () => {
     const [show, setShow] = useState(false);
 
     return (
-        <>
+        <>  
+            <div className={`secondary-sidebar ${show ? "active" : ""}`}>
+                <IoMenu id="secondary-btn" onClick={() => setShow(!show)}/>
+                <div className="cover">
+
+                </div>
+            </div>
             <div className={`sidebar ${show ? "active" : ""}`}>
                 <div className={`top`}>
                     <div className={`logo`}>
