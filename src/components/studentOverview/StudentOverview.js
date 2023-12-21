@@ -41,7 +41,8 @@ const StudentOverview = () => {
             legend:{
                 display:false
             }
-        }
+        },
+        maintainAspectRatio: false
     }
 
     return (

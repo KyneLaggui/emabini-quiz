@@ -31,6 +31,15 @@ const StudentProgressCard = ({ courseTitle, courseCode }) => {
         ]
       };
 
+      const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        maintainAspectRatio: false
+    }
+
     return (
         <div className="progress-card-wrapper">
             <div className="progress-left-details">
@@ -45,8 +54,8 @@ const StudentProgressCard = ({ courseTitle, courseCode }) => {
                     <p>CPU Scheduling: 75%</p>
                 </div>            
             </div>
-            <div>
-                <Line data={data} />
+            <div className="line-chart">
+                <Line data={data} options={options}/>
             </div>
         </div>
     )

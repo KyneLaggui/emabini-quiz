@@ -36,7 +36,6 @@ const Calendar = () => {
 
     console.log(currMonth)
     useEffect(() => {   
-        console.log(currYear);
         if (currMonth > 11 || currMonth < 0) {
             const newDate = new Date(currYear, currMonth)
             setDate(newDate); // Update the date with the next year calendar

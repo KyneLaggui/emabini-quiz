@@ -22,7 +22,7 @@
     width: 250px;
 }
 
-.sidebar #btn {
+.sidebar #btn, .secondary-sidebar #secondary-btn {
     position: absolute;
     color: #fff;
     top: 1rem;
@@ -33,7 +33,7 @@
     cursor: pointer;
 }
 
-.sidebar.active #btn {
+.sidebar.active #btn, .secondary-sidebar #secondary-btn {
     left: 85%;
 }
 
@@ -168,8 +168,17 @@
     display: none;
 }
 
-@media screen and (max-width: 550px) {
-    .sidebar {
+/* For secondary sidebar */
+.secondary-sidebar {
+    display: none;
+}
+
+
+/* End of secondary sidebar */
+
+ @media screen and (max-width: 800px) {
+    .secondary-sidebar {
+        position: fixed;
         top: 0;
         left: 0;
         height: 60px;
@@ -177,43 +186,32 @@
         width: 100%;
         border-radius: 0;
         justify-content: space-between;
+        background-color: #293747;
+        z-index: 99;
+    }
+
+    .secondary-sidebar.active .cover {
+        display: block;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        height: calc(100vh - 60px);
+        width: 100vw;
+        background: black;
+        opacity: 0.4;
+        z-index: 98;
+    }
+
+    .sidebar {
+        display: none;
     }
 
     .sidebar.active {
-        width: 100%;
-        position: fixed;
+        display: block;
     }
 
-    .sidebar ul li .tooltip {
-        display: none;
+    .secondary-sidebar #secondary-btn {
+        left: 1.8rem;
     }
 
-    .sidebar .top .logo {
-        display: none;
-    }
-
-    .sidebar #btn, .sidebar.active #btn {
-        left: 0;
-        transform: translateX(0);
-        margin-left: 10px;
-    }
-
-    .sidebar ul {
-        display: flex;
-        align-items: center;
-    }
-    
-    .sidebar ul li {
-        margin: 0;
-        width: auto;
-        height: auto;
-    }
-
-    .nav-item {
-        display: none;
-    }
-
-    .user {
-        display: none;
-    }
 }

@@ -1,7 +1,9 @@
 .student-overview-container {
+    position: relative;
     display: flex;
     padding: 20px;
     max-width: 1200px;
+    min-height: 300px;
     background: #F3F6FF;
     border-radius: 20px;
     justify-content: space-between;
@@ -9,5 +11,16 @@
 }
 
 .radar-chart {
-    width: 300px;
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    min-height: 300px;
+}
+
+
+@media screen and (max-width: 450px) {
+    .student-overview-container {
+        flex-direction: column;
+        align-items: center;
+    }
 }
