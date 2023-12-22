@@ -1,0 +1,82 @@
+.each-progress-wrapper {
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.back-courses {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    color: var(--red);
+}
+
+.courses-title {
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;   
+    flex-direction: column;
+
+    h1 {
+        font-size: 1.375rem;
+        color: var(--blue);
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1rem;
+        color: var(--blueLO);
+        font-weight: 500;
+    }
+}
+
+.progress-bottom-container {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+    flex-wrap: wrap;
+
+    div:first-child {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    & > div:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: 500px;
+        padding: 20px;
+        background-color: var(--asideWhite);
+        border-radius: 20px;
+        margin-top: 39px;
+        gap: 20px;
+    }
+    
+
+    & > div {
+        & > p {
+            margin-bottom: 10px;
+        }
+    }
+
+    .progress-breakdown > div .breakdown-row {
+        margin-bottom: 10px;
+    }
+}
+
+.quiz-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

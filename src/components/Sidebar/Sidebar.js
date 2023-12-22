@@ -4,7 +4,6 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiAcademicCap } from "react-icons/hi2";
 import { FaHome, FaBookOpen, FaChartBar, FaEllipsisH } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
-import userIcon from "../../assets/user_icon.png";
 
 const activeLink = ({isActive}) => 
   (isActive ? `active` : "")

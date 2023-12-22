@@ -15,7 +15,6 @@
     transition: all 0.5s ease;
     border-top-right-radius: 20px;
     z-index: 99;
-    overflow: hidden;
 }
 
 .sidebar.active {
@@ -213,5 +212,4 @@
     .secondary-sidebar #secondary-btn {
         left: 1.8rem;
     }
-
 }
