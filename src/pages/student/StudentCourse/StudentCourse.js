@@ -1,8 +1,8 @@
 import './StudentCourse.scss';
 import React from 'react'
-import PageLayout from '../../layouts/pageLayout/PageLayout';
-import CourseCard from '../../components/courseRelated/courseCard/CourseCard'
-import Sidebar from '../../components/Sidebar/Sidebar';
+import PageLayout from '../../../layouts/pageLayout/PageLayout';
+import CourseCard from '../../../components/courseRelated/courseCard/CourseCard'
+import Sidebar from '../../../components/Sidebar/Sidebar';
 
 
 
@@ -55,8 +55,6 @@ const StudentCourse = () => {
                 
                 }
             </div>
-
-            
         </PageLayout>
     </>
   )

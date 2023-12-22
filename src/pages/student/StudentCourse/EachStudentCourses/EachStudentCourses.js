@@ -1,11 +1,11 @@
 import React from 'react'
 import "./EachStudentCourses.scss"
-import Sidebar from '../../../components/Sidebar/Sidebar'
-import PageLayout from '../../../layouts/pageLayout/PageLayout'
+import Sidebar from '../../../../components/Sidebar/Sidebar'
+import PageLayout from '../../../../layouts/pageLayout/PageLayout'
 import { FaArrowLeft } from 'react-icons/fa'
-import QuizzesOverview from '../../../components/courseRelated/quizzesOverview/QuizzesOverview'
-import { CourseAnnouncements } from '../../../components/courseRelated/courseAnnouncements/CourseAnnouncements'
-import Calendar from '../../../components/calendar/Calendar';
+import QuizzesOverview from '../../../../components/courseRelated/quizzesOverview/QuizzesOverview'
+import { CourseAnnouncements } from '../../../../components/courseRelated/courseAnnouncements/CourseAnnouncements'
+import Calendar from '../../../../components/calendar/Calendar';
 
 
 

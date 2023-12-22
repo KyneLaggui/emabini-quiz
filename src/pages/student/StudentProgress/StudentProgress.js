@@ -1,9 +1,8 @@
 import React from 'react';
 import './StudentProgress.scss';
-import StudentProgressCard from '../../components/studentProgressCard/StudentProgressCard';
-import './StudentProgress.scss';
-import Sidebar from '../../components/Sidebar/Sidebar';
-import PageLayout from '../../layouts/pageLayout/PageLayout';
+import StudentProgressCard from '../../../components/studentProgressCard/StudentProgressCard';
+import Sidebar from '../../../components/Sidebar/Sidebar';
+import PageLayout from '../../../layouts/pageLayout/PageLayout';
 
 const StudentProgress = () => {
     const courses = [

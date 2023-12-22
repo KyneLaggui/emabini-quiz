@@ -44,7 +44,7 @@ const QuizzesOverview = () => {
         acc[quizWeek].push(quiz);
         return acc;
     }, {});
-
+    
 
   return (
     quizzes.length === 0 ? (
@@ -61,9 +61,6 @@ const QuizzesOverview = () => {
                 </div>
             </div>
         ))
-       
-        
-       
     )
   )
 }
