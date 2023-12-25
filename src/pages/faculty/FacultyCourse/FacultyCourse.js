@@ -3,6 +3,8 @@ import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import "./FacultyCourse.scss"
 import CourseFacultyCard from '../../../components/courseRelated/courseFacultyCard/CourseFacultyCard'
+import SearchBar from '../../../components/filters/SearchBar'
+import Sort from '../../../components/filters/Sort/Sort'
 
 const FacultyCourse = () => {
     const courses = [
@@ -43,7 +45,8 @@ const FacultyCourse = () => {
     <>
         <Sidebar></Sidebar>
         <PageLayout>
-        
+            <SearchBar></SearchBar>
+            <Sort></Sort>
             <div className='courses-orie'>
                 {courses.length === 0 ? (
                     <p>No courses found.</p>
