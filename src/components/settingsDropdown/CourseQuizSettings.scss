@@ -6,10 +6,23 @@
 .settings-dropdown {
     position: absolute;
     z-index: 99;
-    background-color: red;
-    padding: 0.5rem;
+    background-color: var(--asideWhite);
+    padding: 0.8rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
     
+    p {
+        padding: 0.3rem;
+        font-size: 14px;
+    }
 }
-  
+ 
+
+.settings-dropdown p:hover {
+    transform: scale(1.1);
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
   
   

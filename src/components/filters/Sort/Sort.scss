@@ -1,0 +1,13 @@
+.sort-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1em;
+    background-color: var(--gray);
+    padding-block: 10px;
+    padding-inline: 30px;
+    width: fit-content;
+    border-radius: 8px;
+    font-weight: 500;
+    color: var(--blue);
+}
