@@ -7,6 +7,7 @@ import StudentProgress from './pages/student/StudentProgress/StudentProgress';
 import StudentProgressEach from './pages/student/StudentProgressEach/StudentProgressEach';
 import StudentQuiz from './pages/student/StudentQuiz/StudentQuiz';
 import FacultyHome from './pages/faculty/FacultyHome/FacultyHome';
+import FacultyCourse from './pages/faculty/FacultyCourse/FacultyCourse';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
 
           {/* Faculty */}
           <Route path="/faculty-home" element={ <FacultyHome />}></Route>  
-
+          <Route path="/faculty-courses" element={ <FacultyCourse />}></Route>  
         </Routes>      
       </BrowserRouter>    
     </>
