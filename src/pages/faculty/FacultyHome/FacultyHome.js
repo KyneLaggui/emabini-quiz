@@ -6,7 +6,7 @@ import ProfileDetailsHeader from '../../../components/profileDetailsHeader/Profi
 import Announcements from '../../../components/announcements/Announcements';
 import Calendar from '../../../components/calendar/Calendar';
 import QuizOverview from '../../../components/quizRelated/QuizOverview/QuizOverview';
-import CourseOverview from '../../../components/courseRelated/coursesOverview/CourseOverview';
+import CourseFacultyOverview from '../../../components/courseRelated/courseFacultyOverview/CourseFacultyOverview';
 
 
 const FacultyHome = () => {
@@ -20,7 +20,7 @@ const FacultyHome = () => {
                     <Announcements />
                     <Calendar />
                 </div>
-                <CourseOverview></CourseOverview>                    
+                <CourseFacultyOverview></CourseFacultyOverview>        
                 <QuizOverview></QuizOverview>
             </div>    
         </PageLayout>

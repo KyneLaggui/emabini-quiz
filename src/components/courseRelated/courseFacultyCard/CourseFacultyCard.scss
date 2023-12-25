@@ -1,4 +1,4 @@
-.quiz-card-container {
+.cf-card-container {
     height: 300px;
     width: 300px;
     border-radius: 16px;
@@ -6,13 +6,13 @@
     overflow: hidden;
 }
 
-.quiz-card-cover {
+.cf-card-cover {
     height: 180px;
     background: #CB292D;
     cursor: pointer;
 }
 
-.quiz-card-wrapper {
+.cf-card-wrapper {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -20,36 +20,39 @@
     gap: 10px;
 }
 
-.quiz-card-title {
+.cf-card-code {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2c42;
+    opacity: 80%;
+}
+
+.cf-card-title {
     font-size: 1.125rem;
     font-weight: 500;
     color: #000;
 }
 
-.quiz-card-user-container {
+.cf-card-user-container {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     font-size: 14px;
-    gap: 1rem;
-
-    .gray-cont {
-        background-color: var(--gray);
-        padding-inline: 10px;
-        padding-block: 4px;
-        border-radius: 12px;
-    }
+    gap: 0.5rem;
+    background-color: var(--gray);
+    padding-inline: 10px;
+    padding-block: 4px;
+    border-radius: 12px;
+    font-weight: medium;
 }
 
-
-
-.quiz-card-detail {
+.cf-card-detail {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
     width: 20rem;
-    gap: 10px;
+    gap: 5px;
     padding-block: 20px;
 }
 
