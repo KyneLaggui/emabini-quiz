@@ -1,0 +1,44 @@
+.student-quiz-card-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    min-height: 200px;
+    gap: 20px;
+    background-color: var(--asideWhite);
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 600;
+
+    .student-question-number {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;   
+        background-color: var(--blue);
+        color: white;     
+    }
+
+    .volume-container {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+.student-questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

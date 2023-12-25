@@ -1,5 +1,5 @@
 import './CourseOverview.scss';
-import CourseCarousel from '../../courseCarousel/CourseCarousel';
+import CourseCarousel from '../courseCarousel/CourseCarousel';
 import CourseCard from '../courseCard/CourseCard';
 
 const CourseOverview = () => {
