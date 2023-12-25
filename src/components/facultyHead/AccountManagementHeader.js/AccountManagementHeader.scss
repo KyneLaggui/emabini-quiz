@@ -1,0 +1,84 @@
+.account-management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .buttons {
+        display: flex;
+        gap: 10px;
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+        }
+
+        button:first-child {
+            background: #D55457;        
+        }
+
+        button:nth-child(2) {
+            background: #E89D1E;        
+        }
+    }
+}
+
+.close-modal-button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    .icon {
+        color: #fb3123;
+        font-size: 25px;
+    }
+}
+
+.registration-modal-inner-wrapper {
+    display: flex;
+    flex-direction: column;  
+    gap: 30px;
+
+    & > p:nth-child(2) {
+        color: var(--blue);
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+
+    .registration-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            label {
+                font-weight: 600;
+            }
+
+            input {
+                border: none;
+                font-size: 1.3rem;
+                margin-left: 5px;
+                padding: 5px;
+            }
+        }
+    }
+}
