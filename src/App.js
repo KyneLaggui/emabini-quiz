@@ -8,6 +8,8 @@ import StudentProgressEach from './pages/student/StudentProgressEach/StudentProg
 import StudentQuiz from './pages/student/StudentQuiz/StudentQuiz';
 import FacultyHome from './pages/faculty/FacultyHome/FacultyHome';
 import FacultyCourse from './pages/faculty/FacultyCourse/FacultyCourse';
+import AccountManagement from './pages/facultyHead/accountManagement/AccountManagement';
+
 
 function App() {
   return (
@@ -21,9 +23,12 @@ function App() {
           <Route path="/student-progress-id" element={ <StudentProgressEach/>}></Route>   
           <Route path="/student-quiz-id" element={ <StudentQuiz/>}></Route>   
 
+
           {/* Faculty */}
           <Route path="/faculty-home" element={ <FacultyHome />}></Route>  
           <Route path="/faculty-courses" element={ <FacultyCourse />}></Route>  
+          <Route path="/account-management" element={ <AccountManagement />} />
+
         </Routes>      
       </BrowserRouter>    
     </>
