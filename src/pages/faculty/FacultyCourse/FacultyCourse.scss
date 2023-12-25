@@ -8,3 +8,26 @@
     width: 100%;
 }
 
+.courses-filters-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 3rem;
+    margin-bottom: 2rem;  
+}
+
+.courses-filters-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;   
+}
+
+
+.courses-filters-left {
+    background-color: var(--red);
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 30px;
+}

@@ -45,8 +45,17 @@ const FacultyCourse = () => {
     <>
         <Sidebar></Sidebar>
         <PageLayout>
-            <SearchBar></SearchBar>
-            <Sort></Sort>
+            <div className='courses-filters-container'>
+                <div className='courses-filters-left'>
+                    <p>Create Course</p>
+                </div>
+                <div className='courses-filters-right'>
+                    <SearchBar></SearchBar>
+                    <Sort></Sort>
+                </div>
+                
+            </div>
+            
             <div className='courses-orie'>
                 {courses.length === 0 ? (
                     <p>No courses found.</p>
