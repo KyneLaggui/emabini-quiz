@@ -1,0 +1,27 @@
+.quiz-pagination-container {
+    position: relative;
+    margin-top: 20px;
+    height: 40px;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    & > div:first-child {
+        left:0;
+        top:0;
+    }
+
+    & > div:nth-child(2) {
+        right:0;
+        top:0;
+    }
+
+    & > div.hidden {
+        display: none;
+    }
+}

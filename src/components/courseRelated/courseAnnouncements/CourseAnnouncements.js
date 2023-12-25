@@ -25,7 +25,7 @@ export const CourseAnnouncements = () => {
                 
                 announcements.map((announce, i) => {
                     return (
-                        <div className='each-announcements-container'>
+                        <div className='each-announcements-container' key={i}>
                             <h3>{announce.announcementTitle}</h3>
                             <p>{announce.announcementDate}</p>
                         </div>

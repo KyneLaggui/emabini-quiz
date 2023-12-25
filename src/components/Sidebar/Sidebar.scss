@@ -125,7 +125,7 @@
     border-radius: 0.8rem;
 }
 
-.sidebar ul li .navlink:hover {
+.sidebar ul li .navlink:hover, .sidebar ul li .navlink.active {
     background-color: #fff;
     color: #12171e;
 }

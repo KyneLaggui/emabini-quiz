@@ -1,0 +1,11 @@
+.student-quiz-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 80px;
+    margin: 0px auto;
+
+    & > div:first-child {
+        width: 500px;
+    }
+}
