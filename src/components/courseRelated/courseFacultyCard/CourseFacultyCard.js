@@ -3,6 +3,7 @@ import "./CourseFacultyCard.scss"
 import { Link } from 'react-router-dom'
 import { MdGroup } from 'react-icons/md'
 import { IoIosMore } from 'react-icons/io'
+import CourseQuizSettings from '../../settingsDropdown/CourseQuizSettings'
 
 const CourseFacultyCard = ({courseCode, courseTitle, courseStudents}) => {
   return (
@@ -19,7 +20,7 @@ const CourseFacultyCard = ({courseCode, courseTitle, courseStudents}) => {
             </div>
          
         </div>
-        <IoIosMore />
+        <CourseQuizSettings></CourseQuizSettings>
       </div>
       
     </div>
