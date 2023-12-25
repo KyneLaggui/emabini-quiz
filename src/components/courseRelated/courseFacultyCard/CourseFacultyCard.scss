@@ -1,0 +1,57 @@
+.cf-card-container {
+    height: 300px;
+    width: 300px;
+    border-radius: 16px;
+    background: var(--asideWhite);
+}
+
+.cf-card-cover {
+    height: 180px;
+    background: #CB292D;
+    cursor: pointer;
+}
+
+.cf-card-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-inline: 1.5rem;
+    gap: 10px;
+}
+
+.cf-card-code {
+    font-size: 14px;
+    font-weight: 500;
+    color: #2c2c42;
+    opacity: 80%;
+}
+
+.cf-card-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #000;
+}
+
+.cf-card-user-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+    gap: 0.5rem;
+    background-color: var(--gray);
+    padding-inline: 10px;
+    padding-block: 4px;
+    border-radius: 12px;
+    font-weight: medium;
+}
+
+.cf-card-detail {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 20rem;
+    gap: 5px;
+    padding-block: 20px;
+}
+
