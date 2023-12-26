@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../../layouts/pageLayout/PageLayout';
 import { CourseAnnouncements } from '../../../../components/courseRelated/courseAnnouncements/CourseAnnouncements';
-import QuizzesOverview from '../../../../components/courseRelated/quizzesOverview/QuizzesOverview';
+
 import { FaArrowLeft } from 'react-icons/fa';
 import "./EachFacultyCourse.scss"
 import { HiPencil } from 'react-icons/hi2';
 import { GiConfirmed } from "react-icons/gi";
+import QuizzesFacultyOverview from '../../../../components/courseRelated/quizzesFacultyOverview/QuizzesFacultyOverview';
+
 
 const EachFacultyCourse = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -29,7 +31,7 @@ const EachFacultyCourse = () => {
   
     const handleSaveClick = () => {
       setIsEditing(false);
-      // You can add functionality here to save the edited data
+      // Dito yung sa backend shits
     };
   
     return (
@@ -73,12 +75,10 @@ const EachFacultyCourse = () => {
                         <div>
                             {isEditing ? (
                                 
-                                <GiConfirmed  onClick={handleSaveClick} />
+                                <GiConfirmed  onClick={handleSaveClick} size={23} color='var(--green)' />
                             ) : (
-                                
                                 <HiPencil onClick={handleEditClick} />
                             )}
-                            
                         </div>
                     </div>
                     
@@ -89,7 +89,7 @@ const EachFacultyCourse = () => {
                     </div>
 
                     <div className='courses-weeks'>
-                        <QuizzesOverview />
+                        <QuizzesFacultyOverview />
 
                     </div>
                 </div>
