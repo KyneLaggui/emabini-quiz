@@ -1,0 +1,30 @@
+.courses-quizzes {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+
+.topic-titles {
+    color: var(--blue);
+    font-size: 1.375rem;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.topic-editor {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 2rem;
+    
+    input {
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        border-radius: 4px;
+        padding: 0.5rem;
+    }
+}
