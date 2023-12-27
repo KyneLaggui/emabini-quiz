@@ -96,25 +96,44 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                         <p>CMPE 30113</p>
                     </div>
                     <div className="modal-toggle">
-                    <button
-                        className={enrollView ? 'active-button' : 'inactive-button'}
-                        onClick={() => setEnrollView(true)}
-                    >
-                        Enroll
-                    </button>
-                    <button
-                        className={!enrollView ? 'active-button' : 'inactive-button'}
-                        onClick={() => setEnrollView(false)}
-                    >
-                        Existing
-                    </button>
-                </div>
+                        <button
+                            className={!enrollView ? 'active-button' : 'inactive-button'}
+                            onClick={() => setEnrollView(false)}
+                        >
+                            Enroll
+                        </button>
+                        <button
+                            className={enrollView ? 'active-button' : 'inactive-button'}
+                            onClick={() => setEnrollView(true)}
+                        >
+                            Existing
+                        </button>
+                    </div>
                 </div>
 
                 
-
-                <div className={enrollView ? 'enroll-view' : 'existing-view'}>
-                    {enrollView ? ' ' : 'Existing View Content'}
+                
+                <div className={`modal-details ${enrollView ? 'enroll-view' : 'existing-view'}`}>
+                    {enrollView ? 
+                        <>
+                            <h1 className='sl-title'>Students</h1>
+                            <div className='students-list'>
+                                
+                                {studentNames.map((student, index) => (
+                                    <div className='modal-students-settings'>
+                                        <h1 key={index}>{student}</h1>
+                                        <IoRemoveCircle />
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    
+                    
+                    : 
+                        <>
+                            
+                        </>
+                    }
                 </div>
                     
                

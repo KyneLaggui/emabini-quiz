@@ -66,7 +66,7 @@
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
 
     .modal-top {
         display: flex;
@@ -100,10 +100,14 @@
         justify-content: center;
         align-items: center;
         gap: 0.5rem;
-        
+        background-color: #fff ;
+        border: 1px solid #ccc;
+        padding: 5px 7px;
+        border-radius: 8px;
+        flex-direction: row-reverse;
       }
       
-      /* Button Styles */
+
       .modal-toggle button {
         padding: 7px 20px;
         border: none;
@@ -143,9 +147,50 @@
         position: absolute;
         bottom: 0;
         height: 2px;
-        background-color: #3498db; /* Initial color */
+        background-color: var(--red); 
         animation: slideColor 0.5s ease forwards;
       }
-    
 
+      .modal-details {
+        width: 100%;
+        
+        .sl-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .students-list {
+            max-height: 500px;
+            overflow: auto;
+            width: 100%;
+            
+            .modal-students-settings {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #ccc;
+                padding: 1rem;
+                width: 100%;
+                
+            }
+
+            
+    
+            h1 {
+                font-size: 1rem;
+                font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                color: var(--blue);
+            }
+        }
+      }
+
+      
+    
 }
+      
+
+    
