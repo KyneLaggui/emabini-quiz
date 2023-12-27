@@ -2,7 +2,7 @@ import React from 'react'
 import "./FacultyStudentsList.scss"
 import { IoRemoveCircle } from 'react-icons/io5';
 
-const FacultyStudentsList = () => {
+const FacultyStudentsList = ({ dynamicHeight }) => {
     const studentNames = [
         'Jason Buhamid',
         'Jason Downbad',
@@ -24,7 +24,7 @@ const FacultyStudentsList = () => {
       ];
 
   return (
-    <div className='fsl-container'>
+    <div className='fsl-container' style={{ height: dynamicHeight }}>
         <div className='fsl-title-wrapper'>
             <h1>Students</h1>
             <p>View</p>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../../layouts/pageLayout/PageLayout';
 import { CourseAnnouncements } from '../../../../components/courseRelated/courseAnnouncements/CourseAnnouncements';
@@ -16,6 +16,26 @@ const EachFacultyCourse = () => {
     const [formData, setFormData] = useState([
       { courseName: 'Operating Systems', courseCode: 'CMPE 30113' }
     ]);
+
+    const [fslContainerHeight, setFslContainerHeight] = useState(0);
+    const fslContainerRef = useRef(null);
+
+    useEffect(() => {
+        function handleResize() {
+          if (fslContainerRef.current) {
+            const height = fslContainerRef.current.clientHeight;
+            setFslContainerHeight(height);
+          }
+        }
+    
+        handleResize();
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+      }, []);
+      
   
     const handleEditClick = () => {
       setIsEditing(true);
@@ -89,11 +109,11 @@ const EachFacultyCourse = () => {
                         {/* <Calendar></Calendar> */}
                     </div>
                     
-                    <div className='courses-information'>
+                    <div className='courses-information' ref={fslContainerRef}>
                         <div className='courses-weeks'>
                             <QuizzesFacultyOverview /> 
                         </div>
-                        <FacultyStudentsList />
+                        <FacultyStudentsList dynamicHeight={fslContainerHeight} />
                     </div>
                     
 
