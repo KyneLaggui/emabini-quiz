@@ -61,3 +61,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.courses-information {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+}
+

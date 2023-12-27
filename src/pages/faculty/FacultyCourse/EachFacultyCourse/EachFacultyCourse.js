@@ -8,6 +8,7 @@ import "./EachFacultyCourse.scss"
 import { HiPencil } from 'react-icons/hi2';
 import { GiConfirmed } from "react-icons/gi";
 import QuizzesFacultyOverview from '../../../../components/courseRelated/quizzesFacultyOverview/QuizzesFacultyOverview';
+import FacultyStudentsList from '../../../../components/courseRelated/facultyStudentsList/FacultyStudentsList';
 
 
 const EachFacultyCourse = () => {
@@ -87,11 +88,15 @@ const EachFacultyCourse = () => {
                         <CourseAnnouncements></CourseAnnouncements>
                         {/* <Calendar></Calendar> */}
                     </div>
-
-                    <div className='courses-weeks'>
-                        <QuizzesFacultyOverview />
-
+                    
+                    <div className='courses-information'>
+                        <div className='courses-weeks'>
+                            <QuizzesFacultyOverview /> 
+                        </div>
+                        <FacultyStudentsList />
                     </div>
+                    
+
                 </div>
                 
             </PageLayout>
