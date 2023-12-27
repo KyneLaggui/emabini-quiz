@@ -7,6 +7,7 @@ Modal.setAppElement('#root');
 const FacultyStudentsList = ({ dynamicHeight }) => {
     
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [enrollView, setEnrollView] = useState(true);
 
     const customStyles = {
         content: {
@@ -19,7 +20,7 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
           background: '#F3F6FF',
           borderRadius: '5px',
           width: '100%',
-          maxWidth: '500px',
+          maxWidth: '600px',
           padding: '40px 40px 20px 40px'
         },
         
@@ -38,11 +39,19 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
         setIsOpen(false);
       }
 
+      const toggleView = () => {
+        setEnrollView(!enrollView); // Switch between enroll and existing views
+    };
+
     const studentNames = [
         'Jason Buhamid',
         'Jason Downbad',
         'Amadough',
         'Harold Anderson',
+        'Harold Anderson Amadeus Belpussy',
+        'Jason Downbad',
+        'Amadough',
+        'Harold Anderson Amadeus Belpussy',
         'Jason Buhamid',
         'Jason Downbad',
         'Amadough',
@@ -50,13 +59,13 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
         'Jason Buhamid',
         'Jason Downbad',
         'Amadough',
-        'Harold Anderson',
-        'Jason Buhamid',
-        'Jason Downbad',
-        'Amadough',
-        'Harold Anderson',
+        'Harold Anderson Amadeus Belpussy',
        
       ];
+
+      const limitStudentNames = studentNames.map(name =>
+        name.length > 25 ? `${name.slice(0, 22)}...` : name
+    );
 
   return (
     <div className='fsl-container' style={{ height: dynamicHeight }}>
@@ -65,7 +74,7 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
             <p onClick={openModal}>View</p>
         </div>
         <div className='fsl-students-wrapper'>
-                {studentNames.map((student, index) => (
+                {limitStudentNames.map((student, index) => (
                      <div className='fsl-students-settings'>
                         <h1 key={index}>{student}</h1>
                         <IoRemoveCircle />
@@ -79,7 +88,37 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Registration Modal"
-            >   
+            >
+            <div className='modal-main-cont'>
+                <div className='modal-top'>
+                    <div className='modal-top-left'>
+                        <h1>Operating Systems</h1>
+                        <p>CMPE 30113</p>
+                    </div>
+                    <div className="modal-toggle">
+                    <button
+                        className={enrollView ? 'active-button' : 'inactive-button'}
+                        onClick={() => setEnrollView(true)}
+                    >
+                        Enroll
+                    </button>
+                    <button
+                        className={!enrollView ? 'active-button' : 'inactive-button'}
+                        onClick={() => setEnrollView(false)}
+                    >
+                        Existing
+                    </button>
+                </div>
+                </div>
+
+                
+
+                <div className={enrollView ? 'enroll-view' : 'existing-view'}>
+                    {enrollView ? ' ' : 'Existing View Content'}
+                </div>
+                    
+               
+            </div>
                 
             </Modal>
         </div>

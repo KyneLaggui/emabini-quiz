@@ -20,6 +20,7 @@
             font-size: 1.25rem;
             font-weight: 500;
             color: var(--blue);
+            max-width: 5rem;
         }
 
         p {
@@ -58,4 +59,93 @@
             color: var(--blue);
         }
     }
+}
+
+.modal-main-cont {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+
+    .modal-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .modal-top-left {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 0.5rem;
+            flex-direction: column;
+
+            h1 {
+                font-size: 1.4375rem;
+                color: var(--blue);
+                font-weight: 600;
+            }
+
+            p {
+                font-size: 1rem;
+                color: var(--red);
+                font-weight: 500;
+            }
+        }
+    }
+
+    .modal-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        
+      }
+      
+      /* Button Styles */
+      .modal-toggle button {
+        padding: 7px 20px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+
+      }
+      
+      .active-button {
+        background-color: var(--redLO);
+        color: #fff;
+      }
+      
+      .inactive-button {
+        color: var(-blue);
+      }
+      
+      @keyframes slideColor {
+        0% {
+          width: 0;
+          left: 0;
+        }
+        50% {
+          width: 100%;
+          left: 0;
+        }
+        100% {
+          width: 0;
+          left: 100%;
+        }
+      }
+      
+      .slide-animation {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background-color: #3498db; /* Initial color */
+        animation: slideColor 0.5s ease forwards;
+      }
+    
+
 }
