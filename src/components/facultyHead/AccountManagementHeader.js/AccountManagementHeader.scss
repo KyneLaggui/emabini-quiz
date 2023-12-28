@@ -73,12 +73,30 @@
                 font-weight: 600;
             }
 
-            input {
+            input, select {
                 border: none;
-                font-size: 1.3rem;
+                font-size: 1.1rem;
                 margin-left: 5px;
                 padding: 5px;
             }
+            
+        }
+
+        .register-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 40px;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            align-self: flex-end;
+            cursor: pointer;
+
         }
     }
 }

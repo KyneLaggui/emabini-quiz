@@ -9,8 +9,8 @@ import StudentQuiz from './pages/student/StudentQuiz/StudentQuiz';
 import FacultyHome from './pages/faculty/FacultyHome/FacultyHome';
 import FacultyCourse from './pages/faculty/FacultyCourse/FacultyCourse';
 import AccountManagement from './pages/facultyHead/accountManagement/AccountManagement';
+import Login from './pages/Login';
 import EachFacultyCourse from './pages/faculty/FacultyCourse/EachFacultyCourse/EachFacultyCourse';
-
 
 function App() {
   return (
@@ -30,6 +30,8 @@ function App() {
           <Route path="/faculty-courses" element={ <FacultyCourse />}></Route>  
           <Route path="/faculty-courses-id" element={ <EachFacultyCourse/>}></Route>  
           <Route path="/account-management" element={ <AccountManagement />} />
+
+          <Route path="/login" element={ <Login />} />
 
         </Routes>      
       </BrowserRouter>    
