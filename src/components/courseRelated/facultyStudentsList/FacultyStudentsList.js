@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./FacultyStudentsList.scss"
 import { IoRemoveCircle } from 'react-icons/io5';
 import Modal from 'react-modal';
-import RecipientBox from '../recepientBox/RecepientBox';
+import RecipientBox from '../recipientBox/RecipientBox';
 
 Modal.setAppElement('#root');
 const FacultyStudentsList = ({ dynamicHeight }) => {
@@ -133,7 +133,17 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                     : 
                         <>
                              <h1 className='sl-title'>Students</h1>
-                             <RecipientBox />
+                             <div className='sl-enroll-container'>
+                                <RecipientBox />
+                                <button className='sl-csv'>Import CSV</button>
+
+                                <div className='sl-confirmation'>
+                                <button className='sl-cancel'>Cancel</button>
+                                <button className='sl-save'>Confirm</button>
+                                </div>
+                             </div>
+                             
+                            
                         </>
                     }
                 </div>

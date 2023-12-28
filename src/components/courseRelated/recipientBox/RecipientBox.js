@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './RecepientBox.scss'; // Your Sass file
+import './RecipientBox.scss'; 
+import { IoMdRemoveCircle } from "react-icons/io";
 
 const RecipientBox = () => {
   const [recipientName, setRecipientName] = useState('');
@@ -8,7 +9,13 @@ const RecipientBox = () => {
   const handleConfirm = () => {
     if (recipientName.trim() !== '') {
       setConfirmedRecipients([...confirmedRecipients, recipientName]);
-      setRecipientName(''); // Clear the input after confirming
+      setRecipientName(''); 
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleConfirm();
     }
   };
 
@@ -19,20 +26,22 @@ const RecipientBox = () => {
 
   return (
     <div className="recipient-wrapper">
-      <input
-        type="text"
-        placeholder="Enter recipient name"
-        value={recipientName}
-        onChange={(e) => setRecipientName(e.target.value)}
-      />
-      <button onClick={handleConfirm}>Confirm</button>
+      
 
       {confirmedRecipients.map((name, index) => (
         <div className="recipient-box" key={index}>
           <span>{name}</span>
-          <button onClick={() => handleDelete(index)}>x</button>
+          <IoMdRemoveCircle onClick={() => handleDelete(index)} />
         </div>
       ))}
+
+      <input
+        type="text"
+        placeholder="Add Students..."
+        value={recipientName}
+        onChange={(e) => setRecipientName(e.target.value)}
+        onKeyPress={handleKeyPress}
+      />
     </div>
   );
 };
