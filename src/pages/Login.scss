@@ -1,0 +1,55 @@
+.login-modal-inner-wrapper {
+    display: flex;
+    flex-direction: column;  
+    position: absolute;
+    gap: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #F3F6FF;
+    border-radius: 5px;
+    max-width: 500px;
+    padding: 40px 40px 20px 40px;
+
+    .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+    
+            label {
+                font-weight: 600;
+            }
+    
+            input, select {
+                border: none;
+                font-size: 1.1rem;
+                margin-left: 5px;
+                padding: 5px;
+            }
+            
+        }
+    
+        .login-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 40px;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            align-self: flex-end;
+            cursor: pointer;
+    
+        }
+    }
+}
+

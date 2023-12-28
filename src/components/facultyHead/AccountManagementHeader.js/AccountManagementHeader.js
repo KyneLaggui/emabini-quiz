@@ -4,15 +4,26 @@ import Modal from 'react-modal';
 import { FaX } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { supabase } from '../../../supabase/config';
 
 
 
 Modal.setAppElement('#root');
 
 const AccountManagementHeader = () => {
+    // A variable that is somehow used on the react modal
     let subtitle;
 
+    // States
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        role: 'student',
+        firstName: '',
+        middleName: '',
+        lastName: ''
+      })
 
     const customStyles = {
         content: {
@@ -31,6 +42,7 @@ const AccountManagementHeader = () => {
         
       };
 
+      // Modal functions
     function openModal() {
         setIsOpen(true);
       }
@@ -42,6 +54,40 @@ const AccountManagementHeader = () => {
     
       function closeModal() {
         setIsOpen(false);
+      }
+
+
+      // Form functions
+      const onInputHandleChange = (event) => {
+        const {name, value} = event.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        })
+      }
+
+      const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const { data, error } = await supabase.auth.signUp(
+                {
+                    email: formData.email,
+                    password: formData.password,
+                    options: {
+                        data: {
+                            full_name: formData.fullName,
+                            role: formData.role
+                        }
+                    }
+                }
+            )
+            if (error) throw error;
+            alert("Check the email(s) for the email verification.")
+
+        } catch(error) {
+            alert(error);
+        }
       }
 
   return (
@@ -68,27 +114,36 @@ const AccountManagementHeader = () => {
                     <button onClick={closeModal} className="close-modal-button">
                         <FontAwesomeIcon icon={faCircleXmark} className="icon"/>
                     </button>
-                    <form className="registration-form">
+                    <form className="registration-form" onSubmit={handleSubmit}>
                         <div className="row">
-                            <label>Full Name:</label>
-                            <input type="text" />
-                        </div>
+                            <label>First Name:</label>
+                            <input type="text" name='firstName' onChange={(e) => onInputHandleChange(e)} />
+                        </div>                        
                         <div className="row">
-                            <label htmlFor="">Account ID:</label>
-                            <input type="text" />
-                        </div>
+                            <label>Middle Name:</label>
+                            <input type="text" name='middleName' onChange={(e) => onInputHandleChange(e)} />
+                        </div>                        
+                        <div className="row">
+                            <label>Last Name:</label>
+                            <input type="text" name='lastName' onChange={(e) => onInputHandleChange(e)} />
+                        </div>                        
                         <div className="row">
                             <label htmlFor="">Email:</label>
-                            <input type="text" />
+                            <input type="text" name='email' onChange={(e) => onInputHandleChange(e)} />
                         </div>
                         <div className="row">
                             <label htmlFor="">Password:</label>
-                            <input type="text" />
+                            <input type="text" name='password' onChange={(e) => onInputHandleChange(e)} />
                         </div>
                         <div className="row">
                             <label htmlFor="">Role:</label>
-                            <input type="text" />
-                        </div>                                                
+                            <select name="role" id="" onChange={(e) => onInputHandleChange(e)}>
+                                <option value="student">Student</option>
+                                <option value="faculty">Faculty</option>
+                                <option value="faculty admin">Faculty Admin</option>
+                            </select>
+                        </div>       
+                        <button type="submit" className="register-button">Register</button>                                         
                     </form>
                 </div>
             </Modal>

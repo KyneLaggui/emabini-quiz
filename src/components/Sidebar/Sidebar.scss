@@ -172,6 +172,34 @@
     display: none;
 }
 
+.mini-settings-container {
+    position: relative;
+}
+
+.sidebar.active .mini-settings {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: -120px;
+    transform: translate(-50%, -50%);
+    background: var(--asideWhite);
+
+    div {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    div:hover {
+        background: #fff;
+    }
+}
+
+.sidebar.active .hidden {
+    display: none;
+}
 
 /* End of secondary sidebar */
 
