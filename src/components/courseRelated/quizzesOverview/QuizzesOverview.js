@@ -9,39 +9,39 @@ const QuizzesOverview = () => {
             quizDate: 'November 16, 2023',
             quizTime: '10:00am - 12:00pm',
             quizState: 'Done', 
-            quizWeek: '1'
+            quizTopic: 'Lesson 1'
         },
         {
             quizTitle: 'Terminal Pop Quiz',
             quizDate: 'November 16, 2023',
             quizTime: '1:00pm - 2:00pm',
             quizState: 'Done',
-            quizWeek: '1'
+            quizTopic: 'Lesson 1'
         },
         {
             quizTitle: 'Midterm Examination',
             quizDate: 'November 23, 2023',
             quizTime: '1:00pm - 2:00pm',
             quizState: 'Take Now',
-            quizWeek: '2'
+            quizTopic: 'Assessment Skills'
         },
         {
             quizTitle: 'Finals Examination',
             quizDate: 'December 3, 2023',
             quizTime: '1:00pm - 2:00pm',
             quizState: 'Not Available',
-            quizWeek: '3'
+            quizTopic: 'Departamentals Exam'
         },
         
     
     ]
 
     const groupedQuizzes = quizzes.reduce((acc, quiz) => {
-        const { quizWeek } = quiz;
-        if (!acc[quizWeek]) {
-            acc[quizWeek] = [];
+        const { quizTopic } = quiz;
+        if (!acc[quizTopic]) {
+            acc[quizTopic] = [];
         }
-        acc[quizWeek].push(quiz);
+        acc[quizTopic].push(quiz);
         return acc;
     }, {});
     
@@ -51,11 +51,11 @@ const QuizzesOverview = () => {
         <p>No quizzes found.</p>
     ) : (
         
-        Object.keys(groupedQuizzes).map((week, index) => (
+        Object.keys(groupedQuizzes).map((quizTopic, index) => (
             <div key={index}>
-                <h1 className='week-titles'>Week {week}</h1>
+                <h1 className='topic-titles'>{quizTopic}</h1>
                 <div className='courses-quizzes'>
-                    {groupedQuizzes[week].map((quiz, i) => (
+                    {groupedQuizzes[quizTopic].map((quiz, i) => (
                         <CourseState {...quiz} key={i} />
                     ))}
                 </div>

@@ -1,0 +1,17 @@
+.seachbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--asideWhite);
+    width: 280px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.search-bar {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background-color: var(--asideWhite);
+    font-family: 'Inter', sans-serif;
+}

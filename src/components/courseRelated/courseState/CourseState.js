@@ -3,7 +3,7 @@ import "./CourseState.scss"
 import { Link } from 'react-router-dom';
 
 
-const CourseState = ({quizTitle, quizDate, quizTime, quizState, quizWeek}) => {
+const CourseState = ({quizTitle, quizDate, quizTime, quizState}) => {
     let csExamStateClass = '';
 
     if (quizState === 'Done') {
@@ -16,7 +16,7 @@ const CourseState = ({quizTitle, quizDate, quizTime, quizState, quizWeek}) => {
     
 
     return (
-        <div className="cs-week-cont">
+        <div className="cs-topic-cont">
             
             <div className="cs-container">
                 
