@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-inline: 3rem;
+    margin-inline: 1rem;
     margin-bottom: 2rem;  
 }
 
@@ -24,10 +24,90 @@
 }
 
 
-.courses-filters-left {
+.courses-filters-left button {
     background-color: var(--red);
     font-size: 1rem;
     color: #fff;
     border-radius: 8px;
     padding: 10px 30px;
+    cursor: pointer;
+    border: none;
 }
+
+.modal-inputs {
+    width: 100%;
+}
+
+.modal-top {
+    h1 {
+        font-size: 1.4375rem;
+        color: var(--blue);
+        font-weight: 600;
+    }
+}
+
+.modal-inputs {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.modal-each-input {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding-inline: 0.5rem;
+   
+    
+
+     h1{
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+     }
+
+     input {
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        border-radius: 4px;
+        padding: 0.8rem;
+        border: none;
+        width: 100%;
+        outline: none;
+        margin-left: 0.5rem;
+    }
+}
+
+.sl-confirmation {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 1rem;
+
+    .sl-cancel {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      color: var(--blue);
+      background-color: var(--gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .sl-save {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      background-color: var(--blue);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+    
+
+
+  }

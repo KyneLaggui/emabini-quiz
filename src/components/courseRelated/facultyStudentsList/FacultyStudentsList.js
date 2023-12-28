@@ -138,8 +138,8 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                                 <button className='sl-csv'>Import CSV</button>
 
                                 <div className='sl-confirmation'>
-                                <button className='sl-cancel'>Cancel</button>
-                                <button className='sl-save'>Confirm</button>
+                                    <button className='sl-cancel' onClick={closeModal}>Cancel</button>
+                                    <button className='sl-save' >Confirm</button>
                                 </div>
                              </div>
                              
