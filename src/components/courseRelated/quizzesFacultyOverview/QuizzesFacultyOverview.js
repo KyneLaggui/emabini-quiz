@@ -35,6 +35,7 @@ const QuizzesFacultyOverview = () => {
           quizState: 'Not Available',
           quizTopic: 'Departamentals Exam'
       },
+      
     ]);
   
 
