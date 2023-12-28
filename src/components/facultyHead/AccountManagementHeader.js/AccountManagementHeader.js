@@ -77,7 +77,10 @@ const AccountManagementHeader = () => {
                     options: {
                         data: {
                             full_name: formData.fullName,
-                            role: formData.role
+                            role: formData.role,
+                            firstName: formData.firstName,
+                            middleName: formData.middleName,
+                            lastName: formData.lastName,
                         }
                     }
                 }
