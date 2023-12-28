@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { supabase } from '../supabase/config';
 import './Login.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -31,6 +34,8 @@ const Login = () => {
         
         if (error) throw error;
         alert("Successfully logged in!")
+        navigate("/")
+           
 
      } catch(error) {
             alert(error);
