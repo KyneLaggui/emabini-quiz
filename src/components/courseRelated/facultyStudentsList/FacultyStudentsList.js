@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "./FacultyStudentsList.scss"
 import { IoRemoveCircle } from 'react-icons/io5';
 import Modal from 'react-modal';
+import RecipientBox from '../recepientBox/RecepientBox';
 
 Modal.setAppElement('#root');
 const FacultyStudentsList = ({ dynamicHeight }) => {
@@ -127,11 +128,12 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                                 ))}
                             </div>
                         </>
-                    
+                            
                     
                     : 
                         <>
-                            
+                             <h1 className='sl-title'>Students</h1>
+                             <RecipientBox />
                         </>
                     }
                 </div>
