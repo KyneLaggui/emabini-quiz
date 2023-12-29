@@ -71,8 +71,9 @@ const AccountManagementHeader = () => {
 
         try {
             const { data, error } = await supabase.auth.signUp(
+                // Need to lowercase email to safely compare it in the future
                 {
-                    email: formData.email,
+                    email: formData.email.toLowerCase(),
                     password: formData.password,
                     options: {
                         data: {
