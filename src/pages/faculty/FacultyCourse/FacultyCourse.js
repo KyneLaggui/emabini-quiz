@@ -133,7 +133,7 @@ const FacultyCourse = () => {
                 const { data, error } =  await supabase                
                 .from('course_enrollee')
                 .insert(enrollees)
-
+                
                 if (error) throw error;                
             }
 
