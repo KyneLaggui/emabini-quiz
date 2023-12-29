@@ -1,5 +1,8 @@
-import logo from './logo.svg';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+// Pages
 import StudentHome from './pages/student/StudentHome/StudentHome';
 import StudentCourse from './pages/student/StudentCourse/StudentCourse';
 import EachStudentCourses from './pages/student/StudentCourse/EachStudentCourses/EachStudentCourses';
@@ -16,6 +19,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={ <StudentHome />}></Route>  
           <Route path="/student-courses" element={ <StudentCourse/>}></Route> 

@@ -7,6 +7,7 @@ import Announcements from '../../../components/announcements/Announcements';
 import Calendar from '../../../components/calendar/Calendar';
 import QuizOverview from '../../../components/quizRelated/QuizOverview/QuizOverview';
 import CourseFacultyOverview from '../../../components/courseRelated/courseFacultyOverview/CourseFacultyOverview';
+import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly';
 
 
 const FacultyHome = () => {
@@ -14,15 +15,17 @@ const FacultyHome = () => {
     <>
         <Sidebar></Sidebar>
         <PageLayout>
-            <div className="faculty-home-wrapper">
-                <ProfileDetailsHeader />
-                <div className="announcements-calendar-container">
-                    <Announcements />
-                    <Calendar />
-                </div>
-                <CourseFacultyOverview></CourseFacultyOverview>        
-                <QuizOverview></QuizOverview>
-            </div>    
+            <FacultyOnly>
+              <div className="faculty-home-wrapper">
+                  <ProfileDetailsHeader />
+                  <div className="announcements-calendar-container">
+                      <Announcements />
+                      <Calendar />
+                  </div>
+                  <CourseFacultyOverview></CourseFacultyOverview>        
+                  <QuizOverview></QuizOverview>
+              </div>    
+            </FacultyOnly>            
         </PageLayout>
     </>
   )
