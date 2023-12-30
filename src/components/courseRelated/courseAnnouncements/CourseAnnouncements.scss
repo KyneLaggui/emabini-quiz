@@ -54,5 +54,147 @@
         padding-inline: 11px;
         padding-block: 4px;
         border-radius: 4px;
+        cursor: pointer;
     }
+}
+
+.ea-container-modal {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.2rem;
+    flex-direction: column;
+    overflow: auto;
+    max-height: 500px;
+
+    .ea-wrapper-modal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0.5rem;
+        
+        border-bottom: 1px solid #ccc;
+
+        .ea-cm-left {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            // max-width: 400px;
+            // border: 1px solid red;
+            width: 100%;
+            gap: 0.5rem;
+
+            
+
+            h1 {
+                font-size: 1.2rem;
+                color: var(--blue);
+            }
+
+            h3 {
+                font-size: 0.9rem;
+                color: white;
+                background-color: var(--redLO);
+                padding: 2px 6px;
+                border-radius: 4px;
+                font-weight: 400;
+            }
+             
+            p {
+                font-size: 1rem;
+                padding-top: 0.5rem;
+                max-width: 400px;
+                margin-left: 10px;
+
+            }
+            
+            
+        }
+    } 
+}
+
+.ca-confirmation {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 1rem;
+
+    .ca-cancel {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      color: var(--blue);
+      background-color: var(--gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ca-save {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      background-color: var(--blue);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+    
+
+
+  }
+
+.ma-inputs {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+
+.modal-announcement-input {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding-inline: 0.5rem;
+    width: 100%;
+    
+
+     h1{
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+     }
+
+     input {
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        border-radius: 4px;
+        padding: 0.8rem;
+        border: none;
+        width: 100%;
+        outline: none;
+        margin-left: 0.5rem;
+    }
+
+    textarea {
+        font-size: 1rem;
+        font-family: 'Inter', sans-serif;
+        border-radius: 4px;
+        padding: 0.8rem;
+        border: none;
+        width: 100%;
+        outline: none;
+        margin-left: 0.5rem;
+        height: 200px;
+        resize: none;
+    }
+
+    
+
+    
 }
