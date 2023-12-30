@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <ToastContainer />
         <Routes>
-          <Route path="/" element={ <StudentHome />}></Route>  
+          <Route path="/" element={ <Login />}></Route>  
           <Route path="/student-courses" element={ <StudentCourse/>}></Route> 
           <Route path="/student-courses-id" element={ <EachStudentCourses/>}></Route>   
           <Route path="/student-progress" element={ <StudentProgress/>}></Route>   
@@ -35,7 +35,7 @@ function App() {
           <Route path="/faculty-courses-id" element={ <EachFacultyCourse/>}></Route>  
           <Route path="/account-management" element={ <AccountManagement />} />
 
-          <Route path="/login" element={ <Login />} />
+          <Route path="/student-home" element={ <StudentHome />} />
 
         </Routes>      
       </BrowserRouter>    

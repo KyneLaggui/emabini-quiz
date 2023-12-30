@@ -116,9 +116,7 @@ const EachFacultyCourse = () => {
                               <QuizzesFacultyOverview /> 
                           </div>
                           <FacultyStudentsList dynamicHeight={fslContainerHeight} />
-                      </div>
-                      
-
+                      </div>                    
                   </div>
                 </FacultyOnly>                                
             </PageLayout>

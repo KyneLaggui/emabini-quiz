@@ -10,6 +10,7 @@ import {
     CategoryScale, 
     LinearScale} from 'chart.js';
 import { Line } from "react-chartjs-2";
+import StudentOnly from '../../../layouts/studentOnly/StudentOnly'
 
 ChartJS.register(
     CategoryScale,
@@ -96,62 +97,64 @@ const StudentProgressEach = () => {
     
         <Sidebar />
         <PageLayout>
-            <div className="each-progress-wrapper">
-                <Link to='/student-progress' className='back-courses'>
-                    <FaArrowLeft name='back-arrow'/>
-                    <p>Back to Courses</p>
-                </Link> 
-                <div className='courses-title'>
-                    <h1>Feedback and Control Systems</h1>
-                    <p>CMPE 30123</p>
-                </div>
-                <div className="progress-bottom-container">
-                    <div>
-                        <p>Examinations</p>
-                        <div className="quiz-cards-container">
-                            {
-                                quizzes.length === 0 ? (
-                                    <p>No quizzes yet.</p>
-                                ) : (
-                                    quizzes.map((quiz, index) => (
-                                        <QuizCardResult key={index} quiz={quiz} number={index} />
-                                    ))
-                                )
-                            }
+            <StudentOnly>
+                <div className="each-progress-wrapper">
+                    <Link to='/student-progress' className='back-courses'>
+                        <FaArrowLeft name='back-arrow'/>
+                        <p>Back to Courses</p>
+                    </Link> 
+                    <div className='courses-title'>
+                        <h1>Feedback and Control Systems</h1>
+                        <p>CMPE 30123</p>
+                    </div>
+                    <div className="progress-bottom-container">
+                        <div>
+                            <p>Examinations</p>
+                            <div className="quiz-cards-container">
+                                {
+                                    quizzes.length === 0 ? (
+                                        <p>No quizzes yet.</p>
+                                    ) : (
+                                        quizzes.map((quiz, index) => (
+                                            <QuizCardResult key={index} quiz={quiz} number={index} />
+                                        ))
+                                    )
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div className="line-chart">
+                                <Line data={data} options={options}/>
+                            </div>
+                            <p className='bold'>Computed Grade</p>
+                            <div className="progress-breakdown">
+                                {
+                                    quizzes.length === 0 ? (
+                                        <>
+                                            <p>No topics covered yet.</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {
+                                                quizzes.map((quiz, index) => (
+                                                    <div key={index}>
+                                                        {quiz.coverages.map((coverage, coverageIndex) => (
+                                                            <div className="breakdown-row" key={coverageIndex}>
+                                                                <p>{coverage.name}</p>
+                                                                <p>100%</p>
+                                                            </div>                                                        
+                                                        ))}
+                                                    </div> 
+                                                ))
+                                            }
+                                        </>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div className="line-chart">
-                            <Line data={data} options={options}/>
-                        </div>
-                        <p className='bold'>Computed Grade</p>
-                        <div className="progress-breakdown">
-                            {
-                                quizzes.length === 0 ? (
-                                    <>
-                                        <p>No topics covered yet.</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        {
-                                            quizzes.map((quiz, index) => (
-                                                <div key={index}>
-                                                    {quiz.coverages.map((coverage, coverageIndex) => (
-                                                        <div className="breakdown-row" key={coverageIndex}>
-                                                            <p>{coverage.name}</p>
-                                                            <p>100%</p>
-                                                        </div>                                                        
-                                                    ))}
-                                                </div> 
-                                            ))
-                                        }
-                                    </>
-                                )
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>            
+                </div>         
+            </StudentOnly>               
         </PageLayout>
     </>
   )

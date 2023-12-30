@@ -14,9 +14,9 @@ const ProfileDetailsHeader = () => {
 
     const id = useSelector(selectUserID)
 
-    const userData = FetchUserProfile(id)
+    const {userData} = FetchUserProfile(id)
 
-    useEffect(() => {
+    useEffect(() => {        
         if (userData) {
             setUserInformation({
                 firstName: userData.first_name,

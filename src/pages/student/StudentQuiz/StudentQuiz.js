@@ -7,7 +7,8 @@ import StudentQuizCard from '../../../components/quizRelated/StudentQuizCard/Stu
 import { RESET_CURRENT_PAGE, selectCurrentPage } from '../../../redux/slice/quizPaginationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import StudentQuizPagination from '../../../components/quizRelated/studentQuizPagination/StudentQuizPagination';
-import StudentQuizTracker from '../StudentQuizTracker/StudentQuizTracker';
+import StudentQuizTracker from '../../../components/quizRelated/StudentQuizTracker/StudentQuizTracker';
+import StudentOnly from '../../../layouts/studentOnly/StudentOnly';
 
 const StudentQuiz = () => {
   const dispatch = useDispatch();
@@ -73,23 +74,25 @@ const StudentQuiz = () => {
     <>
         <Sidebar />
         <PageLayout>
-            <div className="student-quiz-container">
-              <div>
-                <StudentQuizHeader />
-                  <div>
-                    {
-                      currentQuestion.map((quizCard, index) => (
-                        <StudentQuizCard quiz={{...quizCard}} key={index}/>
-                      ))
-                    }
-                  </div>
-                  <StudentQuizPagination 
-                    productsPerPage={productsPerPage}
-                    totalQuizCards={quizCards.length}
-                  />
+            <StudentOnly>
+              <div className="student-quiz-container">
+                <div>
+                  <StudentQuizHeader />
+                    <div>
+                      {
+                        currentQuestion.map((quizCard, index) => (
+                          <StudentQuizCard quiz={{...quizCard}} key={index}/>
+                        ))
+                      }
+                    </div>
+                    <StudentQuizPagination 
+                      productsPerPage={productsPerPage}
+                      totalQuizCards={quizCards.length}
+                    />
+                </div>
+                <StudentQuizTracker number={quizCards.length} />
               </div>
-              <StudentQuizTracker number={quizCards.length} />
-            </div>           
+            </StudentOnly>                       
         </PageLayout>
     </>
   )
