@@ -175,14 +175,20 @@ export const CourseAnnouncements = () => {
                                                     <>
                                                     <div className="ea-wrapper-modal">
                                                         <div className="ea-cm-left" key={i}>
-                                                            <h1>{announce.announcementTitle}</h1>
+                                                            <div className="ea-settings-wrapper">
+                                                                <div className="eas-title">
+                                                                    <h1>{announce.announcementTitle}</h1>
                                                                     <h3>{announce.announcementDate}</h3>
-                                                                    <p>{announce.announcementContent}</p>
+                                                                </div>
+                                                                <CiCircleMore 
+                                                                    size={18}
+                                                                    color="var(--blue)" /> 
+                                                            </div>
+                                                            
+                                                            <p>{announce.announcementContent}</p>
     
                                                             </div>
-                                                    <CiCircleMore 
-                                                        size={18}
-                                                        color="var(--blue)" /> 
+                                                    
                                                     </div>
                                                     
                                                     </>
