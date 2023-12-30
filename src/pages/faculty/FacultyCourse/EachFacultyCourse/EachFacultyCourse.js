@@ -11,7 +11,6 @@ import QuizzesFacultyOverview from '../../../../components/courseRelated/quizzes
 import FacultyStudentsList from '../../../../components/courseRelated/facultyStudentsList/FacultyStudentsList';
 import FacultyOnly from '../../../../layouts/facultyOnly/FacultyOnly';
 
-
 const EachFacultyCourse = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState([
@@ -20,6 +19,8 @@ const EachFacultyCourse = () => {
 
     const [fslContainerHeight, setFslContainerHeight] = useState(0);
     const fslContainerRef = useRef(null);
+
+    
 
     useEffect(() => {
         function handleResize() {
@@ -118,6 +119,8 @@ const EachFacultyCourse = () => {
                           <FacultyStudentsList dynamicHeight={fslContainerHeight} />
                       </div>                    
                   </div>
+
+                  
                 </FacultyOnly>                                
             </PageLayout>
         </>
