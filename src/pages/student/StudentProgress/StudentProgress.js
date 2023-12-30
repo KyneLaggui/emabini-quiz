@@ -3,6 +3,7 @@ import './StudentProgress.scss';
 import StudentProgressCard from '../../../components/studentProgressCard/StudentProgressCard';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../layouts/pageLayout/PageLayout';
+import StudentOnly from '../../../layouts/studentOnly/StudentOnly';
 
 const StudentProgress = () => {
     const courses = [
@@ -36,20 +37,22 @@ const StudentProgress = () => {
     <>  
         <Sidebar />
         <PageLayout>
-            <div className="student-progress-wrapper">
-                {courses.length === 0 ? (
-                        <p>No courses found.</p>
-                        ) : (
-                            
-                            courses.map((course, i) => {
-                                return (
-                                    <StudentProgressCard {...course} key={i}/>                            
-                                )
-                            })
-                        )
-                    
-                }
-            </div>            
+            <StudentOnly>
+                <div className="student-progress-wrapper">
+                    {courses.length === 0 ? (
+                            <p>No courses found.</p>
+                            ) : (
+                                
+                                courses.map((course, i) => {
+                                    return (
+                                        <StudentProgressCard {...course} key={i}/>                            
+                                    )
+                                })
+                            )
+                        
+                    }
+                </div> 
+            </StudentOnly>                       
         </PageLayout>
     </>
   )

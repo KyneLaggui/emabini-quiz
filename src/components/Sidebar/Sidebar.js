@@ -2,11 +2,13 @@ import { useState } from "react";
 import "./Sidebar.scss";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiAcademicCap } from "react-icons/hi2";
-import { FaHome, FaBookOpen, FaChartBar, FaEllipsisH } from "react-icons/fa";
+import { FaHome, FaBookOpen, FaChartBar, FaEllipsisH, FaUser } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { supabase } from "../../supabase/config";
 import { REMOVE_ACTIVE_USER } from "../../redux/slice/authSlice";
 import { useDispatch } from "react-redux";
+import { FacultyHeadOnlyLink, FacultyOnlyLink, StudentOnlyLink } from "../../layouts/linkRestrictions/LinkRestriction";
+import { toast } from "react-toastify";
 
 const activeLink = ({isActive, isPending}) => 
   (isActive ? `active navlink` : "navlink")
@@ -33,10 +35,9 @@ const Sidebar = () => {
                 REMOVE_ACTIVE_USER()
             );
             
-            alert("Logged out successfully!")
-            navigate("/login")
-        } 
-        
+            toast.success('Successfully logged out!')
+            navigate("/")
+        }         
     }
 
     return (
@@ -64,27 +65,67 @@ const Sidebar = () => {
                     }/>
                 </div>
                 <ul>
-                    <li>
-                        <NavLink to="/" className={activeLink}> 
-                            <FaHome className={`link-icon`}/>
-                            <span className={`nav-item bold`}>Home</span>
-                        </NavLink>      
-                        <span className={`tooltip bold`}>Home</span>        
-                    </li>
-                    <li>
-                        <NavLink to="/student-courses" className={activeLink}> 
-                            <FaBookOpen className={`link-icon`}/>
-                            <span className={`nav-item bold`}>Courses</span>
-                        </NavLink>      
-                        <span className={`tooltip bold`}>Courses</span>        
-                    </li>
-                    <li>
-                        <NavLink to="/student-progress" className={activeLink}> 
-                            <FaChartBar className={`link-icon`}/>
-                            <span className={`nav-item bold`}>Progress</span>
-                        </NavLink>      
-                        <span className={`tooltip bold`}>Progress</span>        
-                    </li>                    
+                    {/* For student links */}
+                    <StudentOnlyLink>
+                        <li>
+                            <NavLink to="/student-home" className={activeLink}> 
+                                <FaHome className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Home</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Home</span>        
+                        </li>
+                    </StudentOnlyLink>                    
+                    <StudentOnlyLink>
+                        <li>
+                            <NavLink to="/student-courses" className={activeLink}> 
+                                <FaBookOpen className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Courses</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Courses</span>        
+                        </li>
+                    </StudentOnlyLink>                    
+                    <StudentOnlyLink>
+                        <li>
+                            <NavLink to="/student-progress" className={activeLink}> 
+                                <FaChartBar className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Progress</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Progress</span>        
+                        </li>  
+                    </StudentOnlyLink>
+            
+                    {/* For faculty links */}
+                    <FacultyOnlyLink>
+                        <li>
+                            <NavLink to="/faculty-home" className={activeLink}> 
+                                <FaHome className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Home</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Home</span>        
+                        </li>
+                    </FacultyOnlyLink>  
+                    <FacultyOnlyLink>
+                        <li>
+                            <NavLink to="/faculty-courses" className={activeLink}> 
+                                <FaBookOpen className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Courses</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Courses</span>        
+                        </li>
+                    </FacultyOnlyLink>   
+
+                    {/* For faculty head link(s) */}
+                    <FacultyHeadOnlyLink>
+                        <li>
+                            <NavLink to="/account-management" className={activeLink}> 
+                                <FaUser className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Account</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Account</span>        
+                        </li>
+                    </FacultyHeadOnlyLink>  
+
+                                      
                 </ul>
                 <div className="user">
                     <div className="user-info">

@@ -5,6 +5,7 @@ import CourseCard from '../../../components/courseRelated/courseCard/CourseCard'
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import SearchBar from '../../../components/filters/SearchBar';
 import Sort from '../../../components/filters/Sort/Sort';
+import StudentOnly from '../../../layouts/studentOnly/StudentOnly';
 
 
 
@@ -41,25 +42,27 @@ const StudentCourse = () => {
     <>
         <Sidebar></Sidebar>
         <PageLayout>
-            <div className='courses-filters-container'>
-                <SearchBar></SearchBar>
-                <Sort></Sort>
-            </div>
-            <div className='courses-orie'>
-                {courses.length === 0 ? (
-                    <p>No courses found.</p>
-                    ) : (
-                        
-                        courses.map((course, i) => {
-                            return (
-                                <CourseCard {...course} key={i}/>
-                                
-                            )
-                        })
-                    )
-                
-                }
-            </div>
+            <StudentOnly>
+                <div className='courses-filters-container'>
+                    <SearchBar></SearchBar>
+                    <Sort></Sort>
+                </div>
+                <div className='courses-orie'>
+                    {courses.length === 0 ? (
+                        <p>No courses found.</p>
+                        ) : (
+                            
+                            courses.map((course, i) => {
+                                return (
+                                    <CourseCard {...course} key={i}/>
+                                    
+                                )
+                            })
+                        )
+                    
+                    }
+                </div>
+            </StudentOnly>            
         </PageLayout>
     </>
   )
