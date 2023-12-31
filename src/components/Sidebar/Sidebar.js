@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Sidebar.scss";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { HiAcademicCap } from "react-icons/hi2";
 import { FaHome, FaBookOpen, FaChartBar, FaEllipsisH, FaUser } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { supabase } from "../../supabase/config";
-import { REMOVE_ACTIVE_USER } from "../../redux/slice/authSlice";
-import { useDispatch } from "react-redux";
+import { REMOVE_ACTIVE_USER, selectUserID } from "../../redux/slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { FacultyHeadOnlyLink, FacultyOnlyLink, StudentOnlyLink } from "../../layouts/linkRestrictions/LinkRestriction";
 import { toast } from "react-toastify";
+import FetchUserProfile from "../../customHooks/fetchUserProfile";
 
 const activeLink = ({isActive, isPending}) => 
   (isActive ? `active navlink` : "navlink")
@@ -23,6 +24,11 @@ const Sidebar = () => {
     const toggleSettings = () => {
         setShowSettings(current => !current);
     }
+
+    // For updating the dynamic name
+    const [fullName, setFullName] = useState('') 
+    const id = useSelector(selectUserID)
+    const { userData } = FetchUserProfile(id)
 
     const handleLogout = async () => {
         const { error } = await supabase.auth.signOut();
@@ -39,6 +45,12 @@ const Sidebar = () => {
             navigate("/")
         }         
     }
+
+    useEffect(() => {
+        if (userData) {
+            setFullName(`${userData.first_name} ${userData.middle_name} ${userData.last_name}`)
+        }
+    }, [userData])
 
     return (
         <>  
@@ -129,8 +141,7 @@ const Sidebar = () => {
                 </ul>
                 <div className="user">
                     <div className="user-info">
-                        <p className="bold">Amado Nino Rei Punzalandsdsds</p>
-                        <p className="student-number">2021-05787-MN-0</p>
+                        <p className="bold">{fullName}</p>
                     </div>
                     <div className="mini-settings-container">
                         <FaEllipsisH id="sidebar-ellipsis" onClick={toggleSettings}/>

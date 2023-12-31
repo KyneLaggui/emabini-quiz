@@ -1,43 +1,48 @@
 import './StudentCourse.scss';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageLayout from '../../../layouts/pageLayout/PageLayout';
 import CourseCard from '../../../components/courseRelated/courseCard/CourseCard'
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import SearchBar from '../../../components/filters/SearchBar';
 import Sort from '../../../components/filters/Sort/Sort';
 import StudentOnly from '../../../layouts/studentOnly/StudentOnly';
+import { useSelector } from 'react-redux';
+import { selectEmail, selectUserID } from '../../../redux/slice/authSlice';
+import { supabase } from '../../../supabase/config';
 
 
 
 const StudentCourse = () => {
-    const courses = [
-        {
-            courseCode: 'CMPE 10113',
-            courseTitle: 'Operating Systems'
-        },
-        {
-            courseCode: 'CMPE 40062',
-            courseTitle: 'Web Development'
-        },
-        {
-            courseCode: 'CMPE 30113',
-            courseTitle: 'Software Design'
-        },
-        {
-            courseCode: 'CMPE 30043',
-            courseTitle: 'Discrete Mathematics'
-        },
-        {
-            courseCode: 'MATH 20053',
-            courseTitle: 'Calculus 2'
-        },
-        {
-            courseCode: 'PHED 10022',
-            courseTitle: 'Rhythmic Activities'
-        },
-    
-    ]
-    
+
+    const [courses, setCourses] = useState([])
+
+    const email = useSelector(selectEmail);
+
+    useEffect(() => {   
+        const fetchCourses = async() => {
+            const coursesEnrolled = await supabase 
+            .from('course_enrollee')
+            .select()
+            .eq('email', email)
+            
+            if (coursesEnrolled.data) {
+                const courseDetails = await Promise.all((coursesEnrolled.data).map(async(course) => {    
+                    const courseData = await supabase
+                     .from('course')
+                     .select()
+                     .eq('code', course['course_code'])
+                     .single()
+                     
+                     return courseData;
+                }))
+                setCourses(courseDetails)
+            }
+        }   
+
+        fetchCourses();
+    }, [email])
+
+    console.log(courses)
   return (
     <>
         <Sidebar></Sidebar>
@@ -54,8 +59,7 @@ const StudentCourse = () => {
                             
                             courses.map((course, i) => {
                                 return (
-                                    <CourseCard {...course} key={i}/>
-                                    
+                                    <CourseCard {...course.data} key={i}/>                                    
                                 )
                             })
                         )
