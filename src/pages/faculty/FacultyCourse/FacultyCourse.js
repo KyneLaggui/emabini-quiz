@@ -9,7 +9,7 @@ import Modal from 'react-modal';
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import { useSelector } from 'react-redux'
-import { selectUserID } from '../../../redux/slice/authSlice'
+import { selectEmail, selectUserID } from '../../../redux/slice/authSlice'
 import { supabase } from '../../../supabase/config'
 import { toast } from "react-toastify";
 
@@ -22,41 +22,39 @@ class EmailError extends Error {
   }
 
 const FacultyCourse = () => {
-    const courses = [
-        {
-            courseCode: 'CMPE 10113',
-            courseTitle: 'Operating Systems',
-            courseStudents : '24'
-        },
-        {
-            courseCode: 'CMPE 40062',
-            courseTitle: 'Web Development',
-            courseStudents : '24'
-        },
-        {
-            courseCode: 'CMPE 30113',
-            courseTitle: 'Software Design',
-            courseStudents : '24'
-        },
-        {
-            courseCode: 'CMPE 30043',
-            courseTitle: 'Discrete Mathematics',
-            courseStudents : '24'
-        },
-        {
-            courseCode: 'MATH 20053',
-            courseTitle: 'Calculus 2',
-            courseStudents : '24'
-        },
-        {
-            courseCode: 'PHED 10022',
-            courseTitle: 'Rhythmic Activities',
-            courseStudents : '24'
-        },
+    // const courses = [
+    //     {
+    //         courseCode: 'CMPE 10113',
+    //         courseTitle: 'Operating Systems',
+    //         courseStudents : '24'
+    //     },
+    //     {
+    //         courseCode: 'CMPE 40062',
+    //         courseTitle: 'Web Development',
+    //         courseStudents : '24'
+    //     },
+    //     {
+    //         courseCode: 'CMPE 30113',
+    //         courseTitle: 'Software Design',
+    //         courseStudents : '24'
+    //     },
+    //     {
+    //         courseCode: 'CMPE 30043',
+    //         courseTitle: 'Discrete Mathematics',
+    //         courseStudents : '24'
+    //     },
+    //     {
+    //         courseCode: 'MATH 20053',
+    //         courseTitle: 'Calculus 2',
+    //         courseStudents : '24'
+    //     },
+    //     {
+    //         courseCode: 'PHED 10022',
+    //         courseTitle: 'Rhythmic Activities',
+    //         courseStudents : '24'
+    //     },
     
-    ]
-    const id = useSelector(selectUserID)
-
+    // ]
     // Form related variables states
     const [modalIsOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -117,9 +115,9 @@ const FacultyCourse = () => {
                         if (count < 1) {
                             throw new EmailError("One of the email(s) is not registered!", "email");
                         }
-    
+  
                         return {
-                            email: student,
+                            email: student.toLowerCase(),
                             course_code: formData.courseCode
                         }
                     } catch(error) {
@@ -130,6 +128,7 @@ const FacultyCourse = () => {
                 // In case the faculty did not decide to initially add students while creating the course
                 if (!enrollees) return;
 
+                console.log(enrollees)
                 const { data, error } =  await supabase                
                 .from('course_enrollee')
                 .insert(enrollees)
@@ -175,13 +174,77 @@ const FacultyCourse = () => {
         
       };
 
+    const [courses, setCourses] = useState([])
+
+    const id = useSelector(selectUserID)
+    const email = useSelector(selectEmail);
+
       useEffect(() => {
         setFormData({
             ...formData,
             instructorId: id
         })
+
+        const fetchCourses = async() => {
+            if (id) {
+                // Fetching the faculty member's registered courses as an instructor
+                const coursesEnrolled = await supabase 
+                .from('course')                
+                .select()
+                .eq('instructor_id', id)
+
+                if (coursesEnrolled.data) {
+                    // Store it in a temporary variable for it to be able to add another key to each
+                    // object which is the enrolled students
+                    let tempCourses = coursesEnrolled.data;
+
+                    // Fetching the registered courses with its name and code
+                    const courseDetails = await Promise.all((coursesEnrolled.data).map(async(course) => {    
+                        const courseData = await supabase
+                        .from('course')
+                        .select()
+                        .eq('code', course['code'])
+                        .single()
+
+                        return courseData['data'];                        
+                    }))
+
+                    if (courseDetails) {
+                        // Fetching the enrolled students in the registered courses
+                        const courseFullDetails = await Promise.all((courseDetails).map(async(course) => {   
+                            const courseStudents = await supabase
+                                .from('course_enrollee')
+                                .select()
+                                .eq('course_code', course['code'])
+                    
+                            if (courseStudents.data) {
+                                tempCourses = tempCourses.map((tempCourse) => {
+                                    // Assigns a new to a course object with the key students which is an array
+                                    if (tempCourse['code'] === course['code']) {
+                                        return {
+                                            ...tempCourse,
+                                            students: courseStudents.data
+                                        }
+                                    }
+
+                                    // In case there is no enrolled students in a certain course
+                                    return {
+                                        ...tempCourse,
+                                        students: []
+                                    }
+                                })
+                            }
+                        }))     
+                    }
+                    // Finally setting the courses with their respective students
+                    setCourses(tempCourses)
+                }
+            }                                       
+        }   
+
+        fetchCourses();
       }, [id])
-    
+
   return (
     <>
         <Sidebar></Sidebar>        
@@ -201,12 +264,10 @@ const FacultyCourse = () => {
             <div className='courses-orie'>
                 {courses.length === 0 ? (
                     <p>No courses found.</p>
-                    ) : (
-                        
+                    ) : (                        
                         courses.map((course, i) => {
                             return (
-                                <CourseFacultyCard {...course} key={i}/>
-                                
+                                <CourseFacultyCard {...course} key={i}/>                                
                             )
                         })
                     )
