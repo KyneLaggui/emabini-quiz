@@ -9,9 +9,17 @@ import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCre
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
 
+    const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} />]);
+
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
+
+    const addQuizComponent = () => {
+        const newKey = quizComponents.length;
+        const newComponent = <QuizCreation key={newKey} />;
+        setQuizComponents([...quizComponents, newComponent]);
+      };
 
   return (
     <>
@@ -61,7 +69,15 @@ const CreateMultipleChoice = () => {
                
               {activeTab === 'examination' && (
                <div className='cmc-bottom-container'>
-                    <QuizCreation/>
+                <div className='cmc-quiz-components'>
+                    {quizComponents.map((component, index) => (
+                        <div key={index}>{component}</div>
+                        ))}
+
+                    <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Quiz</button>
+                </div>
+                     
+                    
                 </div>
               )}
               {activeTab === 'shared' && (

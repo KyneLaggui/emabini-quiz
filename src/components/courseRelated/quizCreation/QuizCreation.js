@@ -8,6 +8,11 @@ const QuizCreation = () => {
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
 
+    const [answerInput, setAnswerInput] = useState(['']);
+    const [choiceInput, setChoiceInput] = useState(['', '', '']);
+
+    const [points, setPoints] = useState(0);
+
 
     const handleConfirm = () => {
         if (quizTagName.trim() !== '') {
@@ -27,8 +32,7 @@ const QuizCreation = () => {
         setConfirmedQuizTags(updatedQuizTags);
       };
 
-    const [answerInput, setAnswerInput] = useState(['']);
-    const [choiceInput, setChoiceInput] = useState(['', '', '']);
+    
 
     //For Answer
 
@@ -76,6 +80,11 @@ const QuizCreation = () => {
         setChoiceInput(newInputs)(newInputs);
     };
 
+    const handlePointsChange = (e) => {
+        const value = Math.max(parseInt(e.target.value), 0);
+        setPoints(value);
+    };
+
 
   return (
     <div className='qc-container'>
@@ -84,7 +93,8 @@ const QuizCreation = () => {
                 <h2>Question:</h2>
                 <div className='qc-points'>
                     <h2>Points:</h2>
-                    <input type='number' className='points'/>
+                    <input type='number' className='points'
+                    value={points} onChange={handlePointsChange}/>
                 </div>
             </div>
             
