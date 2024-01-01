@@ -1,35 +1,82 @@
 import './CourseOverview.scss';
 import CourseCarousel from '../courseCarousel/CourseCarousel';
 import CourseCard from '../courseCard/CourseCard';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectEmail, selectUserID } from '../../../redux/slice/authSlice';
+import { supabase } from '../../../supabase/config';
 
 const CourseOverview = () => {
-    const courses = [
-    {
-        courseCode: 'CMPE 10113',
-        courseTitle: 'Operating Systems'
-    },
-    {
-        courseCode: 'CMPE 40062',
-        courseTitle: 'Web Development'
-    },
-    {
-        courseCode: 'CMPE 30113',
-        courseTitle: 'Software Design'
-    },
-    {
-        courseCode: 'CMPE 30043',
-        courseTitle: 'Discrete Mathematics'
-    },
-    {
-        courseCode: 'MATH 20053',
-        courseTitle: 'Calculus 2'
-    },
-    {
-        courseCode: 'PHED 10022',
-        courseTitle: 'Rhythmic Activities'
-    },
+    const [courses, setCourses] = useState([])
 
-]
+    const id = useSelector(selectUserID)
+    const email = useSelector(selectEmail);
+
+      useEffect(() => {
+        const fetchCourses = async() => {
+            if (id) {
+                // Fetching the student's enrolled courses
+                const coursesEnrolled = await supabase
+                .from('course_enrollee')
+                .select()
+                .eq('email', email)
+
+                if (coursesEnrolled.data) {
+                    // Store it in a temporary variable for it to be able to add another key to each
+                    // object which is the enrolled students
+                    let tempCourses = coursesEnrolled.data;
+                    
+                    // Fetching the registered courses with its name and code
+                    const courseDetails = await Promise.all((coursesEnrolled.data).map(async(course) => {   
+                        const courseData = await supabase
+                        .from('course')
+                        .select()
+                        .eq('code', course['course_code'])
+                        .single()
+
+                        return courseData['data'];                        
+                    }))
+
+                    if (courseDetails) {
+                        tempCourses = courseDetails;
+                    }
+                    // console.log(courseDetails)
+                    // if (courseDetails) {
+                    //     tempCourses = courseDetails
+                    //     // Fetching the enrolled students in the registered courses
+                    //     const courseFullDetails = await Promise.all((courseDetails).map(async(course) => {   
+                    //         const courseStudents = await supabase
+                    //             .from('course_enrollee')
+                    //             .select()
+                    //             .eq('course_code', course['code'])
+                    
+                    //         if (courseStudents.data) {
+                    //             tempCourses = tempCourses.map((tempCourse) => {
+                    //                 // Assigns a new to a course object with the key students which is an array
+                    //                 if (tempCourse['code'] === course['code']) {
+                    //                     return {
+                    //                         ...tempCourse,
+                    //                         students: courseStudents.data
+                    //                     }
+                    //                 }
+
+                    //                 // In case there is no enrolled students in a certain course
+                    //                 return {
+                    //                     ...tempCourse,
+                    //                     students: []
+                    //                 }
+                    //             })
+                    //         }
+                    //     }))       
+                    // }
+                    // Finally setting the courses with their respective students
+                    setCourses(tempCourses)
+                }
+            }                                       
+        }   
+
+        fetchCourses();
+      }, [id])
 
     return (
         <div className="course-overview-wrapper">

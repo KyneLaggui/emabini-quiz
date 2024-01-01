@@ -22,39 +22,6 @@ class EmailError extends Error {
   }
 
 const FacultyCourse = () => {
-    // const courses = [
-    //     {
-    //         courseCode: 'CMPE 10113',
-    //         courseTitle: 'Operating Systems',
-    //         courseStudents : '24'
-    //     },
-    //     {
-    //         courseCode: 'CMPE 40062',
-    //         courseTitle: 'Web Development',
-    //         courseStudents : '24'
-    //     },
-    //     {
-    //         courseCode: 'CMPE 30113',
-    //         courseTitle: 'Software Design',
-    //         courseStudents : '24'
-    //     },
-    //     {
-    //         courseCode: 'CMPE 30043',
-    //         courseTitle: 'Discrete Mathematics',
-    //         courseStudents : '24'
-    //     },
-    //     {
-    //         courseCode: 'MATH 20053',
-    //         courseTitle: 'Calculus 2',
-    //         courseStudents : '24'
-    //     },
-    //     {
-    //         courseCode: 'PHED 10022',
-    //         courseTitle: 'Rhythmic Activities',
-    //         courseStudents : '24'
-    //     },
-    
-    // ]
     // Form related variables states
     const [modalIsOpen, setIsOpen] = useState(false);
     const [formData, setFormData] = useState({

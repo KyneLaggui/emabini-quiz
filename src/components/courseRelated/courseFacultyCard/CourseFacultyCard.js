@@ -9,13 +9,16 @@ const CourseFacultyCard = ({code, name, students}) => {
   const [studentCount, setStudentCount] = useState("0")
   
   useEffect(() => { 
-    if (students.length === 0) {
-      setStudentCount("No students")
-    } else if (students.length === 1) {
-      setStudentCount(`1 student`)
-    } else if (students.length > 1) {
-      setStudentCount(`${students.length} students`)
+    if (students) {
+      if (students.length === 0) {
+        setStudentCount("No students")
+      } else if (students.length === 1) {
+        setStudentCount(`1 student`)
+      } else if (students.length > 1) {
+        setStudentCount(`${students.length} students`)
+      }
     }
+    
   }, [students])
 
   return (
