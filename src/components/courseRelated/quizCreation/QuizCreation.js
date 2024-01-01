@@ -54,7 +54,7 @@ const QuizCreation = () => {
     const handleInputChange = (index, event) => {
         const newInputs = [...answerInput];
         newInputs[index] = event.target.value;
-        setAnswerInput(newInputs)(newInputs);
+        setAnswerInput(newInputs);
     };
 
     // For Choices
@@ -77,7 +77,7 @@ const QuizCreation = () => {
     const handleChoiceInputChange = (index, event) => {
         const newInputs = [...choiceInput];
         newInputs[index] = event.target.value;
-        setChoiceInput(newInputs)(newInputs);
+        setChoiceInput(newInputs);
     };
 
     const handlePointsChange = (e) => {
