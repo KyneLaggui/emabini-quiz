@@ -14,6 +14,7 @@ import FacultyCourse from './pages/faculty/FacultyCourse/FacultyCourse';
 import AccountManagement from './pages/facultyHead/accountManagement/AccountManagement';
 import Login from './pages/Login';
 import EachFacultyCourse from './pages/faculty/FacultyCourse/EachFacultyCourse/EachFacultyCourse';
+import CreateMultipleChoice from './pages/faculty/CreateQuiz/CreateMultipleChoice';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/faculty-home" element={ <FacultyHome />}></Route>  
           <Route path="/faculty-courses" element={ <FacultyCourse />}></Route>  
           <Route path="/faculty-courses-id" element={ <EachFacultyCourse/>}></Route>  
+          <Route path="/create-multiple-choice-quiz" element={ <CreateMultipleChoice/>}></Route> 
           <Route path="/account-management" element={ <AccountManagement />} />
 
           <Route path="/student-home" element={ <StudentHome />} />
