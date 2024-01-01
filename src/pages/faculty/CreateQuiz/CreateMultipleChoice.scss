@@ -1,7 +1,25 @@
+.cmc-main-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.back-courses {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    color: var(--red);
+}
+
 .cmc-container {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    width: 100%;
     
 }
 .cmc-wrapper {
@@ -133,13 +151,6 @@
     }
 }
 
-.cmc-bottom-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-  
 
 .cmc-quiz-components {
     display: flex;
