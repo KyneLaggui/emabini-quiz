@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import './CourseCard.scss';
 import { Link } from 'react-router-dom';
 
-const CourseCard = ({code, name}) => {
-    
+const CourseCard = ({code, name}) => {    
+  
     return (
         <div className="course-card-container">
             <div className="course-card-cover">

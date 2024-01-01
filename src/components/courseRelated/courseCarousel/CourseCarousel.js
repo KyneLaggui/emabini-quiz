@@ -9,17 +9,19 @@ const CourseCarousel = ({ children }) => {
     const settings = {
         dots: true,
         speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 2,
+        slidesToScroll: 2,
         className: "center",
-        centerMode: true,
+        centerMode: false,
         centerPadding: "10px",
-        infinite: true,
+        infinite: false,
+        loop: false,
         responsive: [
             {
                 breakpoint: 1230,
                 settings: {
                     centerPadding: "10px",
+                    loop: false,
                 }
             },
             {
@@ -29,6 +31,7 @@ const CourseCarousel = ({ children }) => {
                 slidesToScroll: 2,
                 dots: true,
                 centerPadding: "10px",
+                loop: false,
               }
             },
             {
@@ -37,6 +40,7 @@ const CourseCarousel = ({ children }) => {
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 centerPadding: "80px",
+                loop: false,
               }
             },
             {
@@ -46,6 +50,7 @@ const CourseCarousel = ({ children }) => {
                     slidesToScroll: 1,
                     className: "",
                     centerMode: false,
+                    loop: false,
                 }
               },
           ]
