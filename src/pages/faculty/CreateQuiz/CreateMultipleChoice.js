@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./CreateMultipleChoice.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
+import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
+import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
 
 const CreateMultipleChoice = () => {
+    const [activeTab, setActiveTab] = useState('examination');
+
+    const handleTabClick = (tabName) => {
+        setActiveTab(tabName);
+    };
+
   return (
     <>
         <Sidebar/>
@@ -28,6 +36,20 @@ const CreateMultipleChoice = () => {
                                 <input type='text' placeholder='Enter Points...' />
                             </div>
                         </div>
+                        <div className='cmc-tabs'>
+                            <button
+                            className={activeTab === 'examination' ? 'active' : ''}
+                            onClick={() => handleTabClick('examination')}
+                            >
+                            Examination
+                            </button>
+                            <button
+                            className={activeTab === 'shared' ? 'active' : ''}
+                            onClick={() => handleTabClick('shared')}
+                            >
+                            Shared With
+                            </button>
+                    </div>
 
                     </div>
                     <div className='cmc-creation'>
@@ -36,6 +58,18 @@ const CreateMultipleChoice = () => {
                     </div>
                     
                 </div>
+               
+              {activeTab === 'examination' && (
+               <div className='cmc-bottom-container'>
+                    <QuizCreation/>
+                </div>
+              )}
+              {activeTab === 'shared' && (
+                <div className='cmc-bottom-container'>
+                    <RecipientBox/>
+                </div>
+                
+              )}
                 
             </FacultyOnly>
         </PageLayout>
