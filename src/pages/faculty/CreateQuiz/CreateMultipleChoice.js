@@ -5,6 +5,7 @@ import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
+import { FaArrowLeft } from 'react-icons/fa'
 
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -26,67 +27,70 @@ const CreateMultipleChoice = () => {
         <Sidebar/>
         <PageLayout>
             <FacultyOnly>
-                <div className='cmc-container'>
-                    <div className='cmc-wrapper'>
-                        <div className='cmc-top'>
-                            <div className='cmc-input'>
-                                <h1>Quiz Title:</h1>
-                                <input type='text' placeholder='Enter Quiz Title...' />
+                <div className='cmc-main-container'>
+                    <div className='back-courses'>
+                        <FaArrowLeft name='back-arrow'/>
+                        <p>Back to Courses</p>
+                    </div>
+                    <div className='cmc-container'>
+                        
+                        <div className='cmc-wrapper'>
+                            <div className='cmc-top'>
+                                <div className='cmc-input'>
+                                    <h1>Quiz Title:</h1>
+                                    <input type='text' placeholder='Enter Quiz Title...' />
+                                </div>
                             </div>
+                            <div className='cmc-bottom'>
+                                <div className='cmc-input'>
+                                        <h1>Quiz Instructions:</h1>
+                                        <textarea type='text' placeholder='Enter Instructions...' />
+                                </div>
+                                <div className='cmc-input'>
+                                    <h1>Quiz Points:</h1>
+                                    <input type='text' placeholder='Enter Points...' />
+                                </div>
+                            </div>
+                            <div className='cmc-tabs'>
+                                <button
+                                className={activeTab === 'examination' ? 'active' : ''}
+                                onClick={() => handleTabClick('examination')}
+                                >
+                                Examination
+                                </button>
+                                <button
+                                className={activeTab === 'shared' ? 'active' : ''}
+                                onClick={() => handleTabClick('shared')}
+                                >
+                                Shared With
+                                </button>
                         </div>
-                        <div className='cmc-bottom'>
-                            <div className='cmc-input'>
-                                    <h1>Quiz Instructions:</h1>
-                                    <textarea type='text' placeholder='Enter Instructions...' />
-                            </div>
-                            <div className='cmc-input'>
-                                <h1>Quiz Points:</h1>
-                                <input type='text' placeholder='Enter Points...' />
-                            </div>
+
                         </div>
-                        <div className='cmc-tabs'>
-                            <button
-                            className={activeTab === 'examination' ? 'active' : ''}
-                            onClick={() => handleTabClick('examination')}
-                            >
-                            Examination
-                            </button>
-                            <button
-                            className={activeTab === 'shared' ? 'active' : ''}
-                            onClick={() => handleTabClick('shared')}
-                            >
-                            Shared With
-                            </button>
+                        <div className='cmc-creation'>
+                            <button>Create</button>
+                            <p>Save as draft</p>
+                        </div>
+                        
                     </div>
+                
+                {activeTab === 'examination' && (
+            
+                    <div className='cmc-quiz-components'>
+                        {quizComponents.map((component, index) => (
+                            <div key={index}>{component}</div>
+                            ))}
 
+                        <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Quiz</button>
                     </div>
-                    <div className='cmc-creation'>
-                        <button>Create</button>
-                        <p>Save as draft</p>
-                    </div>
-                    
-                </div>
-               
-              {activeTab === 'examination' && (
-               <div className='cmc-bottom-container'>
-                <div className='cmc-quiz-components'>
-                    {quizComponents.map((component, index) => (
-                        <div key={index}>{component}</div>
-                        ))}
-
-                    <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Quiz</button>
-                </div>
-                     
-                    
-                </div>
-              )}
-              {activeTab === 'shared' && (
-                <div className='cmc-bottom-container'>
+                        
+                        
+                   
+                )}
+                {activeTab === 'shared' && (                    
                     <RecipientBox/>
+                )}
                 </div>
-                
-              )}
-                
             </FacultyOnly>
         </PageLayout>
     </>
