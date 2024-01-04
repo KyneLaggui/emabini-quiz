@@ -33,7 +33,7 @@ function App() {
           {/* Faculty */}
           <Route path="/faculty-home" element={ <FacultyHome />}></Route>  
           <Route path="/faculty-courses" element={ <FacultyCourse />}></Route>  
-          <Route path="/faculty-courses-id" element={ <EachFacultyCourse/>}></Route>  
+          <Route path="/faculty-courses/:id" element={ <EachFacultyCourse/>}></Route>  
           <Route path="/create-multiple-choice-quiz" element={ <CreateMultipleChoice/>}></Route> 
           <Route path="/account-management" element={ <AccountManagement />} />
 

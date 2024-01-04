@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Sidebar from '../../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../../layouts/pageLayout/PageLayout';
 import { CourseAnnouncements } from '../../../../components/courseRelated/courseAnnouncements/CourseAnnouncements';
@@ -10,19 +10,37 @@ import { GiConfirmed } from "react-icons/gi";
 import QuizzesFacultyOverview from '../../../../components/courseRelated/quizzesFacultyOverview/QuizzesFacultyOverview';
 import FacultyStudentsList from '../../../../components/courseRelated/facultyStudentsList/FacultyStudentsList';
 import FacultyOnly from '../../../../layouts/facultyOnly/FacultyOnly';
+import { Link, useParams } from 'react-router-dom';
+import FetchCourseIndividual from '../../../../customHooks/fetchCourseIndividual';
+import { supabase } from '../../../../supabase/config';
 
-const EachFacultyCourse = () => {
+const EachFacultyCourse = () => { 
+    const { id } = useParams();
+
+    const [enrolledStudents, setEnrolledStudents] = useState([])
+    const [courseInfo, setCourseInfo] = useState(null)
+
+    const {courseData, students}= FetchCourseIndividual(id)
     const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState([
-      { courseName: 'Operating Systems', courseCode: 'CMPE 30113' }
-    ]);
+    const [formData, setFormData] = useState([]);
 
     const [fslContainerHeight, setFslContainerHeight] = useState(0);
-    const fslContainerRef = useRef(null);
-
-    
+    const fslContainerRef = useCallback(node => {
+      if (node) {
+        const height = node.clientHeight;
+        setFslContainerHeight(height);
+      }
+    }, []);
 
     useEffect(() => {
+        setCourseInfo(courseData)
+        setEnrolledStudents(students)
+
+        // Initializing course info data
+        if (courseData) {
+          setFormData([courseData])
+        }
+
         function handleResize() {
           if (fslContainerRef.current) {
             const height = fslContainerRef.current.clientHeight;
@@ -32,11 +50,11 @@ const EachFacultyCourse = () => {
     
         handleResize();
         window.addEventListener('resize', handleResize);
-    
+      
         return () => {
           window.removeEventListener('resize', handleResize);
         };
-      }, []);
+      }, [fslContainerRef, courseData, students]);
       
   
     const handleEditClick = () => {
@@ -49,14 +67,32 @@ const EachFacultyCourse = () => {
         ...updatedData[index],
         [fieldName]: event.target.value,
       };
+
       setFormData(updatedData);
     };
   
-    const handleSaveClick = () => {
+    // const handleSaveClick = () => {
+    //   setIsEditing(false);
+    //   // Dito yung sa backend shits
+    // };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
       setIsEditing(false);
-      // Dito yung sa backend shits
-    };
-  
+
+      const changeCourseDetails = async() => {
+        const { error } = await supabase
+          .from('course')
+          .update({
+            code: formData[0].code,
+            name: formData[0].name
+          })
+          .eq('id', id)
+      }      
+      
+      changeCourseDetails();
+    }
+
     return (
       
         <>
@@ -64,11 +100,11 @@ const EachFacultyCourse = () => {
             <PageLayout>
                 <FacultyOnly>
                   <div className='esc-container'>
-                      <div className='back-courses'>
+                      <Link className='back-courses' to='/faculty-courses'>                        
                           <FaArrowLeft name='back-arrow'/>
                           <p>Back to Courses</p>
-                      </div>
-                      <div className='courses-editor'>
+                      </Link>
+                      <form className='courses-editor' onSubmit={handleSubmit}>
                           <div className='courses-title'>
                               {formData.map((data, index) => (
                                   <div key={index}>
@@ -76,21 +112,21 @@ const EachFacultyCourse = () => {
                                       <div className='courses-inputs'>
                                           <input
                                           type="text"
-                                          value={data.courseName}
-                                          onChange={(event) => handleFieldChange(event, index, 'courseName')}
+                                          value={data.name}
+                                          onChange={(event) => handleFieldChange(event, index, 'name')}
                                           />
                                           <input
                                           type="text"
-                                          value={data.courseCode}
+                                          value={data.code}
                                           onChange={(event) =>
-                                              handleFieldChange(event, index, 'courseCode')
+                                              handleFieldChange(event, index, 'code')
                                           }
                                           />
                                       </div>
                                       ) : (
                                       <div>
-                                          <h1>{data.courseName}</h1>
-                                          <p>{data.courseCode}</p>
+                                          <h1>{data.name}</h1>
+                                          <p>{data.code}</p>
                                       </div>
                                       )}
                                   </div>
@@ -98,13 +134,14 @@ const EachFacultyCourse = () => {
                           </div>
                           <div>
                               {isEditing ? (
-                                  
-                                  <GiConfirmed  onClick={handleSaveClick} size={23} color='var(--green)' />
+                                  <button type="submit">
+                                    <GiConfirmed size={23} color='var(--green)' className="on-hover"/>
+                                  </button>
                               ) : (
-                                  <HiPencil onClick={handleEditClick} />
+                                  <HiPencil onClick={handleEditClick} className="on-hover" />
                               )}
                           </div>
-                      </div>
+                      </form>
                       
 
                       <div className='courses-events'>
@@ -116,7 +153,7 @@ const EachFacultyCourse = () => {
                           <div className='courses-weeks'>
                               <QuizzesFacultyOverview /> 
                           </div>
-                          <FacultyStudentsList dynamicHeight={fslContainerHeight} />
+                          <FacultyStudentsList dynamicHeight={fslContainerHeight} students={enrolledStudents} />
                       </div>                    
                   </div>
 

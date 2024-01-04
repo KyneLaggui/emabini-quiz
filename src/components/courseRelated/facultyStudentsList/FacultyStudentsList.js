@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./FacultyStudentsList.scss"
 import { IoRemoveCircle } from 'react-icons/io5';
 import Modal from 'react-modal';
 import RecipientBox from '../recipientBox/RecipientBox';
 
 Modal.setAppElement('#root');
-const FacultyStudentsList = ({ dynamicHeight }) => {
-    
+const FacultyStudentsList = ({ dynamicHeight, students }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [enrollView, setEnrollView] = useState(true);
+
+    const [limitStudentNames, setLimitStudentNames] = useState([])
 
     const customStyles = {
         content: {
@@ -44,29 +45,15 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
         setEnrollView(!enrollView); // Switch between enroll and existing views
     };
 
-    const studentNames = [
-        'Jason Buhamid',
-        'Jason Downbad',
-        'Amadough',
-        'Harold Anderson',
-        'Harold Anderson Amadeus Belpussy',
-        'Jason Downbad',
-        'Amadough',
-        'Harold Anderson Amadeus Belpussy',
-        'Jason Buhamid',
-        'Jason Downbad',
-        'Amadough',
-        'Harold Anderson',
-        'Jason Buhamid',
-        'Jason Downbad',
-        'Amadough',
-        'Harold Anderson Amadeus Belpussy',
-       
-      ];
-
-      const limitStudentNames = studentNames.map(name =>
-        name.length > 25 ? `${name.slice(0, 22)}...` : name
-    );
+    useEffect(() => {
+        if (students) {
+            const limitedStudentNames = students.map((student) => {
+            const fullName = `${student.first_name} ${student.middle_name} ${student.last_name}`
+            return fullName.length > 25 ? `${fullName.slice(0, 22)}...` : fullName
+            })
+            setLimitStudentNames(limitedStudentNames)
+        }
+    }, [students])
 
   return (
     <div className='fsl-container' style={{ height: dynamicHeight }}>
@@ -75,12 +62,12 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
             <p onClick={openModal}>View</p>
         </div>
         <div className='fsl-students-wrapper'>
-                {limitStudentNames.map((student, index) => (
-                     <div className='fsl-students-settings'>
+                {limitStudentNames.length ? limitStudentNames.map((student, index) => (
+                     <div className='fsl-students-settings' key={index}>
                         <h1 key={index}>{student}</h1>
-                        <IoRemoveCircle />
+                        <IoRemoveCircle onClick={(() => console.log('remove'))}/>
                     </div>
-                ))}
+                )) : <p>No students yet.</p>}
         </div>
         <div>       
             <Modal
@@ -118,14 +105,13 @@ const FacultyStudentsList = ({ dynamicHeight }) => {
                     {enrollView ? 
                         <>
                             <h1 className='sl-title'>Students</h1>
-                            <div className='students-list'>
-                                
-                                {studentNames.map((student, index) => (
-                                    <div className='modal-students-settings'>
-                                        <h1 key={index}>{student}</h1>
+                            <div className='students-list'>                                
+                                {students.length ? students.map((student, index) => (
+                                    <div className='modal-students-settings' key={index}>
+                                        <h1 key={index}>{`${student.first_name} ${student.middle_name} ${student.last_name}`}</h1>
                                         <IoRemoveCircle />
                                     </div>
-                                ))}
+                                )) : <p>No students yet.</p>}
                             </div>
                         </>
                             

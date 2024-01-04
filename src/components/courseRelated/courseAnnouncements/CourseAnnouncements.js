@@ -172,7 +172,7 @@ export const CourseAnnouncements = () => {
                                     {
                                          announcements.map((announce, i) => {
                                             return (
-                                                    <>
+                                                    <div key={i}>
                                                     <div className="ea-wrapper-modal">
                                                         <div className="ea-cm-left" key={i}>
                                                             <div className="ea-settings-wrapper">
@@ -191,7 +191,7 @@ export const CourseAnnouncements = () => {
                                                     
                                                     </div>
                                                     
-                                                    </>
+                                                    </div>
                                             )
                                         })
                                     }
