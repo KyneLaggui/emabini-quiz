@@ -23,7 +23,7 @@ const AccountManagementHeader = () => {
         firstName: '',
         middleName: '',
         lastName: ''
-      })
+    })
 
     const customStyles = {
         content: {

@@ -5,7 +5,7 @@ import { MdGroup } from 'react-icons/md'
 import { IoIosMore } from 'react-icons/io'
 import CourseQuizSettings from '../../settingsDropdown/CourseQuizSettings'
 
-const CourseFacultyCard = ({code, name, students}) => {
+const CourseFacultyCard = ({code, name, students, onClick}) => {
   const [studentCount, setStudentCount] = useState("0")
   
   useEffect(() => { 
@@ -22,7 +22,7 @@ const CourseFacultyCard = ({code, name, students}) => {
   }, [students])
 
   return (
-    <div className="cf-card-container">
+    <div className="cf-card-container" onClick={onClick}>
       <div className="cf-card-cover"></div>
       <div className='cf-card-wrapper'>
         <div className="cf-card-detail">
