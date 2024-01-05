@@ -35,12 +35,12 @@ const QuizOverview = () => {
         <div className="course-overview-wrapper">
             <p className="bold medium-text">Quizzes Overview</p>
             {quizzes.length === 0 ? (
-                <p>No courses found.</p>
+                <p>No quizzes found.</p>
             ) : (
                 <QuizCarousel>
-                    {quizzes.map((course, i) => {
+                    {quizzes.map((quiz, i) => {
                         return (
-                            <QuizCard {...course} key={i}/>
+                            <QuizCard {...quiz} key={i}/>
                         )
                     })}
                 </QuizCarousel>

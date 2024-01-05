@@ -1,6 +1,6 @@
 .quiz-card-container {
-    height: 300px;
     width: 300px;
+    height: 300px;
     border-radius: 16px;
     background: var(--asideWhite);
     overflow: hidden;
@@ -10,6 +10,7 @@
     height: 180px;
     background: #CB292D;
     cursor: pointer;
+    position: relative;
 }
 
 .quiz-card-wrapper {
@@ -39,6 +40,38 @@
         padding-block: 4px;
         border-radius: 12px;
     }
+
+}
+
+.qcu-tags {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+    gap: 0.5rem;
+    width: 230px;
+    cursor: grab;
+    overflow-x: auto;
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    touch-action: pan-y;
+
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    
+    
+    
+    .yellow-cont {
+        background-color: var(--yellow);
+        padding-inline: 10px;
+        padding-block: 4px;
+        border-radius: 12px;
+        color: var(--asideWhite);
+        white-space: nowrap;
+    
+    }
 }
 
 
@@ -51,5 +84,16 @@
     width: 20rem;
     gap: 10px;
     padding-block: 20px;
+}
+
+.draft-button {
+    position: absolute;
+    font-size: 14px;
+    top: 10px;
+    right: 10px;
+    background-color: var(--blue); 
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
 }
 
