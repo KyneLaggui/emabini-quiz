@@ -32,7 +32,7 @@ const QuizCard = ({ quizName, quizUsers, quizState, quizTags, activeTab }) => {
         if (!isMouseDown) return;
         e.preventDefault();
         const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 3; 
+        const walk = (x - startX) * 3; // Adjust the scrolling speed
         container.scrollLeft = scrollLeft - walk;
     };
 
