@@ -157,15 +157,30 @@
       font-size: 1rem;
       font-family: 'Inter', sans-serif;
     }
-    
-
-
   }
 
 .ma-inputs {
     display: flex;
     gap: 1rem;
     flex-direction: column;
+    
+    .title-date-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row; 
+        gap: 20px;
+
+        & > div:first-child {
+            width: 100%;
+        }
+
+        .date-icon {
+            position: relative;
+            align-self: flex-end;
+            cursor: pointer;
+        }
+    }
 }
 
 
@@ -207,8 +222,16 @@
         height: 200px;
         resize: none;
     }
-
-    
-
-    
 }
+
+.react-datepicker-wrapper {
+    display: none !important;
+  }
+  
+  .react-datepicker-popper {
+    z-index: 9999 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
