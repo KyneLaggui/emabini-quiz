@@ -193,19 +193,13 @@ const AccountManagementTable = () => {
 
                         <div className="row">
                             <label htmlFor="">Role:</label>
-                            <select name="role" id="" onChange={(e) => onInputHandleChange(e)} className="capitalize">
+                            <select name="role" id="" onChange={(e) => onInputHandleChange(e)} value={formData.role} className="capitalize">
                               {
                                 options.length > 1 && (
                                   options.map((option, idx) => {
-                                    if (option === formData.role) {
-                                      return (
-                                        <option value={option} className="capitalize" selected>{option}</option>
-                                      )
-                                    } else {
-                                      return (
-                                        <option value={option} className="capitalize">{option}</option>
-                                      )
-                                    }
+                                    return (
+                                      <option value={option} className="capitalize" key={idx}>{option}</option>
+                                    )
                                   })
                                 )
                               }                            
