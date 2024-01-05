@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FacultyHeadOnlyLink, FacultyOnlyLink, StudentOnlyLink } from "../../layouts/linkRestrictions/LinkRestriction";
 import { toast } from "react-toastify";
 import FetchUserProfile from "../../customHooks/fetchUserProfile";
+import { IoNewspaperSharp } from "react-icons/io5";
 
 const activeLink = ({isActive, isPending}) => 
   (isActive ? `active navlink` : "navlink")
@@ -124,7 +125,16 @@ const Sidebar = () => {
                             </NavLink>      
                             <span className={`tooltip bold`}>Courses</span>        
                         </li>
-                    </FacultyOnlyLink>   
+                    </FacultyOnlyLink>
+                    <FacultyOnlyLink>
+                        <li>
+                            <NavLink to="/faculty-quizzes" className={activeLink}> 
+                                <IoNewspaperSharp className={`link-icon`}/>
+                                <span className={`nav-item bold`}>Quizzes</span>
+                            </NavLink>      
+                            <span className={`tooltip bold`}>Quizzes</span>        
+                        </li>
+                    </FacultyOnlyLink>     
 
                     {/* For faculty head link(s) */}
                     <FacultyHeadOnlyLink>

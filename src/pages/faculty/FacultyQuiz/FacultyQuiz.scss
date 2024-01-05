@@ -1,0 +1,78 @@
+.quizzes-filters-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 1rem;
+    margin-bottom: 2rem;  
+}
+
+.quizzes-filters-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;   
+}
+
+
+.quizzes-filters-left button {
+    background-color: var(--red);
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 30px;
+    cursor: pointer;
+    border: none;
+}
+
+.fq-tabs {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-inline: 2rem;
+  
+    button {
+      position: relative;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--blue);
+      background: none;
+      padding-bottom: 0.3rem; 
+      transition: color 0.3s ease;
+      overflow: hidden; 
+      cursor: pointer;
+  
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px; 
+        background-color: var(--red);
+        transform-origin: left; 
+        transform: scaleX(0); 
+        transition: transform 0.3s ease; 
+      }
+  
+      &.active {
+        color: var(--red); 
+  
+        &::after {
+          transform: scaleX(1); 
+        }
+      }
+    }
+  }
+
+.quizzes-orie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 2em;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-block: 2rem;
+}

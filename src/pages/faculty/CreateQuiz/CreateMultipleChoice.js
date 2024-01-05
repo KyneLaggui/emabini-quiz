@@ -64,7 +64,7 @@ const CreateMultipleChoice = () => {
                                 >
                                 Shared With
                                 </button>
-                        </div>
+                            </div>
 
                         </div>
                         <div className='cmc-creation'>
