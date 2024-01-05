@@ -50,7 +50,7 @@ const QuizCard = ({ quizName, quizUsers, quizState, quizTags, activeTab }) => {
       };
     }
     
-}, [isMouseDown, scrollLeft, startX]);
+  }, [isMouseDown, scrollLeft, startX]);
 
   const isExploreTab = activeTab === 'explore';
 
