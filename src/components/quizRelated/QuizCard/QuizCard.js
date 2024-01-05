@@ -12,41 +12,44 @@ const QuizCard = ({ quizName, quizUsers, quizState, quizTags, activeTab }) => {
   const [scrollLeft, setScrollLeft] = useState(null);
 
   useEffect(() => {
-    const container = qcuTagsContainer.current;
+    if (qcuTagsContainer.current) {
+      const container = qcuTagsContainer.current;
 
-    const handleMouseDown = (e) => {
-        setIsMouseDown(true);
-        setStartX(e.pageX - container.offsetLeft);
-        setScrollLeft(container.scrollLeft);
-    };
-
-    const handleMouseUp = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseLeave = () => {
-        setIsMouseDown(false);
-    };
-
-    const handleMouseMove = (e) => {
-        if (!isMouseDown) return;
-        e.preventDefault();
-        const x = e.pageX - container.offsetLeft;
-        const walk = (x - startX) * 3; 
-        container.scrollLeft = scrollLeft - walk;
-    };
-
-    container.addEventListener('mousedown', handleMouseDown);
-    container.addEventListener('mouseup', handleMouseUp);
-    container.addEventListener('mouseleave', handleMouseLeave);
-    container.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-        container.removeEventListener('mousedown', handleMouseDown);
-        container.removeEventListener('mouseup', handleMouseUp);
-        container.removeEventListener('mouseleave', handleMouseLeave);
-        container.removeEventListener('mousemove', handleMouseMove);
-    };
+      const handleMouseDown = (e) => {
+          setIsMouseDown(true);
+          setStartX(e.pageX - container.offsetLeft);
+          setScrollLeft(container.scrollLeft);
+      };
+  
+      const handleMouseUp = () => {
+          setIsMouseDown(false);
+      };
+  
+      const handleMouseLeave = () => {
+          setIsMouseDown(false);
+      };
+  
+      const handleMouseMove = (e) => {
+          if (!isMouseDown) return;
+          e.preventDefault();
+          const x = e.pageX - container.offsetLeft;
+          const walk = (x - startX) * 3; 
+          container.scrollLeft = scrollLeft - walk;
+      };
+  
+      container.addEventListener('mousedown', handleMouseDown);
+      container.addEventListener('mouseup', handleMouseUp);
+      container.addEventListener('mouseleave', handleMouseLeave);
+      container.addEventListener('mousemove', handleMouseMove);
+  
+      return () => {
+          container.removeEventListener('mousedown', handleMouseDown);
+          container.removeEventListener('mouseup', handleMouseUp);
+          container.removeEventListener('mouseleave', handleMouseLeave);
+          container.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
+    
 }, [isMouseDown, scrollLeft, startX]);
 
   const isExploreTab = activeTab === 'explore';
