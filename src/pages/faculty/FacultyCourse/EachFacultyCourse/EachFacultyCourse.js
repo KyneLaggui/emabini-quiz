@@ -94,7 +94,6 @@ const EachFacultyCourse = () => {
     }
 
     return (
-      
         <>
             <Sidebar></Sidebar>
             <PageLayout>
@@ -145,7 +144,9 @@ const EachFacultyCourse = () => {
                       
 
                       <div className='courses-events'>
-                          <CourseAnnouncements></CourseAnnouncements>
+                          {
+                            courseInfo && (<CourseAnnouncements courseCode={courseInfo.code} {...courseData}></CourseAnnouncements>)
+                          }                          
                           {/* <Calendar></Calendar> */}
                       </div>
                       
