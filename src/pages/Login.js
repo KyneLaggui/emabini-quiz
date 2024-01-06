@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectUserID } from '../redux/slice/authSlice';
 import PageLayout from '../layouts/pageLayout/PageLayout';
 import Loader from '../components/loader/Loader';
+import LoginPicture from "../assets/login-pic.png"
 
 const Login = () => {
 
@@ -72,18 +73,37 @@ const Login = () => {
             {
                 isLoading || isLoadingProfile ? <Loader /> : (
                 <div className="login-modal-inner-wrapper">
-                        <form className="login-form" onSubmit={handleSubmit}>                    
-                            <div className="row">
-                                <label htmlFor="">Email:</label>
-                                <input type="text" name='email' onChange={(e) => onInputHandleChange(e)} />
+                    
+                    <form className="login-form" onSubmit={handleSubmit}>                    
+                        <div className='login-left'>
+                            <h1>eMabini.</h1>
+                            <div className='login-inputs'>
+                                <input type="text" name='email' placeholder= "Email" onChange={(e) => onInputHandleChange(e)} />
+                                
+                                <input type="text" name='password'  placeholder= "Password" onChange={(e) => onInputHandleChange(e)} />
                             </div>
-                            <div className="row">
-                                <label htmlFor="">Password:</label>
-                                <input type="text" name='password' onChange={(e) => onInputHandleChange(e)} />
-                            </div>      
-                            <button type="submit" className="login-button">Login</button>                                         
-                        </form>
-                    </div>
+                           
+                        
+                        
+                            <a className='forgot-password'>Forgot Password?</a>
+
+                            <button type="submit" className="login-button">Login</button>  
+                        </div>
+
+                        <div className='login-right'>
+                            <img src={LoginPicture} className='login-pic' alt='logpic'/>
+
+                            
+                        </div>
+                        <div className='circle1'></div>
+                        <div className='circle2'></div>
+                           
+                        
+                                
+                                                               
+                    </form>
+                        
+                </div>
                 )
             }
             
