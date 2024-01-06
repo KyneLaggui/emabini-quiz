@@ -119,13 +119,23 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
         setFormData({
             ...formData,
             [name]: value
-        })            
-        
+        })                    
+    }  
+
+    const formatDate = (date) => {
+        const formattedDate = date.toLocaleString();
+        const dateArray = formattedDate.split(",")
+        return dateArray;
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        const formattedDate = formatDate(scheduleDate);
+        const date = formattedDate[0];
+        const time = formattedDate[1].slice(1);
+
+        console.log(time)
         const insertAnnouncement = async() => {
             const { error } = await supabase
             .from('course_announcement')
@@ -133,20 +143,15 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                 title: formData.title,
                 course_code: formData.course,
                 content: formData.content,
-                date: scheduleDate
+                date,
+                timestampz: ((scheduleDate).toISOString()).toLocaleString('zh-TW')
             })
         }
 
-        insertAnnouncement();        
-    }
 
-    const ExampleCustomTimeInput = ({ date, value, onChange }) => (
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          style={{ border: "solid 1px pink" }}
-        />
-      );
+        insertAnnouncement();        
+ 
+    }
 
     // useEffect(() => {
         
@@ -154,6 +159,7 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
 
     //     ])
     // }, []) 
+
 
   return (
     <div className='ca-container'>
@@ -245,12 +251,9 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                             )
                         
                         }
-                        </>
-                            
-                    
+                        </>                                                
                     : 
-                        <>
-                            
+                        <>                                                    
                             <form className='ma-inputs' onSubmit={handleSubmit}>
                                 <div className='modal-announcement-input title-date-container'>
                                     <div>
@@ -258,16 +261,21 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                                         <input type='text' placeholder='Enter Announcement Title...' name="title" onChange={(e) => onInputHandleChange(e)}/>
                                     </div>
                                     <div className="date-icon">
-                                        <IoCalendarOutline size={40}  to="/" onClick={(e) => changeDateHandler(e)}/>
                                         <DatePicker 
                                             selected={scheduleDate} 
-                                            onChange={(date) => { setScheduleDate(date); setShowDatePicker(false) }} 
-                                            open={showDatePicker} 
+                                            onChange={(date) => { setScheduleDate(date); console.log(date)}} 
+                                            minDate={new Date()}
+                                            maxDate={new Date(new Date(new Date().getTime() + 60 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US'))}
                                             className="date-picker" 
-                                            popperPlacement="bottom"
-
+                                            popperPlacement="bottom-end" // Change here
+                                            popperModifiers={{
+                                                preventOverflow: {
+                                                  enabled: true,
+                                                },
+                                              }}                                                
+                                            showTimeInput                                       
                                         />
-                                    </div>                                    
+                                    </div>  
                                 </div>
                                 <div className='modal-announcement-input'>
                                     <h1>Assign to:</h1>
@@ -286,13 +294,13 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                                 <div className='modal-announcement-input'>
                                     <h1>Announcement Content:</h1>
                                     <textarea type='text' placeholder='Enter Content...' name="content" onChange={(e) => onInputHandleChange(e)}/>
-                                </div>                    
-                                   
+                                </div>                                                    
                                 <div className='ca-confirmation'>
                                     <button className='ca-cancel' onClick={closeModal}>Cancel</button>
                                     <button className='ca-save' type="submit">Confirm</button>
                                 </div>                                                                
-                            </form>                            
+                            </form>        
+                                                
                         </>
                     }
                 </div>                                    
