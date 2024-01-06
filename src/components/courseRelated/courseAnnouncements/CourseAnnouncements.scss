@@ -224,14 +224,20 @@
     }
 }
 
-.react-datepicker-wrapper {
-    display: none !important;
-  }
+// .react-datepicker-wrapper {
+//     display: none !important;
+//     // visibility: hidden;
+//   }
   
-  .react-datepicker-popper {
+.react-datepicker-popper {
     z-index: 9999 !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+}
 
+// .react-date-picker__calendar--open {
+//     top: 100% !important;
+//     bottom: unset !important;
+// }
+
+// .react-datepicker {
+//     z-index: 999;
+// }
