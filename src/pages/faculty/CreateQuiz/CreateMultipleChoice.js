@@ -11,15 +11,58 @@ import { Link } from 'react-router-dom'
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
 
-    const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} />]);
+    const alterQuestion = (question, index) => {
+        const newQuestions = formData['questions']
+        newQuestions[index] = question
+
+
+        setFormData({
+            ...formData,
+            questions: newQuestions
+        })
+        console.log(formData)
+    }
+
+    const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} manipulateQuestion={alterQuestion} number={0} />]);
+
+    const [formData, setFormData] = useState({
+        title: "", 
+        instructions: "",
+        questions: []
+    })  
+
+     // Form functions
+     const onInputHandleChange = (event) => {
+        const {name, value} = event.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        })                    
+
+        console.log(formData)
+    }  
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
 
+    
+
     const addQuizComponent = () => {
-        const newKey = quizComponents.length;
-        const newComponent = <QuizCreation key={newKey} />;
+        const newKey = quizComponents.length;   
+        // const newQuestion = {   
+        //     question: '',
+        //     answers: [],
+        //     choices: [],
+        //     tags: []
+        // }
+
+        // setFormData({
+        //     ...formData,
+        //     questions: [...formData['questions'], newQuestion]
+        // })
+
+        const newComponent = <QuizCreation key={newKey} manipulateQuestion={alterQuestion} number={newKey}/>;
         setQuizComponents([...quizComponents, newComponent]);
       };
 
@@ -39,13 +82,13 @@ const CreateMultipleChoice = () => {
                             <div className='cmc-top'>
                                 <div className='cmc-input'>
                                     <h1>Quiz Title:</h1>
-                                    <input type='text' placeholder='Enter Quiz Title...' />
+                                    <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} />
                                 </div>
                             </div>
                             <div className='cmc-bottom'>
                                 <div className='cmc-input'>
                                         <h1>Quiz Instructions:</h1>
-                                        <textarea type='text' placeholder='Enter Instructions...' />
+                                        <textarea type='text' placeholder='Enter Instructions...' name="instruction" onChange={(e) => onInputHandleChange(e)}  />
                                 </div>
                             </div>
                             <div className='cmc-tabs'>
@@ -78,7 +121,7 @@ const CreateMultipleChoice = () => {
                             <div key={index}>{component}</div>
                             ))}
 
-                        <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Quiz</button>
+                        <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Question</button>
                     </div>
                         
                         
