@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./QuizCreation.scss"
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 
-const QuizCreation = () => {
-
+const QuizCreation = ({ manipulateQuestion, number }) => {
+    // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
 
     const [answerInput, setAnswerInput] = useState(['']);
-    const [choiceInput, setChoiceInput] = useState(['', '', '']);
+    // const [choiceInput, setChoiceInput] = useState(['', '', '']);
 
     const [points, setPoints] = useState(0);
 
+    const [questionData, setQuestionData] = useState({
+        question: '',
+        choiceInput: ['', '', '']
+
+    })
 
     const handleConfirm = () => {
         if (quizTagName.trim() !== '') {
@@ -35,7 +40,6 @@ const QuizCreation = () => {
     
 
     //For Answer
-
     const addInput = () => {
         const newInputs = [...answerInput, '']; 
         setAnswerInput(newInputs);
@@ -58,32 +62,79 @@ const QuizCreation = () => {
     };
 
     // For Choices
-
     const addChoiceInput = () => {
-        const newInputs = [...choiceInput, '']; 
-        setChoiceInput(newInputs);
+        const newInputs = [...questionData['choiceInput'], ''];    
+    
+        const newQuestionData = {
+            ...questionData,
+            choiceInput: newInputs
+        }
+
+        setQuestionData({
+            ...questionData,
+            choiceInput: newInputs
+        }) 
+        
+        manipulateQuestion(
+            newQuestionData,
+            number
+        )
     };
 
     const removeChoiceInput = (index) => {
-        if (choiceInput.length === 2) {
+        if (questionData['choiceInput'].length === 2) {
             return;
           }
-        const newInputs = [...choiceInput]; 
+        const newInputs = [...questionData['choiceInput']]; 
         newInputs.splice(index, 1);
-        setChoiceInput(newInputs);
+        setQuestionData({
+            ...questionData,
+            choiceInput: newInputs
+        });
     };
     
       
     const handleChoiceInputChange = (index, event) => {
-        const newInputs = [...choiceInput];
+        const newInputs = [...questionData['choiceInput']];
         newInputs[index] = event.target.value;
-        setChoiceInput(newInputs);
+
+        const newQuestionData = {
+            ...questionData,
+            choiceInput: newInputs
+        }
+
+        manipulateQuestion(
+            newQuestionData,
+            number
+        )
+
+        setQuestionData(newQuestionData);
     };
 
     const handlePointsChange = (e) => {
-        const value = Math.max(parseInt(e.target.value), 0);
+        const value = Math.max(parseInt(e.target.value), 0);        
         setPoints(value);
     };
+
+    // Form functions
+    const handleQuestionChange = (event) => {
+        const {value} = event.target;
+        const newQuestionData = {
+            ...questionData,
+            question: value
+        }
+
+        manipulateQuestion(
+            newQuestionData, 
+            number
+        )
+        
+        setQuestionData(newQuestionData);
+    }  
+
+    useEffect(() => {
+        console.log('okay')
+    }, [manipulateQuestion, number])
 
 
   return (
@@ -98,7 +149,7 @@ const QuizCreation = () => {
                 </div>
             </div>
             
-            <input type='text' placeholder='Enter Question' />
+            <input type='text' placeholder='Enter Question' onChange={handleQuestionChange} value={questionData.question} />
         </div>
         <div className='qc-inputs'>
             <h1>Correct Answer/s:</h1>
@@ -122,7 +173,7 @@ const QuizCreation = () => {
         <div className='qc-inputs'>
             <h1>Choice/s:</h1>
             <div className='qc-dynamic-inputs'>
-                {choiceInput.map((inputs, index) => (
+                {questionData['choiceInput'].map((inputs, index) => (
                     <div className='qc-input-settings'>
                         <input
                         key={index}
