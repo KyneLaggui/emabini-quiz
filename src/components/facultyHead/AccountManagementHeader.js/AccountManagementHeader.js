@@ -5,6 +5,7 @@ import { FaX } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../../../supabase/config';
+import { toast } from 'react-toastify';
 
 
 
@@ -87,10 +88,10 @@ const AccountManagementHeader = () => {
                 }
             )
             if (error) throw error;
-            alert("Check the email(s) for the email verification.")
+            toast.success("Check the email(s) for the email verification.")
 
         } catch(error) {
-            alert(error);
+            toast.error(error);
         }
       }
 

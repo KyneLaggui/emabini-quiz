@@ -6,15 +6,13 @@ import { faUserPen, faUserXmark, faCircleXmark } from '@fortawesome/free-solid-s
 import Modal from 'react-modal';
 import { FaX } from "react-icons/fa";
 import { supabase } from '../../../supabase/config';
+import { toast } from 'react-toastify';
 
 
-const AccountManagementTable = () => {
+const AccountManagementTable = ({ users, changeData }) => {
+  console.log(changeData)
   // A variable that is somehow used on the react modal
   let subtitle;
-
-  const [users, setUsers] = useState([])
-
-  const { profiles } = FetchAllUserProfile()
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -82,31 +80,33 @@ const AccountManagementTable = () => {
       e.preventDefault();
 
       const updateProfile = async() => {
-        const newEmail = formData.email.toLowerCase()
+        try {
+          const newEmail = formData.email.toLowerCase()
 
-        const { data, error } = await supabase
-        .from('profiles')
-        .update({
-          email: newEmail,
-          first_name: formData.firstName,
-          middle_name: formData.middleName,
-          last_name: formData.lastName,
-          role: formData.role,
-        })    
-        .eq('email', newEmail)
-        .select()
+          const { data, error } = await supabase
+          .from('profiles')
+          .update({
+            email: newEmail,
+            first_name: formData.firstName,
+            middle_name: formData.middleName,
+            last_name: formData.lastName,
+            role: formData.role,
+          })    
+          .eq('email', newEmail)
+          .select()
+  
+          if (error) throw error;
+          toast.success("Profile details updated successfully!")
+          changeData();
 
-        console.log(data)
+        } catch(error) {
+          toast.error(error.message)
+        }
+        
       }
 
       updateProfile()
     }
-
-    useEffect(() => {
-      if (profiles) {
-        setUsers(profiles)
-      }
-    }, [profiles])
 
   return (
     <div className="account-management-table">

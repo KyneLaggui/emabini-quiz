@@ -57,6 +57,7 @@ const FacultyCourse = () => {
         e.key === 'Enter' && e.preventDefault()
     }
 
+    // Form submission when creating a new course
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -82,7 +83,7 @@ const FacultyCourse = () => {
                         .eq('email', student.toLowerCase())
                         
                         if (count < 1) {
-                            throw new EmailError("One of the email(s) is not registered!", "email");
+                            throw new EmailError(`${student.toLowerCase()} is not a registered email!`, "email");
                         }
   
                         return {
@@ -107,8 +108,9 @@ const FacultyCourse = () => {
 
             if (error) throw error;
             toast.success("Course successfully added!");
+            setDataChange(!dataChange)
         } catch(error) {
-            alert(error.message)
+            toast.error(error.message)
         }
         
     }
@@ -121,10 +123,6 @@ const FacultyCourse = () => {
     function closeModal() {
         setIsOpen(false);
       }
-    //   function afterOpenModal() {
-    
-    //     subtitle.style.color = '#f00';
-    //   }
 
     const customStyles = {
         content: {
@@ -147,10 +145,11 @@ const FacultyCourse = () => {
 
     const id = useSelector(selectUserID)
     const email = useSelector(selectEmail);
+    const [dataChange, setDataChange] = useState(false)
     
     const navigate = useNavigate();
 
-    const {coursesData} = FetchCoursesFaculty(id)
+    const {coursesData} = FetchCoursesFaculty(id, dataChange)
 
     const handleClick = (id) => {
         console.log('okay')

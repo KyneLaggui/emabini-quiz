@@ -67,6 +67,10 @@
     overflow: auto;
     max-height: 500px;
 
+    & > div {
+        width: 100%;
+    }
+
     .ea-wrapper-modal {
         display: flex;
         justify-content: space-between;
@@ -101,6 +105,10 @@
                 border-radius: 4px;
                 font-weight: 400;
             }
+
+            h3.time {
+                background-color: var(--yellow);
+            }
              
             p {
                 font-size: 1rem;
@@ -122,6 +130,11 @@
                 justify-content: center;
                 flex-direction: column;
                 gap: 0.2rem;
+
+                & > div {
+                    display: flex;
+                    gap: 10px;
+                }
             }
         }
 

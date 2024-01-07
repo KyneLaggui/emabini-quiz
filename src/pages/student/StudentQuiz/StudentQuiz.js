@@ -68,6 +68,7 @@ const StudentQuiz = () => {
     quizCards[i]['number'] = i + 1;
    }
 
+   console.log(indexOfFirstProduct, indexOfLastProduct)
    const currentQuestion = quizCards.slice(indexOfFirstProduct, indexOfLastProduct)
 
   return (

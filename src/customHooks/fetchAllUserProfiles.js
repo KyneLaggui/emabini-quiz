@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../supabase/config';
 
-const FetchAllUserProfile = () => {
+const FetchAllUserProfile = (dataChange) => {
     const [profiles, setProfiles] = useState(null);
     const [isLoadingProfile, setIsLoadingProfile] = useState(false);  
 
@@ -16,7 +16,7 @@ const FetchAllUserProfile = () => {
         }
 
         getProfile();
-    }, [])
+    }, [dataChange])
 
 
     return {profiles, isLoadingProfile}

@@ -92,7 +92,7 @@ const EachFacultyCourse = () => {
       
       changeCourseDetails();
     }
-
+    console.log(courseData)
     return (
         <>
             <Sidebar></Sidebar>
@@ -154,7 +154,9 @@ const EachFacultyCourse = () => {
                           <div className='courses-weeks'>
                               <QuizzesFacultyOverview /> 
                           </div>
-                          <FacultyStudentsList dynamicHeight={fslContainerHeight} students={enrolledStudents} />
+                          {
+                            courseInfo && <FacultyStudentsList dynamicHeight={fslContainerHeight} students={enrolledStudents} {...courseData} />
+                          }
                       </div>                    
                   </div>
 
