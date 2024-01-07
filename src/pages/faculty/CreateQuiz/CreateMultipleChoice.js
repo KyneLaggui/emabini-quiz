@@ -6,6 +6,7 @@ import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
 import { FaArrowLeft } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -28,10 +29,10 @@ const CreateMultipleChoice = () => {
         <PageLayout>
             <FacultyOnly>
                 <div className='cmc-main-container'>
-                    <div className='back-courses'>
-                        <FaArrowLeft name='back-arrow'/>
-                        <p>Back to Courses</p>
-                    </div>
+                    <Link to="/faculty-quizzes" className='back-courses'>
+                        <FaArrowLeft name='back-arrow'/>                        
+                        <p>Back to Quizzes</p>
+                    </Link>
                     <div className='cmc-container'>
                         
                         <div className='cmc-wrapper'>
@@ -45,10 +46,6 @@ const CreateMultipleChoice = () => {
                                 <div className='cmc-input'>
                                         <h1>Quiz Instructions:</h1>
                                         <textarea type='text' placeholder='Enter Instructions...' />
-                                </div>
-                                <div className='cmc-input'>
-                                    <h1>Quiz Points:</h1>
-                                    <input type='text' placeholder='Enter Points...' />
                                 </div>
                             </div>
                             <div className='cmc-tabs'>

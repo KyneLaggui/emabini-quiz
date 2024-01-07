@@ -12,6 +12,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .courses-editor {
@@ -64,9 +65,9 @@
 
 .courses-information {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     gap: 2rem;
-    
+    flex-wrap: wrap;
 }
 

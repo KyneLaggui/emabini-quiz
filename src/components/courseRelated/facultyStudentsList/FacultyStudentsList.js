@@ -3,13 +3,26 @@ import "./FacultyStudentsList.scss"
 import { IoRemoveCircle } from 'react-icons/io5';
 import Modal from 'react-modal';
 import RecipientBox from '../recipientBox/RecipientBox';
+import { supabase } from '../../../supabase/config';
+import { toast } from 'react-toastify';
+
+class EmailError extends Error {
+    constructor(message, field) {
+      super(message);
+      this.field = field;
+      this.name = "EmailError";
+    }
+}
 
 Modal.setAppElement('#root');
-const FacultyStudentsList = ({ dynamicHeight, students }) => {
+const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [enrollView, setEnrollView] = useState(true);
 
     const [limitStudentNames, setLimitStudentNames] = useState([])
+
+    // For the student enrollment list
+    const [formData, setFormData] = useState([]);
 
     const customStyles = {
         content: {
@@ -27,15 +40,11 @@ const FacultyStudentsList = ({ dynamicHeight, students }) => {
         },
         
       };
-
+    
+      // Modal functions
     function openModal() {
         setIsOpen(true);
       }
-    
-    //   function afterOpenModal() {
-    
-    //     subtitle.style.color = '#f00';
-    //   }
     
       function closeModal() {
         setIsOpen(false);
@@ -44,6 +53,57 @@ const FacultyStudentsList = ({ dynamicHeight, students }) => {
       const toggleView = () => {
         setEnrollView(!enrollView); // Switch between enroll and existing views
     };
+
+    const modifyStudentRecipients = (newArr) => {
+        setFormData(newArr)
+    }
+
+    // Form submission when enrolling new students in a certain course
+    const handleSubmit = async(event) => {
+        event.preventDefault();
+        try {
+            const enrollees = await Promise.all((formData
+                ).map(async(student) => {    
+                // Another try catch block since thrown errors inside map function are not caught 
+                // by the parent try catch block   
+                try {
+                    const { count, error } = await supabase
+                    .from('profiles')
+                    .select('email', { count: 'exact', head: true })
+                    .eq('email', student.toLowerCase())
+                    
+    
+                    if (count < 1) {
+                        throw new EmailError(`${student.toLowerCase()} is not a registered email!`, "email");
+                    }
+    
+                    return {
+                        email: student.toLowerCase(),
+                        course_code: code
+                    }
+    
+                } catch(error) {
+                    toast.error(error.message)
+                }                                
+            }))
+    
+            // In case the faculty did not decide to initially add students while creating the course
+            if (!enrollees) return;
+
+            const { data, error } =  await supabase                
+            .from('course_enrollee')
+            .insert(enrollees)
+            
+            if (error) throw error;   
+            toast.success("Students enrolled successfully!");
+
+        } catch(error) {
+            if (error.message === "duplicate key value violates unique constraint \"course_enrollee_pkey\"") {
+                toast.error("One of the student(s) is already enrolled!")
+            }
+        }
+        
+    }
 
     useEffect(() => {
         if (students) {
@@ -80,8 +140,8 @@ const FacultyStudentsList = ({ dynamicHeight, students }) => {
             <div className='modal-main-cont'>
                 <div className='modal-top'>
                     <div className='modal-top-left'>
-                        <h1>Operating Systems</h1>
-                        <p>CMPE 30113</p>
+                        <h1>{name}</h1>
+                        <p>{code}</p>
                     </div>
                     <div className="modal-toggle">
                         <button
@@ -119,15 +179,15 @@ const FacultyStudentsList = ({ dynamicHeight, students }) => {
                     : 
                         <>
                              <h1 className='sl-title'>Students</h1>
-                             <div className='sl-enroll-container'>
-                                <RecipientBox />
+                             <form className='sl-enroll-container' onSubmit={handleSubmit}>
+                                <RecipientBox  modifyStudentRecipients={modifyStudentRecipients}/>
                                 <button className='sl-csv'>Import CSV</button>
 
                                 <div className='sl-confirmation'>
                                     <button className='sl-cancel' onClick={closeModal}>Cancel</button>
                                     <button className='sl-save' >Confirm</button>
                                 </div>
-                             </div>
+                             </form>
                              
                             
                         </>

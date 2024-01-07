@@ -6,6 +6,7 @@ import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import SearchBar from '../../../components/filters/SearchBar'
 import Sort from '../../../components/filters/Sort/Sort'
 import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard'
+import { Link } from 'react-router-dom'
 
 const FacultyQuiz = () => {
     const [activeTab, setActiveTab] = useState('my-examination');
@@ -59,7 +60,9 @@ const FacultyQuiz = () => {
             <FacultyOnly>
                 <div className='quizzes-filters-container'>
                     <div className='quizzes-filters-left'>
-                        <button>Create Quizzes</button>
+                        <Link to="/create-multiple-choice-quiz">
+                            <button>Create Quizzes</button>
+                        </Link>
                     </div>
                     <div className='quizzes-filters-right'>
                         <SearchBar></SearchBar>

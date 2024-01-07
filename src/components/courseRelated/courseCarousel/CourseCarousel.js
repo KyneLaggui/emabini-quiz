@@ -9,8 +9,8 @@ const CourseCarousel = ({ children }) => {
     const settings = {
         dots: true,
         speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToShow: 3,
+        slidesToScroll: 3,
         className: "center",
         centerMode: false,
         centerPadding: "10px",

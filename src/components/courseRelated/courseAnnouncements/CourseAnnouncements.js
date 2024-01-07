@@ -9,6 +9,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { IoCalendarOutline } from 'react-icons/io5';
 import { AiOutlineSync } from 'react-icons/ai';
 import { Link } from "react-router-dom";
+import FetchCourseAnnouncement from "../../../customHooks/fetchCourseAnnouncements";
+import { toast } from "react-toastify";
 
 Modal.setAppElement('#root');
 
@@ -21,41 +23,17 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
         content: ''
     })
 
+
     const [scheduleDate, setScheduleDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
-  
+    
+    const [dataChange, setDataChange] = useState(false);
+    const {announcementsData} = FetchCourseAnnouncement(code, dataChange)
+
     const changeDateHandler = (e) => {
         e.preventDefault();
         setShowDatePicker(!showDatePicker);
     }
-
-    // const announcements = [
-    //     {
-    //         announcementTitle : 'CPU Scheduling Examination',
-    //         announcementDate : 'November 16, 2023',
-    //         announcementContent: 'Get ready for the examination of the CPU Scheduling Examination',
-    //     },
-    //     {
-    //         announcementTitle : 'CPU Scheduling Examination',
-    //         announcementDate : 'November 16, 2023',
-    //         announcementContent: 'Get ready for the examination of the CPU Scheduling Examination',
-    //     },
-    //     {
-    //         announcementTitle : 'Midterm Examination',
-    //         announcementDate : 'November 23, 2023',
-    //         announcementContent: 'Only use pantindahan calculator',
-    //     },
-    //     {
-    //         announcementTitle : 'Midterm Examination',
-    //         announcementDate : 'November 23, 2023',
-    //         announcementContent: 'Only use pantindahan calculator',
-    //     },
-    //     {
-    //         announcementTitle : 'Midterm Examination',
-    //         announcementDate : 'November 23, 2023',
-    //         announcementContent: 'Get ready for the examination of the CPU Scheduling ExaminationGet ready for the examination of the CPU Scheduling ExaminationGet ready for the examination of the CPU Scheduling ExaminationGet ready for the examination of the CPU Scheduling Examination',
-    //     },            
-    // ]
 
     const courses = [
         { id: 1, name: courseCode },   
@@ -130,35 +108,36 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        try {
+            const formattedDate = formatDate(scheduleDate);
+            const date = formattedDate[0];
+    
+            const insertAnnouncement = async() => {
+                const { error } = await supabase
+                .from('course_announcement')
+                .insert({
+                    title: formData.title,
+                    course_code: formData.course,
+                    content: formData.content,
+                    timestampz: ((scheduleDate).toISOString()).toLocaleString('zh-TW')
+                })
+                
+                if (error) throw error;
+                toast.success('Announcement created successfully!')
+                setDataChange(!dataChange)
+            }
+    
+            insertAnnouncement();   
 
-        const formattedDate = formatDate(scheduleDate);
-        const date = formattedDate[0];
-        const time = formattedDate[1].slice(1);
-
-        console.log(time)
-        const insertAnnouncement = async() => {
-            const { error } = await supabase
-            .from('course_announcement')
-            .insert({
-                title: formData.title,
-                course_code: formData.course,
-                content: formData.content,
-                date,
-                timestampz: ((scheduleDate).toISOString()).toLocaleString('zh-TW')
-            })
+        } catch(error) {
+            toast.error(error)
         }
-
-
-        insertAnnouncement();        
- 
+              
     }
 
-    // useEffect(() => {
-        
-    //     setCourse([
-
-    //     ])
-    // }, []) 
+    useEffect(() => {
+        setAnnouncements(announcementsData);
+    }, [announcementsData]) 
 
 
   return (
@@ -172,8 +151,8 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                 announcements.map((announce, i) => {
                     return (
                         <div className='each-announcements-container' key={i}>
-                            <h3>{announce.announcementTitle}</h3>
-                            <p>{announce.announcementDate}</p>
+                            <h3>{announce.title}</h3>
+                            <p>{new Date(announce.timestampz).toLocaleDateString()}</p>
                         </div>
                     )
                 })
@@ -228,15 +207,18 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                                                         <div className="ea-cm-left" key={i}>
                                                             <div className="ea-settings-wrapper">
                                                                 <div className="eas-title">
-                                                                    <h1>{announce.announcementTitle}</h1>
-                                                                    <h3>{announce.announcementDate}</h3>
+                                                                    <h1>{announce.title}</h1>
+                                                                    <div>
+                                                                        <h3>{new Date(announce.timestampz).toLocaleDateString()}</h3>
+                                                                        <h3 className="time">{new Date(announce.timestampz).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}</h3>
+                                                                    </div>
                                                                 </div>
                                                                 <CiCircleMore 
                                                                     size={18}
                                                                     color="var(--blue)" /> 
                                                             </div>
                                                             
-                                                            <p>{announce.announcementContent}</p>
+                                                            <p>{announce.content}</p>
     
                                                             </div>
                                                     
