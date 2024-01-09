@@ -58,6 +58,7 @@
     justify-content: center;
     flex-direction: column;
     padding-inline: 0.5rem;
+	width: 100%;
    
     
 
@@ -111,3 +112,239 @@
 
 
   }
+
+.checkbox-group {
+	display: flex;
+	border: none;
+	flex-wrap: wrap;
+	justify-content: center;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 600px;
+	padding-bottom: 1rem;
+	user-select: none;
+	& > * {
+		margin: .5rem 0.5rem;
+	}
+}
+
+.checkbox-group-legend {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #9c9c9c;
+	text-align: center;
+	line-height: 1.125;
+	margin-bottom: 1.25rem;
+}
+
+.checkbox-input {
+	// Code to hide the input
+	clip: rect(0 0 0 0);
+	clip-path: inset(100%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+
+	&:checked + .checkbox-tile {
+		border-color: var(--red);
+		box-shadow: 0 5px 10px rgba(#000, 0.1);
+		color: var(--red);
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+			background-color: var(--red);
+			border-color: var(--red);
+		}
+		
+		.checkbox-icon, .checkbox-label {
+			color: var(--red);
+		}
+	}
+	
+	&:focus + .checkbox-tile {
+		border-color: var(--red);
+		box-shadow: 0 5px 10px rgba(#000, 0.1), 0 0 0 4px #b5c9fc;
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+}
+
+.checkbox-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	padding: 0.5rem ;
+	justify-content: space-evenly;
+	width: 7rem;
+	min-height: 7rem;
+	border-radius: 0.5rem;
+	border: 2px solid #b5bfd9;
+	background-color: #fff;
+	box-shadow: 0 5px 10px rgba(#000, 0.1);
+	transition: 0.15s ease;
+	cursor: pointer;
+	position: relative;
+
+	&:before {
+		content: "";
+		position: absolute;
+		display: block;
+		width: 1.25rem;
+		height: 1.25rem;
+		border: 2px solid #b5bfd9;
+		background-color: #fff;
+		border-radius: 50%;
+		top: 0.25rem;
+		left: 0.25rem;
+		opacity: 0;
+		transform: scale(0);
+		transition: 0.25s ease;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
+		background-size: 12px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+	}
+
+	&:hover {
+		border-color: var(--red);
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+}
+
+.checkbox-icon {
+	transition: .375s ease;
+	color: #494949;
+	svg {
+		width: 3rem;
+		height: 3rem;
+	}
+}
+
+.checkbox-label {
+	color: #707070;
+	transition: .375s ease;
+	text-align: center;
+}
+
+.course-information {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	padding-block: 1rem;
+	width: 100%;
+	gap: 1rem;
+}
+
+.button-copy {
+	position: relative;
+	width: 170px;
+	height: 40px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	border: 1px solid #b5bfd9;
+	background-color: var(--gray);
+	overflow: hidden;
+}
+
+.button-copy, .button-text, .copy-icon{
+	transition: all 0.5s;
+}
+
+.button-copy, .button-text {
+	transform: translateX(22px);
+	color: var(--blue);
+	font-size: 1rem;
+}
+  
+.button-copy .copy-icon {
+	position: absolute;
+	transform: translateX(130px);
+	height: 100%;
+	width: 39px;
+	background-color: var(--red);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--asideWhite);
+}
+
+.button-copy:hover {
+	background: var(--red);
+  }
+  
+.button-copy:hover .button-text {
+	color: transparent;
+}
+
+.button-copy:hover .copy-icon {
+	width: 168px;
+	transform: translateX(0);
+	
+}
+
+.button-copy:active .copy-icon {
+	background-color: #146c54;
+	
+}
+
+.button-copy:active {
+	border: 1px solid #146c54;
+}
+
+.st-container {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1rem;
+
+	.st-title {
+		font-size: 1.5rem;
+		color: #9c9c9c;
+	}
+
+	.st-self-enroll {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		gap: 0.5rem;
+
+		h1 {
+			font-size: 1.2rem;
+		}
+	}
+	.st-add-manually {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		flex-direction: column;
+		width: 100%;
+
+		h1 {
+			font-size: 1.2rem;
+			margin-bottom: 1rem;
+		}
+	}
+
+	
+}
+
+.go433304200:before ,.go3842760039:before {
+	background-color: var(--red) !important;
+}
+
+.go2150698616:hover {
+    color: var(--red) !important;
+}
