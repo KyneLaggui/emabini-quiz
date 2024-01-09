@@ -18,6 +18,7 @@ import MultiStep from 'react-multistep'
 import { PiBooksFill, PiMathOperationsBold, PiPaintBrushFill } from "react-icons/pi";
 import { MdScience, MdSportsFootball } from 'react-icons/md'
 import { TiGroup } from "react-icons/ti";
+import { IoMdCopy } from 'react-icons/io'
 
 class EmailError extends Error {
     constructor(message, field) {
@@ -78,7 +79,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <PiMathOperationsBold />
+                        <PiMathOperationsBold size={30}/>
                         <span className="checkbox-label">Math</span>
                     </span>
                     </label>
@@ -93,7 +94,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <MdScience />
+                        <MdScience size={30} />
                         <span className="checkbox-label">Science</span>
                     </span>
                     </label>
@@ -108,7 +109,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <PiBooksFill />
+                        <PiBooksFill size={30}/>
                         <span className="checkbox-label">Language</span>
                     </span>
                     </label>
@@ -123,7 +124,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <TiGroup />
+                        <TiGroup size={30} />
                         <span className="checkbox-label">Social Studies</span>
                     </span>
                     </label>
@@ -138,7 +139,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <MdSportsFootball />
+                        <MdSportsFootball size={30}/>
                         <span className="checkbox-label">Sports</span>
                     </span>
                     </label>
@@ -153,7 +154,7 @@ const FacultyCourse = () => {
                         onChange={handleCheckboxChange}
                     />
                     <span className="checkbox-tile">
-                        <PiPaintBrushFill />
+                        <PiPaintBrushFill size={30}/>
                         <span className="checkbox-label">Arts</span>
                     </span>
                     </label>
@@ -170,26 +171,21 @@ const FacultyCourse = () => {
         return (
             <>
                 <div className='st-container'>
-                    <h1>Invite Students</h1>
+                    <h1 className='st-title'>Invite Students</h1>
                     <div className='st-self-enroll'>
-                        <h1>Self Enroll through this code</h1>
-                        <p>MATH123</p>
+                        <h1>Invite Code:</h1>
+                        <button className='button-copy'>
+                            <span className='button-text'>
+                                CMPE1234    
+                            </span>
+                            <span className='copy-icon'><IoMdCopy size={20} /></span>
+                            
+                        </button>
                     </div>
                     <div className='st-add-manually'>
-                        <h1>Add Manually</h1>
-                        
+                        <h1>Add Manually:</h1>
+                        <RecipientBox modifyStudentRecipients={modifyStudentRecipients}/>
                     </div>
-                </div>
-            </>
-            
-        );
-    };
-    const StepFour= ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
-        return (
-            <>
-                <div className='modal-each-input'>
-                    <h1>Add Students</h1>
-                    <RecipientBox modifyStudentRecipients={modifyStudentRecipients}/>
                 </div>
             </>
             
@@ -338,7 +334,7 @@ const FacultyCourse = () => {
           borderRadius: '5px',
           width: '100%',
           maxWidth: '600px',
-          minHeight: '400px',
+          minHeight: '500px',
           padding: '40px 40px 20px 40px'
         },
         
@@ -408,30 +404,25 @@ const FacultyCourse = () => {
                     <MultiStep title showNavigation={true} prevButton={prevButton} nextButton={nextButton} 
                     >
                         <StepOne
-                            title = "Information"
+                            title = "Course Information"
                             formData={formData}
                             setFormData={setFormData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
                         />
                         <StepTwo
-                            title = "Genre"
+                            title = "Course Genre"
                             formData={formData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
                         />
                         <StepThree 
-                            title = "Invitation"
-                            formData={formData}
-                            onInputHandleChange={onInputHandleChange}
-                            handleKeyDown={handleKeyDown}
-                        />
-                        <StepFour
                             title = "Add Students"
                             formData={formData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
                         />
+                        
                         
                     </MultiStep>
             
