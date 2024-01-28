@@ -5,9 +5,52 @@
     gap: 1em;
     background-color: var(--gray);
     padding-block: 10px;
-    padding-inline: 30px;
-    width: fit-content;
+    padding-inline: 45px;
     border-radius: 8px;
     font-weight: 500;
     color: var(--blue);
+    position: relative;
+
+    &.open {
+        border: 2px solid var(--redLO);
+        border-radius: 5px; 
+        @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+            background-color: rgba(255, 255, 255, 0.8); 
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+      }
+    }
+
+    .dropdown-content {
+        position: absolute;
+        top: 120%;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        background-color: #f9f9f9;
+        border: 1px solid #d0d0d4;
+        border-radius: 8px;
+        z-index: 1;
+
+        .dropdown-item {
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+      
+            &:hover {
+              background-color: var(--redLO);
+              color: var(--asideWhite);
+            }
+            
+    
+      }
+    }
+    
 }
+
+
+  
