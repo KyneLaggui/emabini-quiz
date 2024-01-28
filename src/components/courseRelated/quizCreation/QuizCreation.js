@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./QuizCreation.scss"
-import { IoRemoveCircleSharp } from "react-icons/io5";
+import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 
 const QuizCreation = ({ manipulateQuestion, number }) => {
@@ -8,20 +8,39 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
 
-    const [answerInput, setAnswerInput] = useState(['']);
+    // const [answerInput, setAnswerInput] = useState(['']);
+
+    const [selectedAnswers, setSelectedAnswers] = useState([]);
     // const [choiceInput, setChoiceInput] = useState(['', '', '']);
 
-    const [points, setPoints] = useState(0);
+    // const [points, setPoints] = useState(0);
 
     const [questionData, setQuestionData] = useState({
         question: '',
-        choiceInput: ['', '', '']
-
+        choiceInput: ['', '', ''],
+        quizTags: [],
+        answerInput: [''],
+        points: 1
     })
 
     const handleConfirm = () => {
         if (quizTagName.trim() !== '') {
-          setConfirmedQuizTags([...confirmedQuizTags, quizTagName]);
+            const newQuizTags = [...confirmedQuizTags, quizTagName];
+
+          setConfirmedQuizTags(newQuizTags);
+
+            const newQuestionData = {
+                ...questionData,
+                quizTags: newQuizTags
+            }
+
+            setQuestionData(newQuestionData)
+
+            manipulateQuestion(
+                newQuestionData,
+                number
+            )
+
           setQuizTagName(''); 
         }
       };
@@ -34,6 +53,21 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
     
       const handleDelete = (index) => {
         const updatedQuizTags = confirmedQuizTags.filter((_, i) => i !== index);
+
+          setConfirmedQuizTags(updatedQuizTags);
+
+            const newQuestionData = {
+                ...questionData,
+                quizTags: updatedQuizTags
+            }
+
+            setQuestionData(newQuestionData)
+
+            manipulateQuestion(
+                newQuestionData,
+                number
+            )
+
         setConfirmedQuizTags(updatedQuizTags);
       };
 
@@ -41,26 +75,36 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
 
     //For Answer
     const addInput = () => {
-        const newInputs = [...answerInput, '']; 
-        setAnswerInput(newInputs);
+        if (questionData['answerInput'].length === questionData['choiceInput'].length) {
+            return;
+        }
+
+        const newInputs = [...questionData['answerInput'], '']; 
+        setQuestionData({
+            ...questionData,
+            answerInput: newInputs
+        });
+
     };
 
-    const removeInput = (index) => {
-        if (answerInput.length === 1) {
+    const removeInput = (index, answerKey) => {
+        if (questionData['answerInput'].length === 1) {
             return;
-          }
-        const newInputs = [...answerInput]; 
+        }
+        const newInputs = [...questionData['answerInput']]; 
+
         newInputs.splice(index, 1);
-        setAnswerInput(newInputs);
+        setQuestionData({
+            ...questionData,
+            answerInput: newInputs
+        });
+        
+        const newSelectedAnswers = selectedAnswers;
+        delete newSelectedAnswers[`answer${answerKey}`]
+        
+        setSelectedAnswers(newSelectedAnswers)        
     };
     
-      
-    const handleInputChange = (index, event) => {
-        const newInputs = [...answerInput];
-        newInputs[index] = event.target.value;
-        setAnswerInput(newInputs);
-    };
-
     // For Choices
     const addChoiceInput = () => {
         const newInputs = [...questionData['choiceInput'], ''];    
@@ -70,10 +114,7 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
             choiceInput: newInputs
         }
 
-        setQuestionData({
-            ...questionData,
-            choiceInput: newInputs
-        }) 
+        setQuestionData(newQuestionData) 
         
         manipulateQuestion(
             newQuestionData,
@@ -96,7 +137,7 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
       
     const handleChoiceInputChange = (index, event) => {
         const newInputs = [...questionData['choiceInput']];
-        newInputs[index] = event.target.value;
+        newInputs[index] = (event.target.value).toString();
 
         const newQuestionData = {
             ...questionData,
@@ -107,13 +148,16 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
             newQuestionData,
             number
         )
-
+        
         setQuestionData(newQuestionData);
     };
 
     const handlePointsChange = (e) => {
         const value = Math.max(parseInt(e.target.value), 0);        
-        setPoints(value);
+        setQuestionData({
+            ...questionData,
+            points: value
+        })
     };
 
     // Form functions
@@ -132,10 +176,34 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
         setQuestionData(newQuestionData);
     }  
 
-    useEffect(() => {
-        console.log('okay')
-    }, [manipulateQuestion, number])
+    const handleAnswerChange = (event, index) => {
+        const {value} = event.target;
 
+        if (Object.values(selectedAnswers).includes(value)) {
+            event.target.selectedIndex = 0;
+            const newSelectedAnswers = selectedAnswers;
+            delete newSelectedAnswers[`answer${index}`]
+            setSelectedAnswers(newSelectedAnswers)
+
+            alert("No duplicate answers")
+        } else {
+            setSelectedAnswers({
+                ...selectedAnswers,
+                [`answer${index}`]: value
+            })
+
+            let newAnswerInput = [...questionData['answerInput']]
+            newAnswerInput[index] = value;
+            setQuestionData({
+                ...questionData,
+                answerInput: newAnswerInput
+            })
+        }
+    }
+
+    // useEffect(() => {
+    //     console.log(selectedAnswers);
+    // }, [manipulateQuestion, number, questionData, selectedAnswers])
 
   return (
     <div className='qc-container'>
@@ -143,9 +211,9 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
             <div className='qc-question-top'>
                 <h2>Question:</h2>
                 <div className='qc-points'>
-                    <h2>Points:</h2>
+                    <h2>Point(s):</h2>
                     <input type='number' className='points'
-                    value={points} onChange={handlePointsChange}/>
+                    value={questionData['points']} onChange={handlePointsChange}/>
                 </div>
             </div>
             
@@ -154,16 +222,23 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
         <div className='qc-inputs'>
             <h1>Correct Answer/s:</h1>
             <div className='qc-dynamic-inputs'>
-                {answerInput.map((inputs, index) => (
-                    <div className='qc-input-settings'>
-                        <input
+                {questionData['answerInput'].map((inputs, index) => (
+                    <div className='qc-input-settings' key={index}>
+                        <select name={`answer${index}`} id=""
                         key={index}
                         type='text'
-                        placeholder='Enter Answer'
+                        placeholder='Enter Answer'    
                         value={inputs}
-                        onChange={(e) => handleInputChange(index, e)}
-                        />
-                        <IoRemoveCircleSharp color='var(--blue)' size={20}  onClick={() => removeInput(index)} />
+                        onChange={(e) => handleAnswerChange(e, index)}         
+                        >
+                            <option value="" disabled selected>Select an answer</option>
+                            {
+                                questionData['choiceInput'].map((choice, index) => {                                   
+                                    return <option value={choice} key={index}>{choice}</option>                                                                          
+                                })
+                            }
+                        </select>
+                        <IoRemoveCircleSharp color='var(--blue)' size={20}  onClick={(e) => removeInput(index, index)} />
                     </div>
                     
                     ))}
@@ -174,7 +249,7 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
             <h1>Choice/s:</h1>
             <div className='qc-dynamic-inputs'>
                 {questionData['choiceInput'].map((inputs, index) => (
-                    <div className='qc-input-settings'>
+                    <div className='qc-input-settings' key={index}>
                         <input
                         key={index}
                         type='text'
@@ -185,7 +260,7 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
                         <IoRemoveCircleSharp color='var(--blue)' size={20}  onClick={() => removeChoiceInput(index)} />
                     </div>
                     
-                    ))}
+                ))}
             </div>
             <button onClick={addChoiceInput}>Add Choice</button>
         </div>
@@ -214,3 +289,5 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
 }
 
 export default QuizCreation
+
+
