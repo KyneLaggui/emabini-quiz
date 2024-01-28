@@ -25,6 +25,10 @@ const CreateMultipleChoice = () => {
         //     questions: newQuestions
         // })        
 
+        // Update question and tag trackers when altering a question
+        updateQuestionTracker();
+        updateTagTracker();
+        console.log(questionData)
         setQuestionData(newQuestions)
     }
 
@@ -33,6 +37,7 @@ const CreateMultipleChoice = () => {
     const [formData, setFormData] = useState({
         title: "", 
         instructions: "",
+        duration: "",
         questions: []
     }) 
     const [questionData, setQuestionData] = useState([]) 
@@ -60,6 +65,10 @@ const CreateMultipleChoice = () => {
 
         const newComponent = <QuizCreation key={newKey} manipulateQuestion={alterQuestion} number={newKey}/>;
         setQuizComponents([...quizComponents, newComponent]);
+
+        // Update question and tag trackers when adding a new quiz component
+        updateQuestionTracker();
+        updateTagTracker();
       };
 
       const handleCreate = async () => {
@@ -110,6 +119,24 @@ const CreateMultipleChoice = () => {
         
       }
 
+    // New state variables for question tracker and examination tag tracker
+    const [questionTracker, setQuestionTracker] = useState([]);
+    const [tagTracker, setTagTracker] = useState([]);
+
+    // Function to update question tracker
+    const updateQuestionTracker = () => {
+        const questionNumbers = questionData.map((question) => question.number + 1);
+        setQuestionTracker(questionNumbers);
+    };
+
+    // Function to update examination tag tracker
+    const updateTagTracker = () => {
+        const tags = questionData.map((question) => question.quizTags);
+        // Assuming quizTags is an array of tags for each question
+        const uniqueTags = Array.from(new Set(tags.flat())); // Flatten and get unique tags
+        setTagTracker(uniqueTags);
+    };
+
 
 
   return (
@@ -130,6 +157,10 @@ const CreateMultipleChoice = () => {
                                     <h1>Quiz Title:</h1>
                                     <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} />
                                 </div>
+                                 <div className='cmc-input duration'>
+                                    <h1>Duration (minutes):</h1>
+                                    <input type='number' placeholder='Enter Duration...' name="duration" onChange={(e) => onInputHandleChange(e)} />
+                                </div>                                
                             </div>
                             <div className='cmc-bottom'>
                                 <div className='cmc-input'>
@@ -160,9 +191,33 @@ const CreateMultipleChoice = () => {
                         
                     </div>
                 
-                {activeTab === 'examination' && (
+                {/* {activeTab === 'examination' && ( */}
+
+                 {/* Question tracker */}
+                <div className='question-tracker-container'>
+                    <h3>Question Tracker</h3>
+                    <div className='question-tracker'>
+                        {questionTracker.map((questionNumber) => (
+                            <div key={questionNumber} className='question-calendar-day'>
+                                {questionNumber}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Examination tag tracker */}
+                <div className='tag-tracker-container'>
+                    <h3>Tag Tracker</h3>
+                    <div className='tag-tracker'>
+                        {tagTracker.map((tag, index) => (
+                            <div key={index} className='tag-input'>
+                                {tag}
+                            </div>
+                        ))}
+                    </div>
+                </div>
             
-                    <div className='cmc-quiz-components'>
+                    <div className={`cmc-quiz-components ${activeTab === 'examination' ? '' : 'invisible'}`}>
                         {quizComponents.map((component, index) => (
                             <div key={index}>{component}</div>
                             ))}
@@ -172,10 +227,16 @@ const CreateMultipleChoice = () => {
                         
                         
                    
-                )}
-                {activeTab === 'shared' && (                    
+                {/* )} */}
+                <div className={`recipient-box-container ${activeTab === 'shared' ? '' : 'invisible'}`}>
                     <RecipientBox/>
-                )}
+                </div>
+                {/* {activeTab === 'shared' && (                    
+
+
+                )} */}
+
+                
                 </div>
             </FacultyOnly>
         </PageLayout>
