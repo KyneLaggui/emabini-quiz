@@ -5,7 +5,8 @@
     flex-direction: column;
     gap: 2rem;
     width: 100%;
-    
+    max-width: 1000px;
+
 }
 
 .back-courses {
@@ -49,6 +50,11 @@
     padding-inline: 0.5rem;
     width: 100%;
     
+    &.duration {
+        input {
+            width: 200px;
+        }
+    }
 
      h1{
         font-size: 1rem;
@@ -101,6 +107,7 @@
         border-radius: 8px;
         font-size: 1rem;
         font-family: 'Inter', sans-serif;
+        width: 150px;
     }
 }
 
@@ -176,3 +183,157 @@
     }
 
 }
+
+.recipient-box-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.invisible {
+    // width: 0;
+    // height: 0;
+    // visibility: hidden;
+    display: none;
+}
+
+
+// ... (existing styles)
+
+.cmc-quiz-components-container {
+  display: flex;
+  justify-content: space-between;
+
+  // Question tracker styles
+  .question-tracker-container {
+    width: 30%;
+    padding: 15px;
+    margin-right: 15px;
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .question-tracker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .question-calendar-day {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #eee;
+        }
+      }
+    }
+  }
+
+  // Tag tracker styles
+  .tag-tracker-container {
+    width: 30%;
+    padding: 15px;
+    border: 1px solid #ddd;
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .tag-tracker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+      .tag-input {
+        padding: 5px 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #eee;
+        }
+      }
+    }
+  }
+
+  // Quiz components styles (existing styles)
+}
+
+.questions-trackers-container {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+  
+    // Question tracker styles
+    .question-tracker-container {
+      padding: 15px;
+
+      h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+  
+      .question-tracker {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr); // 7 columns for a week-like grid
+        gap: 10px;
+  
+        .question-calendar-day {
+          width: 30px;
+          height: 30px;
+          border: 1px solid #ddd;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #eee;
+          }
+        }
+      }
+    }
+  
+    // Tag tracker styles
+    .tag-tracker-container {
+
+      padding: 15px;
+  
+      h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+  
+      .tag-tracker {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+  
+        .tag-input {
+          padding: 5px 10px;
+          background-color: #f0f0f0;
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #eee;
+          }
+        }
+      }
+    }
+  

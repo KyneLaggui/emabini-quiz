@@ -1,0 +1,22 @@
+.quiz-navigation {
+    width: 350px;
+    margin-top: 1rem;
+    background-color: var(--gray);
+    border-radius: 8px;
+
+    .quiz-points {
+        padding: 1rem;
+
+        h3 {
+            font-size: 1rem;
+        }
+
+        h3 > span {
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+    }
+}
