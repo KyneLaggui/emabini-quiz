@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./CreateMultipleChoice.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
@@ -9,6 +9,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
+import QuizNavigation from '../../../components/quizRelated/QuizNavigation/QuizNavigation'
 
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -28,8 +29,8 @@ const CreateMultipleChoice = () => {
         // Update question and tag trackers when altering a question
         updateQuestionTracker();
         updateTagTracker();
-        console.log(questionData)
         setQuestionData(newQuestions)
+        updateTotalPoints();
     }
 
     const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} manipulateQuestion={alterQuestion} number={0} />]);
@@ -38,11 +39,21 @@ const CreateMultipleChoice = () => {
         title: "", 
         instructions: "",
         duration: "",
-        questions: []
+        examinationTags: [],
     }) 
     const [questionData, setQuestionData] = useState([]) 
 
-    
+    // For Quiz navigation
+    const alterFormData = (updatedQuizTags) => {
+        const newFormData = {
+            ...formData,
+            examinationTags: updatedQuizTags
+        }
+
+        setFormData(newFormData)
+
+        console.log(formData)
+    }
 
      // Form functions
      const onInputHandleChange = (event) => {
@@ -51,13 +62,13 @@ const CreateMultipleChoice = () => {
             ...formData,
             [name]: value
         })                    
-        console.log(formData)
     }  
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     };
 
+    
     
 
     const addQuizComponent = () => {
@@ -71,23 +82,20 @@ const CreateMultipleChoice = () => {
         updateTagTracker();
       };
 
-      const handleCreate = async () => {
 
-        let totalScore = 0
-        let questions = []
-
-        for (let i = 0; i < questionData.length; i++) {
-            totalScore += questionData[i]['points']
-
-        }
-
+      // Form submission handler
+      const handleCreate = async (status) => {    
         try {
             const { data } = await supabase
             .from('quiz')
             .insert([{
                 title: formData['title'],
                 instruction: formData['instructions'],
-                overall_score: totalScore
+                overall_score: totalScore,
+                tags: formData['examinationTags'],
+                duration: formData['duration'],
+                status,                
+
             }])
             .select()
             .single()
@@ -95,6 +103,19 @@ const CreateMultipleChoice = () => {
             if (data) {
                 const questions = []
                 for (let i = 0; i < questionData.length; i++) {
+                    // Checking if all questions have a designated answer
+                    questionData[i]['answerInput'].forEach(async (answer) => {
+                        if (answer === '')  {
+                            toast.error("All questions must have an answer")
+                            const { error } = await supabase
+                            .from('quiz')
+                            .delete()
+                            .eq('id', data.id)
+                            return
+                        }
+                    })
+
+                    // Creation of the question rows
                     const newQuestion = {
                         description: questionData[i]['question'],
                         quiz_id: data.id,
@@ -106,12 +127,14 @@ const CreateMultipleChoice = () => {
                     }
 
                     questions.push(newQuestion)        
-                }
+                }    
 
                 const { error } = await supabase.from('question')
                 .insert(questions)
                 .select()
-                console.log(error)
+                if (!error) {
+                    toast.success("Quiz created successfully!");
+                }
             }
         } catch(error) {
             toast.error(error.message)
@@ -138,6 +161,24 @@ const CreateMultipleChoice = () => {
     };
 
 
+    // Update total quiz points
+    const [totalScore, setTotalScore] = useState(1);
+
+    const updateTotalPoints = () => {
+        let score = 0;
+        
+        console.log(questionData)
+        for (let i = 0; i < questionData.length; i++) {
+            score += questionData[i]['points']            
+        }
+
+        setTotalScore(score)
+    }
+
+    // useEffect(() => {
+    //     // updateTotalPoints();
+    
+    // }, [questionData])
 
   return (
     <>
@@ -185,38 +226,20 @@ const CreateMultipleChoice = () => {
 
                         </div>
                         <div className='cmc-creation'>
-                            <button onClick={() => handleCreate()}>Create</button>
-                            <p>Save as draft</p>
+                            <button onClick={() => handleCreate('completed')}>Create</button>
+                            <button onClick={() => handleCreate('draft')}>Save as draft</button>
                         </div>
                         
                     </div>
                 
                 {/* {activeTab === 'examination' && ( */}
-
-                 {/* Question tracker */}
-                <div className='question-tracker-container'>
-                    <h3>Question Tracker</h3>
-                    <div className='question-tracker'>
-                        {questionTracker.map((questionNumber) => (
-                            <div key={questionNumber} className='question-calendar-day'>
-                                {questionNumber}
-                            </div>
-                        ))}
-                    </div>
+                
+                                                                                                               
+                {/* )} */}
+                <div className={`recipient-box-container ${activeTab === 'shared' ? '' : 'invisible'}`}>
+                    <RecipientBox/>
                 </div>
-
-                {/* Examination tag tracker */}
-                <div className='tag-tracker-container'>
-                    <h3>Tag Tracker</h3>
-                    <div className='tag-tracker'>
-                        {tagTracker.map((tag, index) => (
-                            <div key={index} className='tag-input'>
-                                {tag}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            
+                <div className="questions-trackers-container">
                     <div className={`cmc-quiz-components ${activeTab === 'examination' ? '' : 'invisible'}`}>
                         {quizComponents.map((component, index) => (
                             <div key={index}>{component}</div>
@@ -224,13 +247,9 @@ const CreateMultipleChoice = () => {
 
                         <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Question</button>
                     </div>
-                        
-                        
-                   
-                {/* )} */}
-                <div className={`recipient-box-container ${activeTab === 'shared' ? '' : 'invisible'}`}>
-                    <RecipientBox/>
-                </div>
+                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore}/>
+                    
+                 </div>     
                 {/* {activeTab === 'shared' && (                    
 
 

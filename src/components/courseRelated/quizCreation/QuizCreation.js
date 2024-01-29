@@ -153,12 +153,35 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
     };
 
     const handlePointsChange = (e) => {
-        const value = Math.max(parseInt(e.target.value), 0);        
-        setQuestionData({
+        const currentValue = e.target.value
+        const value = Math.max(parseInt(currentValue), 0);        
+        const newQuestionData = {
             ...questionData,
             points: value
-        })
+        }
+        setQuestionData(newQuestionData)
+
+        manipulateQuestion(
+            newQuestionData,
+            number
+        )
     };
+
+    const handlePointBlur = (e) => {
+        console.log('okay')
+        const currentValue = (e.target.value).trim() === '' ? 1 : e.target.value
+        const value = Math.max(parseInt(currentValue), 0);        
+        const newQuestionData = {
+            ...questionData,
+            points: value
+        }
+        setQuestionData(newQuestionData)
+
+        manipulateQuestion(
+            newQuestionData,
+            number
+        )
+    }
 
     // Form functions
     const handleQuestionChange = (event) => {
@@ -187,23 +210,34 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
 
             alert("No duplicate answers")
         } else {
-            setSelectedAnswers({
-                ...selectedAnswers,
-                [`answer${index}`]: value
-            })
+            
 
             let newAnswerInput = [...questionData['answerInput']]
             newAnswerInput[index] = value;
-            setQuestionData({
+            const newQuestionData = {
                 ...questionData,
                 answerInput: newAnswerInput
-            })
+            }
+
+            setQuestionData(newQuestionData)
+
+            const newSelectedAnswers = {
+                ...selectedAnswers,
+                [`answer${index}`]: value                
+            }
+
+            manipulateQuestion(newQuestionData, number)
+            setSelectedAnswers(newSelectedAnswers)
         }
     }
 
     // useEffect(() => {
     //     console.log(selectedAnswers);
     // }, [manipulateQuestion, number, questionData, selectedAnswers])
+
+    useEffect(() => {
+        manipulateQuestion(questionData, number)
+    }, [])
 
   return (
     <div className='qc-container'>
@@ -213,7 +247,7 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
                 <div className='qc-points'>
                     <h2>Point(s):</h2>
                     <input type='number' className='points'
-                    value={questionData['points']} onChange={handlePointsChange}/>
+                    value={questionData['points']} onChange={handlePointsChange} onBlur={handlePointBlur}/>
                 </div>
             </div>
             
