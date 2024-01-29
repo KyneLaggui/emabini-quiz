@@ -1,14 +1,44 @@
-import React from 'react'
-import "./Sort.scss"
-import { IoIosArrowDown } from 'react-icons/io'
+import React, { useState } from 'react';
+import "./Sort.scss";
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 const Sort = () => {
-  return (
-    <div className='sort-container'>
-        <p>Filter</p>
-        <IoIosArrowDown size={18}  />
-    </div>
-  )
-}
+  const [isOpen, setIsOpen] = useState(false);
 
-export default Sort
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleChoiceClick = (choice) => {
+
+    console.log(`Selected: ${choice}`);
+   
+    setIsOpen(false);
+  };
+
+  return (
+    <div className={`sort-container ${isOpen ? 'open' : ''}`} onClick={toggleDropdown}>
+      <p>Filter</p>
+      {isOpen ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
+      
+      {isOpen && (
+        <div className="dropdown-content">
+          <div
+            onClick={() => handleChoiceClick("Ascending")}
+            className="dropdown-item"
+          >
+            Ascending
+          </div>
+          <div
+            onClick={() => handleChoiceClick("Descending")}
+            className="dropdown-item"
+          >
+            Descending
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Sort;
