@@ -34,7 +34,14 @@ const AnswerStatus = () => {
             <div className='answer-status-wrapper' key={index}>
                 <div className='asc-left'>
                     <h1>{student.studentName}</h1>
-                    <p>Started at {student.quizStart} | Finished at {student.quizEnd}</p>
+                    {student.quizState === 'Done' ? (
+                        <p>Started at {student.quizStart} | Finished at {student.quizEnd}</p>
+                    ) : student.quizState === 'On-going' ? (
+                        <p>Started at {student.quizStart} | On going</p>
+                    ) : (
+                        <p>Not Started</p>
+                    )}
+                    
                 </div>
                 <div className='asc-right'>
                     {student.quizState === 'Done' ? (
