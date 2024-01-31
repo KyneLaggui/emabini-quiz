@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import "./CreateMultipleChoice.scss"
+import "./QuizEdit.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
 import { FaArrowLeft } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
 import QuizNavigation from '../../../components/quizRelated/QuizNavigation/QuizNavigation'
 import { selectUserID } from '../../../redux/slice/authSlice'
 import { useSelector } from 'react-redux'
+import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 
-const CreateMultipleChoice = () => {
+const QuizEdit = () => {
     const [activeTab, setActiveTab] = useState('examination');
+    const [quizInformation, setQuizInformation] = useState({
+        'title': ''
+    })
 
     const id = useSelector(selectUserID)
+
+    const { quizId } = useParams();
+
+    const { fetchedQuizInfo } = FetchQuizInformation(quizId);
 
     const alterQuestion = (question, index) => {
         const newQuestions = questionData
@@ -24,11 +32,6 @@ const CreateMultipleChoice = () => {
             ...question,
             number: index
         }
-
-        // setFormData({
-        //     ...formData,
-        //     questions: newQuestions
-        // })        
 
         // Update question and tag trackers when altering a question
         updateQuestionTracker();
@@ -203,7 +206,6 @@ const CreateMultipleChoice = () => {
     const updateTotalPoints = () => {
         let score = 0;
         
-        console.log(questionData)
         for (let i = 0; i < questionData.length; i++) {
             score += questionData[i]['points']            
         }
@@ -226,6 +228,14 @@ const CreateMultipleChoice = () => {
         })    
     }, [id])
 
+    useEffect(() => {
+        setQuizInformation(fetchedQuizInfo)       
+        // if (fetchedQuizInfo) {
+        //     setFormData
+        // }
+
+    }, [fetchedQuizInfo])
+
   return (
     <>
         <Sidebar/>
@@ -242,7 +252,7 @@ const CreateMultipleChoice = () => {
                             <div className='cmc-top'>
                                 <div className='cmc-input'>
                                     <h1>Quiz Title:</h1>
-                                    <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} />
+                                    <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} value={quizInformation['title']} />
                                 </div>
                                  <div className='cmc-input duration'>
                                     <h1>Duration (minutes):</h1>
@@ -307,4 +317,4 @@ const CreateMultipleChoice = () => {
   )
 }
 
-export default CreateMultipleChoice
+export default QuizEdit

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./FacultyQuiz.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
@@ -8,6 +8,9 @@ import Sort from '../../../components/filters/Sort/Sort'
 import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal';
+import FetchQuizzesFaculty from '../../../customHooks/fetchQuizzesFaculty'
+import { useSelector } from 'react-redux'
+import { selectUserID } from '../../../redux/slice/authSlice'
 
 
 Modal.setAppElement('#root');
@@ -18,42 +21,24 @@ const FacultyQuiz = () => {
         setActiveTab(tabName);
     };
 
-    const quizzes = [
-        {
-            quizName: 'CPU Scheduling Examination',
-            quizUsers: '2 groups',
-            quizState: 'Draft',
-            quizTags: ['differential equation', 'biology', 'non homo']
-        }, 
-        {
-            quizName: 'WSL Examination',
-            quizUsers: 'Not currently shared',
-            quizState: 'Draft',
-            quizTags: ['cell', 'mitochondria', 'non homo']
-        }, 
-        {
-            quizName: 'Homogeneous Examination',
-            quizUsers: '24 People',
-            quizState: 'Published',
-            quizTags: ['math', 'science', 'non homo', 'non homo','differential equation','differential equation','differential equation','differential equation','differential equation',]
-        }, 
-        {
-            quizName: 'Homogeneous Examination',
-            quizUsers: '24 People',
-            quizState: 'Published',
-            quizTags: ['math', 'science', 'non homo']
-        }, 
-        {
-            quizName: 'Homogeneous Examination',
-            quizUsers: '24 People',
-            quizState: 'Published',
-            quizTags: ['differential equation', 'biology', 'non homo']
-        }, 
+    // const quizzes = [
+    //     {
+    //         quizName: 'CPU Scheduling Examination',
+    //         quizUsers: '2 groups',
+    //         quizState: 'Draft',
+    //         quizTags: ['differential equation', 'biology', 'non homo']
+    //     }, 
         
-    ]
+    // ]
+
+    const [quizzes, setQuizzes] = useState([]);
+
+    const id = useSelector(selectUserID)
+
+    const {quizzesData} = FetchQuizzesFaculty(id)
 
     const filteredQuizzes = activeTab === 'explore'
-        ? quizzes.filter(quiz => quiz.quizState === 'Published')
+        ? quizzes.filter(quiz => quiz.status === 'published')
         : quizzes;
     
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -84,6 +69,10 @@ const FacultyQuiz = () => {
         setIsOpen(false);
     }
   
+    useEffect(() => {
+        setQuizzes(quizzesData);
+        console.log(quizzesData)
+    }, [quizzesData])
 
   return (
     <>
@@ -161,9 +150,13 @@ const FacultyQuiz = () => {
                             </div>
                         </Link>
                         
-                        <div className='fq-vq-container'>
-                            <h1 className='yellow'>Video Quizzing</h1>
-                        </div>
+                        <Link to="/create-video-quiz">
+                            <div className='fq-vq-container'>
+                                <h1 className='yellow'>Video Quizzing</h1>
+                            </div>
+                        </Link>
+                        
+
                     </div>
                     
 

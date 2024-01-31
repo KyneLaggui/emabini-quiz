@@ -92,7 +92,7 @@ const EachFacultyCourse = () => {
       
       changeCourseDetails();
     }
-    console.log(courseData)
+ 
     return (
         <>
             <Sidebar></Sidebar>

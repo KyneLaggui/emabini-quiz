@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./CreateMultipleChoice.scss"
+import "./CreateVideoQuiz.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
@@ -9,14 +9,11 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
-import QuizNavigation from '../../../components/quizRelated/QuizNavigation/QuizNavigation'
-import { selectUserID } from '../../../redux/slice/authSlice'
-import { useSelector } from 'react-redux'
+import VideoQuizNavigation from '../../../components/quizRelated/VideoQuizNavigation/VideoQuizNavigation'
+import { FaPlus } from 'react-icons/fa';
 
-const CreateMultipleChoice = () => {
+const CreateVideoQuiz = () => {
     const [activeTab, setActiveTab] = useState('examination');
-
-    const id = useSelector(selectUserID)
 
     const alterQuestion = (question, index) => {
         const newQuestions = questionData
@@ -44,10 +41,7 @@ const CreateMultipleChoice = () => {
         instructions: "",
         duration: "",
         examinationTags: [],
-        instructorId: id,
-        students: []
     }) 
-
     const [questionData, setQuestionData] = useState([]) 
 
     // For Quiz navigation
@@ -92,7 +86,6 @@ const CreateMultipleChoice = () => {
 
       // Form submission handler
       const handleCreate = async (status) => {    
-
         try {
             const { data } = await supabase
             .from('quiz')
@@ -102,8 +95,8 @@ const CreateMultipleChoice = () => {
                 overall_score: totalScore,
                 tags: formData['examinationTags'],
                 duration: formData['duration'],
-                status,                                
-                instructor_id: formData['instructorId']
+                status,                
+
             }])
             .select()
             .single()
@@ -141,35 +134,7 @@ const CreateMultipleChoice = () => {
                 .insert(questions)
                 .select()
                 if (!error) {
-                    const quizTakers = []
-                    for (let i = 0; i < formData['students'].length; i++) {
-                        const newTaker = {
-                            student_email: formData['students'][i],
-                            quiz_id: data.id
-                        }
-
-                        quizTakers.push(newTaker)
-                    }
-
-                    const { error } = await supabase.from('quiz_assignment')
-                    .insert(quizTakers)
-                    .select()
-                    
-                    
-                    if (!error) {
-                        toast.success("Quiz created successfully!");
-                    } else {
-                        if (error.code === '23503') {
-                            toast.error("Email does not exist in the database!")
-                            const { error } = await supabase
-                            .from('quiz')
-                            .delete()
-                            .eq('id', data.id)
-                            return
-                        } else {
-                            toast.error(error.message)
-                        }
-                    }
+                    toast.success("Quiz created successfully!");
                 }
             }
         } catch(error) {
@@ -211,20 +176,16 @@ const CreateMultipleChoice = () => {
         setTotalScore(score)
     }
 
-    // Update quiz takers
-    const modifyStudentRecipients = (newArr) => {
-        setFormData({
-            ...formData,
-            students: newArr
-        })
-    }
 
-    useEffect(() => {
-        setFormData({
-            ...formData,
-            instructorId: id
-        })    
-    }, [id])
+    // Function to handle file upload
+    const handleFileUpload = (e) => {
+        // Implement your file upload logic here
+    };
+
+    // useEffect(() => {
+    //     // updateTotalPoints();
+    
+    // }, [questionData])
 
   return (
     <>
@@ -255,6 +216,7 @@ const CreateMultipleChoice = () => {
                                         <textarea type='text' placeholder='Enter Instructions...' name="instructions" onChange={(e) => onInputHandleChange(e)}  />
                                 </div>
                             </div>
+                            <VideoQuizNavigation  alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore} />                            
                             <div className='cmc-tabs'>
                                 <button
                                 className={activeTab === 'examination' ? 'active' : ''}
@@ -272,7 +234,7 @@ const CreateMultipleChoice = () => {
 
                         </div>
                         <div className='cmc-creation'>
-                            <button onClick={() => handleCreate('published')}>Create</button>
+                            <button onClick={() => handleCreate('completed')}>Create</button>
                             <button onClick={() => handleCreate('draft')}>Save as draft</button>
                         </div>
                         
@@ -283,7 +245,7 @@ const CreateMultipleChoice = () => {
                                                                                                                
                 {/* )} */}
                 <div className={`recipient-box-container ${activeTab === 'shared' ? '' : 'invisible'}`}>
-                    <RecipientBox modifyStudentRecipients={modifyStudentRecipients}/>
+                    <RecipientBox/>
                 </div>
                 <div className="questions-trackers-container">
                     <div className={`cmc-quiz-components ${activeTab === 'examination' ? '' : 'invisible'}`}>
@@ -293,12 +255,30 @@ const CreateMultipleChoice = () => {
 
                         <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Question</button>
                     </div>
-                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore}/>
+                    <div className="video-quiz-container">
+                        <div className='file-uploader-container'>
+                            <label htmlFor='file-input' className='file-input-label'>
+                                <FaPlus className='plus-icon' />
+                                Upload File
+                            </label>
+                            <input
+                                id='file-input'
+                                type='file'
+                                onChange={handleFileUpload}
+                                className='file-input'
+                            />
+                        </div>
+                    </div>
+                    
+                    
                     
                  </div>     
                 {/* {activeTab === 'shared' && (                    
 
-                )} */}                
+
+                )} */}
+
+                
                 </div>
             </FacultyOnly>
         </PageLayout>
@@ -307,4 +287,4 @@ const CreateMultipleChoice = () => {
   )
 }
 
-export default CreateMultipleChoice
+export default CreateVideoQuiz
