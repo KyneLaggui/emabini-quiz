@@ -13,6 +13,8 @@
     flex-direction: column;
     gap: 2rem;
     flex-wrap: wrap;
+    position: relative;
+    
 }
 
 .courses-editor {
@@ -60,14 +62,31 @@
 .courses-events {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 .courses-information {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: wrap;
+    gap: 3rem;
+    width: 100%;
+    
+    
+}
+
+
+
+@media only screen and (max-width: 960px) {
+	.courses-information {
+		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 450px) {
+    .page {
+        padding: 30px !important;
+    }
 }
 
