@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./Sort.scss";
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { FaFilter } from 'react-icons/fa';
+import { LuFilter } from "react-icons/lu";
 
 
 const Sort = () => {
@@ -34,9 +35,19 @@ const Sort = () => {
     <>
       
       <div className={`sort-container ${isOpen ? 'open' : ''}`} onClick={toggleDropdown}>
-        {isMobile ? ( <FaFilter size={18} color='var(--blue)'/> ) : (<p>Filter</p>) }
-        
-        {isOpen ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
+        {isMobile ? (
+          isOpen ? (
+            <FaFilter size={18} />
+          ) : (
+            
+            <LuFilter size={18} />
+          )
+        ) : (
+          <>
+            <p>Filter</p>
+            {isOpen ? <IoIosArrowUp size={18} /> : <IoIosArrowDown size={18} />}
+          </>
+        )}
         
         {isOpen && (
           <div className="dropdown-content">
