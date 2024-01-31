@@ -162,7 +162,7 @@ const FacultyQuiz = () => {
                         </Link>
                         
                         <div className='fq-vq-container'>
-                            <h1>Video Quizzing</h1>
+                            <h1 className='yellow'>Video Quizzing</h1>
                         </div>
                     </div>
                     
