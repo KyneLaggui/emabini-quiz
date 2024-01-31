@@ -9,8 +9,9 @@
 .quizzes-filters-right {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 1rem;   
+    flex-wrap: wrap;
 }
 
 
@@ -22,6 +23,7 @@
     padding: 10px 30px;
     cursor: pointer;
     border: none;
+    
 }
 
 .fq-tabs {
@@ -191,4 +193,13 @@
     }
 
     
+}
+
+@media only screen and (max-width: 660px) {
+	.quizzes-filters-container {
+		flex-direction: column-reverse;
+		align-items: flex-end;
+    gap: 1rem;
+	
+	}
 }
