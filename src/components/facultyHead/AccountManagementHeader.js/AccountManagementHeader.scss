@@ -109,3 +109,15 @@
         }
     }
 }
+
+@media only screen and (max-width: 660px) {
+
+    
+
+	.account-management-header {
+		flex-direction: column-reverse;
+        gap: 1rem;
+        align-items: flex-end;
+	
+	}
+}

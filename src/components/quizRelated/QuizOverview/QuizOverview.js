@@ -33,7 +33,7 @@ const QuizOverview = () => {
   return (
     <>
         <div className="course-overview-wrapper">
-            <p className="bold medium-text">Quizzes Overview</p>
+            <p className="eb-semi-titles">Quizzes Overview</p>
             {quizzes.length === 0 ? (
                 <p>No quizzes found.</p>
             ) : (

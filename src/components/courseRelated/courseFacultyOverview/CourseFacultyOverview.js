@@ -28,7 +28,7 @@ const CourseFacultyOverview = () => {
 
   return (
         <div className="course-overview-wrapper">
-            <p className="bold medium-text">Courses Overview</p>
+            <p className="eb-semi-titles">Courses Overview</p>
             {courses.length === 0 ? (
                 <p>No courses found.</p>
             ) : (

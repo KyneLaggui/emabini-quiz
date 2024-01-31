@@ -7,8 +7,8 @@ const Announcements = () => {
         <div className="announcements-container">
             <div className="top-announcement"> 
                 <div>
-                    <p className="bold medium-text">Announcements</p>
-                    <p className="bold announcements-current-date">July 16, 2023</p>
+                    <p className="eb-semi-titles blue">Announcements</p>
+                    <p className="eb-standard red">July 16, 2023</p>
                 </div>
                 <div className="notif-bell-container">
                     <FaBell className="notif-icon"/>

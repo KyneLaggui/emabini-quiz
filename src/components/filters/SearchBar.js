@@ -6,7 +6,7 @@ const SearchBar = () => {
   return (
     <div className='seachbar-container'>
         <input type='text' className='search-bar' placeholder='Search here...'/>
-        <FaSearch size={15} color="#293747" />
+        <FaSearch size={15} color="#293747" className='search-icon' />
     </div>
   )
 }

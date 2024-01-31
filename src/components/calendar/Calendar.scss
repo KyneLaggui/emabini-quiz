@@ -1,5 +1,5 @@
 .calendar-wrapper {
-    width: 450px;
+    width: 370px;
     background: #fff;
     border-radius: 10px;
 }
@@ -11,8 +11,9 @@
     justify-content: space-between;
 
     .current-date {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
         font-weight: 500;
+        color: var(--blue);
     }
 
     .icons .arrow {
@@ -41,11 +42,14 @@
 
     .weeks li {
         font-weight: 500;
+        
         text-align: center;
     }
 
     .days {
         margin-bottom: 20px;
+        
+        
 
         li {
             cursor: pointer;
