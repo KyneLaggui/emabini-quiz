@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { MdGroup } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
 
-const QuizCard = ({ quizName, quizUsers, quizState, quizTags, activeTab }) => {
+const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
 
   const qcuTagsContainer = useRef(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -58,36 +58,33 @@ const QuizCard = ({ quizName, quizUsers, quizState, quizTags, activeTab }) => {
     <div className="quiz-card-container">
       
       <div className="quiz-card-cover">
-          {quizState === "Draft" && (
+          {status === "draft" && (
             <p className="draft-button">Draft</p>
           )}
       </div>
       <div className='quiz-card-wrapper'>
         <div className="quiz-card-detail">
           <p className="quiz-card-title">
-            <Link>{quizName}</Link>
+            <Link to={`/create-multiple-choice-quiz/${id}`}>{title}</Link>
           </p>
-          {quizUsers === "Not currently shared" ? (
+          {students.length === 0 ? (
             <div className="quiz-card-user-container">
               <MdGroup />
-              <p><span className='gray-cont'>{quizUsers}</span></p>
+              <p><span className='gray-cont'>Not currently shared</span></p>
             </div>
           ) : (
             <div className="quiz-card-user-container">
               {isExploreTab ? (
                   <div className='qcu-tags' ref={qcuTagsContainer}>
-                      {quizTags.map((tag, index) => (
-                                          
-                        <p className='yellow-cont' key={index}>{tag}</p>
-                  
-                    
+                      {tags.map((tag, index) => (          
+                        <p className='yellow-cont' key={index}>{tag}</p>                                      
                   ))}
                   </div>
                 ) : (
                     <>
                         <MdGroup />
                         <p>
-                            Shared with <span className='gray-cont'>{quizUsers}</span>
+                            Shared with <span className='gray-cont'>{students.length} people</span>
                         </p>
                     </>
                 )}

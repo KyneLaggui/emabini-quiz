@@ -45,12 +45,16 @@ const FacultyCourse = () => {
     };
 
     const StepOne = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
+        useEffect(() => {
+            console.log('okay')
+        }, [])
+
         return (
             <>
             <div className='course-information'>
                 <div className='modal-each-input'>
                     <h1>Course Name:</h1>
-                    <input type='text' placeholder='Enter Course Name...' name='courseName' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)} />
+                    <input type='text' placeholder='Enter Course Name...' name='courseName' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)}  value={formData['courseName']} />
                 </div>
                 <div className='modal-each-input'>
                     <h1>Course Code:</h1>
@@ -241,6 +245,7 @@ const FacultyCourse = () => {
             ...formData,
             [name]: value
         })
+        
       }
 
     const modifyStudentRecipients = (newArr) => {
@@ -252,7 +257,9 @@ const FacultyCourse = () => {
 
     // Prevents form submission upon pressing enter
     const handleKeyDown = (e) => {
-        e.key === 'Enter' && e.preventDefault()
+        if (e.key === 'Enter') {
+            e.preventDefault()
+        }
     }
 
     // Form submission when creating a new course
@@ -354,6 +361,10 @@ const FacultyCourse = () => {
         console.log('okay')
         navigate(`/faculty-courses/${id}`)
     } 
+
+
+    const [currentStep, setCurrentStep] = useState(1);
+
     
     useEffect(() => {
         setFormData({
@@ -362,6 +373,8 @@ const FacultyCourse = () => {
         })
 
         setCourses(coursesData)
+        console.log(formData)
+
     }, [coursesData, id])
 
   return (
@@ -401,7 +414,7 @@ const FacultyCourse = () => {
                     contentLabel="Registration Modal"
                 >
                 <form className='modal-main-cont' onSubmit={handleSubmit}>
-                    <MultiStep title showNavigation={true} prevButton={prevButton} nextButton={nextButton} 
+                    <MultiStep title="Course Creation" showNavigation={true} prevButton={prevButton} nextButton={nextButton}
                     >
                         <StepOne
                             title = "Course Information"
@@ -409,21 +422,23 @@ const FacultyCourse = () => {
                             setFormData={setFormData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
+                            key="step-one"
                         />
                         <StepTwo
                             title = "Course Genre"
                             formData={formData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
-                        />
+                            key="step-two"
+                        />                     
                         <StepThree 
                             title = "Add Students"
                             formData={formData}
                             onInputHandleChange={onInputHandleChange}
                             handleKeyDown={handleKeyDown}
-                        />
-                        
-                        
+                            key="step-three"
+                        />                                                
+                                                                    
                     </MultiStep>
             
                     {/* <div className='modal-top'>
