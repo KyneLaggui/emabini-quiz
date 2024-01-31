@@ -28,7 +28,8 @@ const AccountManagement = () => {
       <Sidebar></Sidebar>
       <PageLayout>
         <FacultyHeadOnly>
-          <div className="account-management-container">            
+          <div className="account-management-container">
+                <h1 className='eb-titles'>Account Management</h1>            
                 <AccountManagementHeader/>
                 <AccountManagementTable users={users} changeData={alterData}/>
             </div>

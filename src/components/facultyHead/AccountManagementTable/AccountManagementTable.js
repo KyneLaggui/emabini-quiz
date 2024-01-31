@@ -143,11 +143,11 @@ const AccountManagementTable = ({ users, changeData }) => {
                       <td className="flexbox">
                         <FontAwesomeIcon 
                           icon={faUserPen} 
-                          style={{color: "green"}} 
+                          style={{color: "var(--yellow)"}} 
                           className="on-hover" 
                           onClick={() => openModal(email, first_name, middle_name, last_name, role)}
                         />
-                        <FontAwesomeIcon icon={faUserXmark} style={{color: "red"}} className="on-hover" />
+                        <FontAwesomeIcon icon={faUserXmark} style={{color: "var(--redLO)"}} className="on-hover" />
                       </td>
                       </tr>
                     )

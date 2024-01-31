@@ -67,3 +67,9 @@ button, input[type="submit"], input[type="reset"] {
 .capitalize {
   text-transform: capitalize;
 }
+
+.eb-titles {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: var(--blue);
+}
