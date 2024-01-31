@@ -6,7 +6,7 @@
     flex-direction: column;
     padding: 25px 20px;
     border-radius: 12px;
-    width: fit-content;
+    min-width: 17rem;
     gap: 1.3rem;
     
     
@@ -14,7 +14,7 @@
         display: flex; 
         justify-content: space-between;
         align-items: center;
-        gap: 120px;
+        width: 100%;
 
         h1 {
             font-size: 1.25rem;
@@ -242,6 +242,15 @@
 
       
     
+}
+
+@media only screen and (max-width: 960px) {
+  .fsl-container {
+    width: 100%;
+    max-width: none;
+  }
+
+  
 }
       
 

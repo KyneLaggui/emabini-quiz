@@ -3,6 +3,8 @@
     justify-content: space-between;
     align-items: center;
 
+    
+
     .buttons {
         display: flex;
         gap: 10px;
@@ -14,7 +16,7 @@
             color: white;
             padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
 
         }
@@ -26,6 +28,13 @@
         button:nth-child(2) {
             background: #E89D1E;        
         }
+    }
+
+    .amh-filters {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
     }
 }
 
@@ -99,4 +108,16 @@
 
         }
     }
+}
+
+@media only screen and (max-width: 660px) {
+
+    
+
+	.account-management-header {
+		flex-direction: column-reverse;
+        gap: 1rem;
+        align-items: flex-end;
+	
+	}
 }

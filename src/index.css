@@ -15,7 +15,6 @@
   --blueLO: #565668;
   --gray: #EDEDF0;
   --green: #0CB75B;
-  --gray: #EDEDF0;
 }
 
 body {
@@ -38,8 +37,45 @@ a {
   color: inherit;
 }
 
-.bold {
+.red {
+  color: var(--red);
+}
+
+.redLO {
+  color: var(--redLO);
+}
+
+.asideWhite {
+  color: var(--asideWhite);
+}
+
+.yellow {
+  color: var(--yellow);
+}
+
+.blue {
+  color: var(--blue);
+}
+
+.blueLO {
+  color: var(--blueLO);
+}
+
+.gray {
+  color: var(--gray);
+}
+
+.green {
+  color: var(--green);
+}
+
+
+.semi-bold {
   font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
 }
 
 .medium-text {
@@ -66,4 +102,22 @@ button, input[type="submit"], input[type="reset"] {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.eb-titles {
+    font-size: 1.563rem;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+
+.eb-semi-titles {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--blue);
+}
+
+.eb-standard {
+    font-size: 1rem;
+    font-weight: 500;
 }

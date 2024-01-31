@@ -9,8 +9,9 @@
 .quizzes-filters-right {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 1rem;   
+    flex-wrap: wrap;
 }
 
 
@@ -22,6 +23,7 @@
     padding: 10px 30px;
     cursor: pointer;
     border: none;
+    
 }
 
 .fq-tabs {
@@ -86,11 +88,48 @@
   gap: 1rem;
 
   h1 {
+    position: relative;
     color: var(--blue);
     font-size: 1.7rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: 700;
+    overflow: hidden;
   }
+
+  h1::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px; 
+      background: var(--redLO); 
+      transform: scaleX(0);
+      transform-origin: bottom left;
+      transition: transform 0.3s ease;
+  }
+
+  h1.yellow::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px; 
+    background: var(--yellow); 
+    transform: scaleX(0);
+    transform-origin: bottom left;
+    transition: transform 0.3s ease;
+}
+
+  h1:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+
+
+
 
     .fq-mcs-container, .fq-vq-container {
         background-color: #fff;
@@ -107,12 +146,60 @@
 
     .fq-mcs-container {
       background: url('../../../assets/Mcs-quiz-pic.png') center/cover no-repeat;
+      transition: background-size 0.5s ease, transform 0.5s ease;
+      
+
+      &:hover {
+        background: url('./../../../assets/Mcs-quiz-pic-colored.png');
+        background-size: 110%;
+        transform: scale(1.1);
+
+        h1:after {
+          transform: scaleX(1);
+          transform-origin: bottom left;
+        }
+
+        h1 {
+          color: var(--asideWhite);
+          -webkit-text-stroke: 1px var(--redLO);
+          
+        }
+      }
+
     }
 
     .fq-vq-container {
       background: url('../../../assets/video-quiz.png') center/cover no-repeat;
-      background-size: fill;
+      transition: background-size 0.5s ease, transform 0.5s ease;
+
+      &:hover {
+        background: url('./../../../assets/video-quiz-colored.jpg');
+        background-size: 110%; 
+        transform: scale(1.1);
+
+        h1:after {
+          transform: scaleX(1);
+          transform-origin: bottom left;
+        }
+
+        h1.yellow {
+          color: var(--asideWhite);
+          -webkit-text-stroke: 1px var(--yellow); 
+        }
+
+        
+      
+      }
     }
 
     
+}
+
+@media only screen and (max-width: 660px) {
+	.quizzes-filters-container {
+		flex-direction: column-reverse;
+		align-items: flex-end;
+    gap: 1rem;
+	
+	}
 }

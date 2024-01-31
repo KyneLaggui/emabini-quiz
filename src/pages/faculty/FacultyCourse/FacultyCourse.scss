@@ -13,14 +13,16 @@
     align-items: center;
     justify-content: space-between;
     margin-inline: 1rem;
-    margin-bottom: 2rem;  
+    margin-bottom: 2rem;
+	
 }
 
 .courses-filters-right {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     gap: 1rem;   
+	flex-wrap: wrap;
 }
 
 
@@ -347,4 +349,19 @@
 
 .go2150698616:hover {
     color: var(--red) !important;
+}
+
+.go2335061104:before {
+	background-color: var(--gray) !important;
+	content: 'O' !important; 
+	color: var(--blue) !important;
+	border: 1px solid var(--blue);
+}
+
+@media only screen and (max-width: 660px) {
+	.courses-filters-container {
+		flex-direction: column-reverse;
+		align-items: flex-end;
+	
+	}
 }

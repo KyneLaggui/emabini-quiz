@@ -69,7 +69,7 @@ const Sidebar = () => {
                 <div className={`top`}>
                     <div className={`logo`}>
                         <HiAcademicCap id="main-logo"/>
-                        <span>eMabini</span>
+                        <span>eMabini.</span>
                     </div>
                     <IoMenu id="btn" onClick={() => {
                             setShow(!show)

@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { supabase } from '../../../supabase/config';
 import { toast } from 'react-toastify';
+import SearchBar from '../../filters/SearchBar'
+import Sort from '../../filters/Sort/Sort'
 
 
 
@@ -96,15 +98,20 @@ const AccountManagementHeader = () => {
       }
 
   return (
-    <div className="account-management-header">
-        <div className="buttons">
-            <button onClick={openModal}>Create</button>
-            <button>Import CSV</button>
-        </div>
-        <div>
-            Searchbar
-        </div>
+    <>
+        <div className="account-management-header">
+            
+            <div className="buttons">
+                <button onClick={openModal}>Create</button>
+                <button>Import CSV</button>
+
+            </div>
+            <div className='amh-filters'>
+                <SearchBar />
+                <Sort />
+            </div>
         
+        </div>
         <div>       
             <Modal
                 isOpen={modalIsOpen}
@@ -153,7 +160,7 @@ const AccountManagementHeader = () => {
                 </div>
             </Modal>
         </div>
-    </div>
+    </>
   )
 }
 

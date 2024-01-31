@@ -3,9 +3,11 @@
     align-items: center;
     justify-content: space-evenly;
     background-color: var(--asideWhite);
-    width: 280px;
+    max-width: 280px;
     height: 40px;
     border-radius: 8px;
+    padding: 1rem;
+    
 }
 
 .search-bar {
@@ -14,4 +16,15 @@
     font-size: 1rem;
     background-color: var(--asideWhite);
     font-family: 'Inter', sans-serif;
+    flex-grow: 1;
 }
+
+.search-icon {
+    margin-inline:5px ;
+}
+
+@media only screen and (max-width: 768px) {
+    .searchbar-container {
+      max-width: 100%; 
+    }
+  }
