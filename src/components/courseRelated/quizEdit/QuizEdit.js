@@ -117,6 +117,7 @@ const QuizEdit = () => {
                 
                 if (data) {
                     const questions = []
+                    let hasError = false;
                     for (let i = 0; i < questionData.length; i++) {
                         // Checking if all questions have a designated answer
                         questionData[i]['answerInput'].forEach(async (answer) => {
@@ -126,6 +127,8 @@ const QuizEdit = () => {
                                 .from('quiz')
                                 .delete()
                                 .eq('id', data.id)
+
+                                hasError = true;
                                 return
                             }
                         })
@@ -156,36 +159,40 @@ const QuizEdit = () => {
                     const { error } = await supabase.from('question')
                     .insert(questions)
                     .select()
-                    if (!error) {
-                        const quizTakers = []
-                        // for (let i = 0; i < formData['students'].length; i++) {
-                        //     const newTaker = {
-                        //         student_email: formData['students'][i],
-                        //         quiz_id: data.id
-                        //     }
+                 
+                    if (!error && formData['students'] && !hasError) {
+                        console.log('okay')
+                        let quizTakers = []
+                        for (let i = 0; i < formData['students'].length; i++) {
+                            const newTaker = {
+                                student_email: formData['students'][i],
+                                quiz_id: data.id
+                            }
     
-                        //     quizTakers.push(newTaker)
-                        // }
-    
-                        // const { error } = await supabase.from('quiz_assignment')
-                        // .insert(quizTakers)
-                        // .select()
+                            quizTakers.push(newTaker)
+                        }
+                        
+                      
+                        const { error } = await supabase.from('quiz_assignment')
+                        .insert(quizTakers)
+                        .select()
                         
                         
-                        // if (!error) {
-                        //     toast.success("Quiz edited successfully!");
-                        // } else {
-                        //     if (error.code === '23503') {
-                        //         toast.error("Email does not exist in the database!")
-                        //         const { error } = await supabase
-                        //         .from('quiz')
-                        //         .delete()
-                        //         .eq('id', data.id)
-                        //         return
-                        //     } else {
-                        //         toast.error(error.message)
-                        //     }
-                        // }
+                        if (!error) {
+                            toast.success("Quiz edited successfully!");
+                            quizTakers = []
+                        } else {
+                            if (error.code === '23503') {
+                                toast.error("Email does not exist in the database!")
+                                const { error } = await supabase
+                                .from('quiz')
+                                .delete()
+                                .eq('id', data.id)
+                                return
+                            } else {
+                                toast.error(error.message)
+                            }
+                        }
                     }
                 }
             } catch(error) {
@@ -260,7 +267,8 @@ const QuizEdit = () => {
                 title: fetchedQuizInfo['title'],
                 duration: fetchedQuizInfo['duration'],
                 instruction: fetchedQuizInfo['instruction'],
-                examinationTags: fetchedQuizInfo['tags']
+                examinationTags: fetchedQuizInfo['tags'],
+                students: fetchedQuizInfo['students']
             })
 
             const newComponents = fetchedQuizInfo['questions'].map((question, index) => (

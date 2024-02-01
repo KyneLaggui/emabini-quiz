@@ -110,6 +110,7 @@ const CreateMultipleChoice = () => {
 
             if (data) {
                 const questions = []
+                let hasError = false;
                 for (let i = 0; i < questionData.length; i++) {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
@@ -119,6 +120,7 @@ const CreateMultipleChoice = () => {
                             .from('quiz')
                             .delete()
                             .eq('id', data.id)
+                            hasError = true;
                             return
                         }
                     })
@@ -141,7 +143,8 @@ const CreateMultipleChoice = () => {
                 .insert(questions)
                 .select()
 
-                if (!error) {
+                if (!error && !hasError) {
+                    console.log('okay')
                     const quizTakers = []
                     for (let i = 0; i < formData['students'].length; i++) {
                         const newTaker = {
