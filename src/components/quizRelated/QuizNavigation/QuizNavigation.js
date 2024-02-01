@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 import './QuizNavigation.scss'
 
-const QuizNavigation = ({alterFormData, questionTracker, tagTracker, quizPoints}) => {
+const QuizNavigation = ({alterFormData, questionTracker, tagTracker, quizPoints, fetchedQuizTags}) => {
     // Examination tags state and functions
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
 
@@ -35,7 +35,15 @@ const QuizNavigation = ({alterFormData, questionTracker, tagTracker, quizPoints}
       }
     };
 
+    useEffect(() => {
+      if (fetchedQuizTags && fetchedQuizTags.length !== 0) {
+        setConfirmedQuizTags(fetchedQuizTags)
+      }
+
+    }, [fetchedQuizTags])
     // End
+
+
 
   return (
     <div className="quiz-navigation">

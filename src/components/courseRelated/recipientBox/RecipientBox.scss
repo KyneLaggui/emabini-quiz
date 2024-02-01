@@ -48,3 +48,58 @@
     }
   }
   
+  .recipient-wrapper {
+    position: relative;
+    display: flex;
+    column-gap: 10px;
+    row-gap: 10px;
+  
+    .recipient-box {
+      // display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+  
+      span {
+        margin-right: 0.5rem;
+      }
+  
+      .remove-circle {
+        cursor: pointer;
+      }
+    }
+  
+    input {
+      margin-top: 0.5rem;
+      padding: 0.25rem 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin: 0;
+    }
+  
+    .suggestions-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  
+      li {
+        padding: 0.5rem;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+  
+
+.input-recipient-container {
+  position: relative;
+  margin: 0 0.5rem;
+}

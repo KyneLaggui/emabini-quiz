@@ -3,7 +3,7 @@ import "./QuizCreation.scss"
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 
-const QuizCreation = ({ manipulateQuestion, number }) => {
+const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
     // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
@@ -236,8 +236,27 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
     // }, [manipulateQuestion, number, questionData, selectedAnswers])
 
     useEffect(() => {
+        if (questionInfo) { 
+            console.log(questionInfo)
+            const newInfo = {
+                question: questionInfo['question'],
+                choiceInput: questionInfo['choice'],
+                quizTags: questionInfo['tag'],
+                answerInput: questionInfo['answer'],
+                points: questionInfo['points']                
+            }
+
+            setConfirmedQuizTags(questionInfo['tag'])
+            manipulateQuestion(newInfo, number)
+            setQuestionData(newInfo)               
+            return
+        }
+
         manipulateQuestion(questionData, number)
-    }, [])
+    }, [questionInfo])
+
+
+
 
   return (
     <div className='qc-container'>
@@ -323,5 +342,3 @@ const QuizCreation = ({ manipulateQuestion, number }) => {
 }
 
 export default QuizCreation
-
-
