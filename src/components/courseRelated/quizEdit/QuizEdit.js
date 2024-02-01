@@ -16,9 +16,10 @@ import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 
 const QuizEdit = () => {
     const [activeTab, setActiveTab] = useState('examination');
-    const [quizInformation, setQuizInformation] = useState({
-        'title': ''
-    })
+    // const [quizInformation, setQuizInformation] = useState({
+    //     title: '',
+    //     duration: 0
+    // })
 
     const id = useSelector(selectUserID)
 
@@ -40,11 +41,12 @@ const QuizEdit = () => {
         updateTotalPoints();
     }
 
-    const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} manipulateQuestion={alterQuestion} number={0} />]);
+    // Empty state because there are already predefined questions
+    const [quizComponents, setQuizComponents] = useState([]);
 
     const [formData, setFormData] = useState({
         title: "", 
-        instructions: "",
+        instruction: "",
         duration: "",
         examinationTags: [],
         instructorId: id,
@@ -61,8 +63,6 @@ const QuizEdit = () => {
         }
 
         setFormData(newFormData)
-
-        console.log(formData)
     }
 
      // Form functions
@@ -72,6 +72,7 @@ const QuizEdit = () => {
             ...formData,
             [name]: value
         })                    
+
     }  
 
     const handleTabClick = (tabName) => {
@@ -79,14 +80,15 @@ const QuizEdit = () => {
     };
 
     
-    
+    const [count, setCount] = useState([])
 
-    const addQuizComponent = () => {
+    const addQuizComponent = (questionInfo) => {
         const newKey = quizComponents.length;   
-
-        const newComponent = <QuizCreation key={newKey} manipulateQuestion={alterQuestion} number={newKey}/>;
+       
+        const newComponent = <QuizCreation key={newKey} manipulateQuestion={alterQuestion} number={newKey} questionInfo={questionInfo}/>;
         setQuizComponents([...quizComponents, newComponent]);
-
+        setCount([...count, newKey]);
+        
         // Update question and tag trackers when adding a new quiz component
         updateQuestionTracker();
         updateTagTracker();
@@ -95,89 +97,103 @@ const QuizEdit = () => {
 
       // Form submission handler
       const handleCreate = async (status) => {    
-
-        try {
-            const { data } = await supabase
-            .from('quiz')
-            .insert([{
-                title: formData['title'],
-                instruction: formData['instructions'],
-                overall_score: totalScore,
-                tags: formData['examinationTags'],
-                duration: formData['duration'],
-                status,                                
-                instructor_id: formData['instructorId']
-            }])
-            .select()
-            .single()
-
-            if (data) {
-                const questions = []
-                for (let i = 0; i < questionData.length; i++) {
-                    // Checking if all questions have a designated answer
-                    questionData[i]['answerInput'].forEach(async (answer) => {
-                        if (answer === '')  {
-                            toast.error("All questions must have an answer")
-                            const { error } = await supabase
-                            .from('quiz')
-                            .delete()
-                            .eq('id', data.id)
-                            return
-                        }
-                    })
-
-                    // Creation of the question rows
-                    const newQuestion = {
-                        description: questionData[i]['question'],
-                        quiz_id: data.id,
-                        tag: questionData[i]['quizTags'],
-                        answer: questionData[i]['answerInput'],
-                        points: questionData[i]['points'],
-                        choice: questionData[i]['choiceInput'],
-                        number: questionData[i]['number']
-                    }
-
-                    questions.push(newQuestion)        
-                }    
-
-                const { error } = await supabase.from('question')
-                .insert(questions)
+        if (quizId) {
+            try {
+                const { data } = await supabase
+                .from('quiz')
+                .update([{
+                    title: formData['title'],
+                    instruction: formData['instruction'],
+                    overall_score: totalScore,
+                    tags: formData['examinationTags'],
+                    duration: formData['duration'],
+                    status,                                
+                    instructor_id: formData['instructorId']
+                }])
+                .eq('id', quizId)
                 .select()
-                if (!error) {
-                    const quizTakers = []
-                    for (let i = 0; i < formData['students'].length; i++) {
-                        const newTaker = {
-                            student_email: formData['students'][i],
-                            quiz_id: data.id
+                .single()
+                
+                
+                if (data) {
+                    const questions = []
+                    for (let i = 0; i < questionData.length; i++) {
+                        // Checking if all questions have a designated answer
+                        questionData[i]['answerInput'].forEach(async (answer) => {
+                            if (answer === '')  {
+                                toast.error("All questions must have an answer")
+                                const { error } = await supabase
+                                .from('quiz')
+                                .delete()
+                                .eq('id', data.id)
+                                return
+                            }
+                        })
+                        
+                        // Deletion of all the questions related to this quiz because it will be replaced by new
+                        // set of questions
+                        const {error} = await supabase
+                        .from('question')
+                        .delete()
+                        .eq('quiz_id', quizId)
+
+
+
+                        // Creation of the question rows
+                        const newQuestion = {
+                            question: questionData[i]['question'],
+                            quiz_id: data.id,
+                            tag: questionData[i]['quizTags'],
+                            answer: questionData[i]['answerInput'],
+                            points: questionData[i]['points'],
+                            choice: questionData[i]['choiceInput'],
+                            number: questionData[i]['number']
                         }
-
-                        quizTakers.push(newTaker)
-                    }
-
-                    const { error } = await supabase.from('quiz_assignment')
-                    .insert(quizTakers)
+    
+                        questions.push(newQuestion)        
+                    }    
+    
+                    const { error } = await supabase.from('question')
+                    .insert(questions)
                     .select()
-                    
-                    
                     if (!error) {
-                        toast.success("Quiz created successfully!");
-                    } else {
-                        if (error.code === '23503') {
-                            toast.error("Email does not exist in the database!")
-                            const { error } = await supabase
-                            .from('quiz')
-                            .delete()
-                            .eq('id', data.id)
-                            return
-                        } else {
-                            toast.error(error.message)
-                        }
+                        const quizTakers = []
+                        // for (let i = 0; i < formData['students'].length; i++) {
+                        //     const newTaker = {
+                        //         student_email: formData['students'][i],
+                        //         quiz_id: data.id
+                        //     }
+    
+                        //     quizTakers.push(newTaker)
+                        // }
+    
+                        // const { error } = await supabase.from('quiz_assignment')
+                        // .insert(quizTakers)
+                        // .select()
+                        
+                        
+                        // if (!error) {
+                        //     toast.success("Quiz edited successfully!");
+                        // } else {
+                        //     if (error.code === '23503') {
+                        //         toast.error("Email does not exist in the database!")
+                        //         const { error } = await supabase
+                        //         .from('quiz')
+                        //         .delete()
+                        //         .eq('id', data.id)
+                        //         return
+                        //     } else {
+                        //         toast.error(error.message)
+                        //     }
+                        // }
                     }
                 }
+            } catch(error) {
+                toast.error(error.message)
             }
-        } catch(error) {
-            toast.error(error.message)
         }
+
+        
         
       }
 
@@ -228,12 +244,31 @@ const QuizEdit = () => {
         })    
     }, [id])
 
-    useEffect(() => {
-        setQuizInformation(fetchedQuizInfo)       
-        // if (fetchedQuizInfo) {
-        //     setFormData
-        // }
+    // useEffect(() => {
+    //     console.log(quizComponents)
+    // }, [quizComponents])
 
+    useEffect(() => {
+        console.log(count)
+    }, [count])
+
+    useEffect(() => {
+        // setQuizInformation(fetchedQuizInfo)     
+        
+        if (Object.keys(fetchedQuizInfo).length !== 0) {            
+            setFormData({
+                title: fetchedQuizInfo['title'],
+                duration: fetchedQuizInfo['duration'],
+                instruction: fetchedQuizInfo['instruction'],
+                examinationTags: fetchedQuizInfo['tags']
+            })
+
+            for (let i = 0; i < fetchedQuizInfo['questions'].length; i++) {
+                addQuizComponent(fetchedQuizInfo['questions'][i]);
+            }
+
+            setTagTracker(fetchedQuizInfo['tags'])
+        }
     }, [fetchedQuizInfo])
 
   return (
@@ -252,17 +287,19 @@ const QuizEdit = () => {
                             <div className='cmc-top'>
                                 <div className='cmc-input'>
                                     <h1>Quiz Title:</h1>
-                                    <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} value={quizInformation['title']} />
+                                    <input type='text' placeholder='Enter Quiz Title...' name="title" onChange={(e) => onInputHandleChange(e)} value={formData['title']} />
                                 </div>
                                  <div className='cmc-input duration'>
                                     <h1>Duration (minutes):</h1>
-                                    <input type='number' placeholder='Enter Duration...' name="duration" onChange={(e) => onInputHandleChange(e)} />
+                                    <input type='number' placeholder='Enter Duration...' name="duration" onChange={(e) => onInputHandleChange(e)} value={formData['duration']}  />
                                 </div>                                
                             </div>
                             <div className='cmc-bottom'>
                                 <div className='cmc-input'>
                                         <h1>Quiz Instructions:</h1>
-                                        <textarea type='text' placeholder='Enter Instructions...' name="instructions" onChange={(e) => onInputHandleChange(e)}  />
+                                        <textarea type='text' placeholder='Enter Instructions...' name="instruction" onChange={(e) => onInputHandleChange(e)} value={formData['instruction']}>
+                                            {formData['instruction']}
+                                        </textarea>
                                 </div>
                             </div>
                             <div className='cmc-tabs'>
@@ -282,7 +319,7 @@ const QuizEdit = () => {
 
                         </div>
                         <div className='cmc-creation'>
-                            <button onClick={() => handleCreate('published')}>Create</button>
+                            <button onClick={() => handleCreate('published')}>Edit</button>
                             <button onClick={() => handleCreate('draft')}>Save as draft</button>
                         </div>
                         
@@ -301,9 +338,9 @@ const QuizEdit = () => {
                             <div key={index}>{component}</div>
                             ))}
 
-                        <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Question</button>
+                        <button className='cmc-quiz-button' onClick={() => addQuizComponent(null)}>Add Question</button>
                     </div>
-                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore}/>
+                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore} fetchedQuizTags={formData['examinationTags']}/>
                     
                  </div>     
                 {/* {activeTab === 'shared' && (                    

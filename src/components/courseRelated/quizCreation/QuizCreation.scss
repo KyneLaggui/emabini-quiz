@@ -161,3 +161,10 @@
       cursor: pointer;
     }
   }
+
+  svg {
+    transition: color 0.3s;
+    &:hover {
+      color: var(--red); // Change color on hover
+    }
+  }

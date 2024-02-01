@@ -118,7 +118,7 @@ const CreateVideoQuiz = () => {
 
                     // Creation of the question rows
                     const newQuestion = {
-                        description: questionData[i]['question'],
+                        question: questionData[i]['question'],
                         quiz_id: data.id,
                         tag: questionData[i]['quizTags'],
                         answer: questionData[i]['answerInput'],

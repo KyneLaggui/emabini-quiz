@@ -125,7 +125,7 @@ const CreateMultipleChoice = () => {
 
                     // Creation of the question rows
                     const newQuestion = {
-                        description: questionData[i]['question'],
+                        question: questionData[i]['question'],
                         quiz_id: data.id,
                         tag: questionData[i]['quizTags'],
                         answer: questionData[i]['answerInput'],
@@ -140,6 +140,7 @@ const CreateMultipleChoice = () => {
                 const { error } = await supabase.from('question')
                 .insert(questions)
                 .select()
+
                 if (!error) {
                     const quizTakers = []
                     for (let i = 0; i < formData['students'].length; i++) {
@@ -154,7 +155,6 @@ const CreateMultipleChoice = () => {
                     const { error } = await supabase.from('quiz_assignment')
                     .insert(quizTakers)
                     .select()
-                    
                     
                     if (!error) {
                         toast.success("Quiz created successfully!");

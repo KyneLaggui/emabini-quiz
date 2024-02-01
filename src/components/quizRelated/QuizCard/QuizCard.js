@@ -11,6 +11,8 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
   const [startX, setStartX] = useState(null);
   const [scrollLeft, setScrollLeft] = useState(null);
 
+  const [studentsCount, setStudentsCount] = useState(0);
+
   useEffect(() => {
     if (qcuTagsContainer.current) {
       const container = qcuTagsContainer.current;
@@ -52,6 +54,12 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
     
   }, [isMouseDown, scrollLeft, startX]);
 
+  useEffect(() => {
+    if (students) {
+      setStudentsCount(students.length)
+    }
+  }, [students])
+
   const isExploreTab = activeTab === 'explore';
 
   return (
@@ -67,7 +75,7 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
           <p className="quiz-card-title">
             <Link to={`/create-multiple-choice-quiz/${id}`}>{title}</Link>
           </p>
-          {students.length === 0 ? (
+          {studentsCount === 0 ? (
             <div className="quiz-card-user-container">
               <MdGroup />
               <p><span className='gray-cont'>Not currently shared</span></p>
@@ -84,7 +92,7 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
                     <>
                         <MdGroup />
                         <p>
-                            Shared with <span className='gray-cont'>{students.length} people</span>
+                            Shared with <span className='gray-cont'>{studentsCount} people</span>
                         </p>
                     </>
                 )}

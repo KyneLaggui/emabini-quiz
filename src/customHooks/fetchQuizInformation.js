@@ -15,7 +15,6 @@ const FetchQuizInformation = (id, dataChange) => {
                 .single()                
                 
                 if (quiz.data) {
-                                      
                     // Fetching the assigned students in the quiz
 
                     const students = await supabase
@@ -33,7 +32,6 @@ const FetchQuizInformation = (id, dataChange) => {
                         students: students.data,
                         questions: questions.data
                     })
-
                     // const questions = await Promise.all((quiz.data).map(async(quiz) => {   
                     //     const quizStudents = await supabase
                     //         .from('quiz_assignment')
