@@ -263,11 +263,12 @@ const QuizEdit = () => {
                 examinationTags: fetchedQuizInfo['tags']
             })
 
-            for (let i = 0; i < fetchedQuizInfo['questions'].length; i++) {
-                addQuizComponent(fetchedQuizInfo['questions'][i]);
-            }
-
-            setTagTracker(fetchedQuizInfo['tags'])
+            const newComponents = fetchedQuizInfo['questions'].map((question, index) => (
+                <QuizCreation key={index} manipulateQuestion={alterQuestion} number={index} questionInfo={question}/>
+            ));
+    
+            setQuizComponents(newComponents);
+            setTagTracker(fetchedQuizInfo['tags']);
         }
     }, [fetchedQuizInfo])
 
