@@ -39,7 +39,7 @@
     justify-content: flex-start;
     gap: 1rem;
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
 }
 
 .cmc-input {
@@ -62,7 +62,7 @@
         margin-bottom: 1rem;
      }
 
-     input {
+     input, select {
         font-size: 1rem;
         font-family: 'Inter', sans-serif;
         border-radius: 4px;

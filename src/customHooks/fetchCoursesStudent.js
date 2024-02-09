@@ -31,36 +31,7 @@ const FetchCoursesStudent = (id, email) => {
 
                     if (courseDetails) {
                         tempCourses = courseDetails;
-                    }
-                    // console.log(courseDetails)
-                    // if (courseDetails) {
-                    //     tempCourses = courseDetails
-                    //     // Fetching the enrolled students in the registered courses
-                    //     const courseFullDetails = await Promise.all((courseDetails).map(async(course) => {   
-                    //         const courseStudents = await supabase
-                    //             .from('course_enrollee')
-                    //             .select()
-                    //             .eq('course_code', course['code'])
-                    
-                    //         if (courseStudents.data) {
-                    //             tempCourses = tempCourses.map((tempCourse) => {
-                    //                 // Assigns a new to a course object with the key students which is an array
-                    //                 if (tempCourse['code'] === course['code']) {
-                    //                     return {
-                    //                         ...tempCourse,
-                    //                         students: courseStudents.data
-                    //                     }
-                    //                 }
-
-                    //                 // In case there is no enrolled students in a certain course
-                    //                 return {
-                    //                     ...tempCourse,
-                    //                     students: []
-                    //                 }
-                    //             })
-                    //         }
-                    //     }))       
-                    // }
+                    }            
                     // Finally setting the courses with their respective students
                     setCoursesData(tempCourses)
                 }

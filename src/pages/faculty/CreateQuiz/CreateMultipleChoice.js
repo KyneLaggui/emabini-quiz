@@ -12,9 +12,11 @@ import { supabase } from '../../../supabase/config'
 import QuizNavigation from '../../../components/quizRelated/QuizNavigation/QuizNavigation'
 import { selectUserID } from '../../../redux/slice/authSlice'
 import { useSelector } from 'react-redux'
+import FetchAllCourses from '../../../customHooks/fetchAllCourses'
 
 const CreateMultipleChoice = () => {
     const [activeTab, setActiveTab] = useState('examination');
+    const [allCourses, setAllCourses] = useState([]);
 
     const id = useSelector(selectUserID)
 
@@ -23,12 +25,7 @@ const CreateMultipleChoice = () => {
         newQuestions[index] = {
             ...question,
             number: index
-        }
-
-        // setFormData({
-        //     ...formData,
-        //     questions: newQuestions
-        // })        
+        } 
 
         // Update question and tag trackers when altering a question
         updateQuestionTracker();
@@ -45,7 +42,8 @@ const CreateMultipleChoice = () => {
         duration: "",
         examinationTags: [],
         instructorId: id,
-        students: []
+        students: [],
+        courseCode: ""
     }) 
 
     const [questionData, setQuestionData] = useState([]) 
@@ -59,7 +57,6 @@ const CreateMultipleChoice = () => {
 
         setFormData(newFormData)
 
-        console.log(formData)
     }
 
      // Form functions
@@ -75,9 +72,16 @@ const CreateMultipleChoice = () => {
         setActiveTab(tabName);
     };
 
-    
-    
+    // Fetch all courses
+    const {coursesData} = FetchAllCourses()
 
+    const deleteCourse = async (id) => {
+        const { error } = await supabase
+        .from('quiz')
+        .delete()
+        .eq('id', id)
+    }
+    
     const addQuizComponent = () => {
         const newKey = quizComponents.length;   
 
@@ -89,12 +93,14 @@ const CreateMultipleChoice = () => {
         updateTagTracker();
       };
 
-
       // Form submission handler
       const handleCreate = async (status) => {    
+        let hasError = false;
+
+        console.log(formData);
 
         try {
-            const { data } = await supabase
+            const { error, data } = await supabase
             .from('quiz')
             .insert([{
                 title: formData['title'],
@@ -103,24 +109,31 @@ const CreateMultipleChoice = () => {
                 tags: formData['examinationTags'],
                 duration: formData['duration'],
                 status,                                
-                instructor_id: formData['instructorId']
+                instructor_id: formData['instructorId'],
+                course_code: formData['courseCode']
             }])
             .select()
             .single()
 
+            if (error) {
+                if (error.code === '23503') {
+                    toast.error("Course code does not exist!")
+                    hasError =  true;        
+                    deleteCourse(data.id)            
+                    return
+                }                
+            }
+
             if (data) {
+                const quizId = data.id
                 const questions = []
-                let hasError = false;
                 for (let i = 0; i < questionData.length; i++) {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
                         if (answer === '')  {
                             toast.error("All questions must have an answer")
-                            const { error } = await supabase
-                            .from('quiz')
-                            .delete()
-                            .eq('id', data.id)
-                            hasError = true;
+                            deleteCourse(quizId)  
+                            hasError = true
                             return
                         }
                     })
@@ -143,13 +156,27 @@ const CreateMultipleChoice = () => {
                 .insert(questions)
                 .select()
 
+                
                 if (!error && !hasError) {
-                    console.log('okay')
+                    const {data} = await supabase.from('course_enrollee')
+                    .select('email')
+                    .eq('course_code', formData['courseCode'])      
+                    
+                    const courseStudents = data.map((student) => {
+                        return student['email']
+                    })
+
                     const quizTakers = []
                     for (let i = 0; i < formData['students'].length; i++) {
+                        if (!(courseStudents.includes(formData['students'][i]))) {                        
+                            toast.error('The student is not enrolled in the proper course!')
+                            deleteCourse(quizId)  
+                            return
+                        }
+
                         const newTaker = {
                             student_email: formData['students'][i],
-                            quiz_id: data.id
+                            quiz_id: quizId
                         }
 
                         quizTakers.push(newTaker)
@@ -159,18 +186,17 @@ const CreateMultipleChoice = () => {
                     .insert(quizTakers)
                     .select()
                     
-                    if (!error) {
+                    if (!hasError) {
                         toast.success("Quiz created successfully!");
                     } else {
-                        if (error.code === '23503') {
+                        if (error && error.code === '23503') {
                             toast.error("Email does not exist in the database!")
-                            const { error } = await supabase
-                            .from('quiz')
-                            .delete()
-                            .eq('id', data.id)
+                            deleteCourse(quizId)  
                             return
                         } else {
-                            toast.error(error.message)
+                            if (error) {
+                                toast.error(error.message)
+                            }
                         }
                     }
                 }
@@ -220,7 +246,7 @@ const CreateMultipleChoice = () => {
             ...formData,
             students: newArr
         })
-    }
+    } 
 
     useEffect(() => {
         setFormData({
@@ -228,6 +254,10 @@ const CreateMultipleChoice = () => {
             instructorId: id
         })    
     }, [id])
+
+    useEffect(() => {
+        setAllCourses(coursesData)
+    }, [coursesData])
 
   return (
     <>
@@ -250,8 +280,21 @@ const CreateMultipleChoice = () => {
                                  <div className='cmc-input duration'>
                                     <h1>Duration (minutes):</h1>
                                     <input type='number' placeholder='Enter Duration...' name="duration" onChange={(e) => onInputHandleChange(e)} />
-                                </div>                                
+                                </div>                                                              
                             </div>
+                            <div className='cmc-input course-code'>
+                                    <h1>Course Code:</h1>
+                                    {/* <input type='text' placeholder='Enter Course Code...' name="courseCode" onChange={(e) => onInputHandleChange(e)} /> */}
+                                    <select name="courseCode" id="" onChange={(e) => onInputHandleChange(e)} placeholder="Select course code">
+                                        <option value="" disabled selected>Select a course code</option>
+                                        {
+                                            allCourses.map((course, index) => {
+                                                const code = course.code;                                                                                            
+                                                return <option value={code} key={index}>{code}</option>
+                                            })
+                                        }
+                                    </select>
+                                </div>  
                             <div className='cmc-bottom'>
                                 <div className='cmc-input'>
                                         <h1>Quiz Instructions:</h1>
