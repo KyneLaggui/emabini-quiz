@@ -3,10 +3,10 @@ import './RecipientBox.scss';
 import { IoMdRemoveCircle } from 'react-icons/io';
 import FetchStudentsEmail from '../../../customHooks/fetchStudentsEmail';
 
-const RecipientBox = ({ modifyStudentRecipients }) => {
+const RecipientBox = ({ modifyStudentRecipients, course }) => {
   const [recipientName, setRecipientName] = useState('');
   const [confirmedRecipients, setConfirmedRecipients] = useState([]);
-  const {emails} = FetchStudentsEmail()
+  const {emails} = FetchStudentsEmail(course)
   const [suggestionsBasis, setSuggestionsBasis] = useState([])
   const [suggestions, setSuggestions] = useState([]); // Sample suggestions
 
@@ -36,8 +36,6 @@ const RecipientBox = ({ modifyStudentRecipients }) => {
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setRecipientName(inputValue);
-
-    console.log(suggestionsBasis);
 
     // Filter suggestions based on the input value
     const filteredSuggestions = suggestionsBasis.filter(
