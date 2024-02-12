@@ -8,9 +8,9 @@ const FetchCourseAnnouncement = (code, dataChange) => {
         const getAnnouncements = async() => {
             if (code) {
                 let courseAnnouncements = await supabase.from("course_announcement")
-                .select("*")
+                .select()
                 .eq('course_code', code)
-               
+                
                 setAnnouncementsData(courseAnnouncements['data']);
             }            
             

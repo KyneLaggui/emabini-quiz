@@ -14,8 +14,7 @@ import { toast } from "react-toastify";
 
 Modal.setAppElement('#root');
 
-export const CourseAnnouncements = ({ courseCode, code, name }) => {
-    
+export const CourseAnnouncements = ({ courseCode, code, name, role }) => {
     const [announcements, setAnnouncements] = useState([])
     const [formData, setFormData] = useState({
         title: '',
@@ -176,20 +175,23 @@ export const CourseAnnouncements = ({ courseCode, code, name }) => {
                         <h1>{name}</h1>
                         <p>{code}</p>
                     </div>
-                    <div className="modal-toggle">
-                        <button
-                            className={!announcementView  ? 'active-button' : 'inactive-button'}
-                            onClick={() =>  setAnnouncementView(false)}
-                        >
-                            Create
-                        </button>
-                        <button
-                            className={announcementView  ? 'active-button' : 'inactive-button'}
-                            onClick={() => setAnnouncementView(true)}
-                        >
-                            View
-                        </button>
-                    </div>
+                    {                        
+                        !role && <div className="modal-toggle">
+                            <button
+                                className={!announcementView  ? 'active-button' : 'inactive-button'}
+                                onClick={() =>  setAnnouncementView(false)}
+                            >
+                                Create
+                            </button>
+                            <button
+                                className={announcementView  ? 'active-button' : 'inactive-button'}
+                                onClick={() => setAnnouncementView(true)}
+                            >
+                                View
+                            </button>
+                        </div>
+                    }
+                    
                 </div>
                                 
                 <div className={`modal-details ${announcementView  ? 'enroll-view' : 'existing-view'}`}>

@@ -14,7 +14,7 @@ const FetchCourseIndividual = (id) => {
                 .select()
                 .eq('id', id)
                 .single()
-
+                
                 if (courseInfo.data) {
                     setCourseData(courseInfo.data)
 

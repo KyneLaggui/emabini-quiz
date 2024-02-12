@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_CURRENT_PAGE, selectCurrentPage } from '../../../redux/slice/quizPaginationSlice';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 
-const StudentQuizPagination = ({ productsPerPage, totalQuizCards}) => {
+const StudentQuizPagination = ({ productsPerPage, totalQuizCards, handleSubmit}) => {
 
     const currentPage = useSelector(selectCurrentPage)
     let pageNumbers = []
@@ -34,10 +34,20 @@ const StudentQuizPagination = ({ productsPerPage, totalQuizCards}) => {
             <FaArrowLeft className='question-prev-arrow'/>
             <p>Previous Question</p>
         </div>
-        <div onClick={paginateNext} className={currentPage === pageNumbers[pageNumbers.length - 1] ? `hidden` : null}>
-            <p>Next Question</p>
-            <FaArrowRight className='question-next-arrow'/>
-        </div>
+        {
+            currentPage !== totalQuizCards ? (
+            <div onClick={paginateNext} className={currentPage === pageNumbers[pageNumbers.length - 1] ? `hidden` : null}>
+                <p>Next Question</p>
+                <FaArrowRight className='question-next-arrow'/>
+            </div>
+            ) : (
+                <div onClick={handleSubmit}>
+                <p>Submit</p>
+                <FaArrowRight className='question-next-arrow'/>
+            </div>
+            )
+        }
+        
     </div>
   )
 }

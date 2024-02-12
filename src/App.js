@@ -29,10 +29,10 @@ function App() {
         <Routes>
           <Route path="/" element={ <Login />}></Route>  
           <Route path="/student-courses" element={ <StudentCourse/>}></Route> 
-          <Route path="/student-courses-id" element={ <EachStudentCourses/>}></Route>   
+          <Route path="/student-courses/:courseId" element={ <EachStudentCourses/>}></Route>   
           <Route path="/student-progress" element={ <StudentProgress/>}></Route>   
           <Route path="/student-progress-id" element={ <StudentProgressEach/>}></Route>   
-          <Route path="/student-quiz-id" element={ <StudentQuiz/>}></Route>   
+          <Route path="/student-quiz/:quizId" element={ <StudentQuiz/>}></Route>   
 
 
           {/* Faculty */}

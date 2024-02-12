@@ -157,7 +157,7 @@ const QuizEdit = () => {
                 }    
 
                 if (!hasError) {                    
-                    const { data } = await supabase
+                    const updateResult = await supabase
                     .from('quiz')
                     .update([{
                         title: formData['title'],
@@ -172,6 +172,9 @@ const QuizEdit = () => {
                     .select()
                     .single()
 
+                    if (!updateResult.error) {
+                        toast.success("Quiz edited successfully!");
+                    }
                     // Deletion of all the questions related to this quiz because it will be replaced by new
                     // set of questions
                     await supabase
@@ -183,8 +186,8 @@ const QuizEdit = () => {
                     .insert(questions)
                     .select()
                     
-                    if (!error && formData['students'] && !hasError && data) {
-                        const quizId = data.id                                                
+                    if (!error && formData['students'] && !hasError && updateResult.data) {
+                        const quizId = updateResult.data.id                                                
                         const courseEnrollees = await supabase.from('course_enrollee')
                         .select('email')
                         .eq('course_code', formData['courseCode'])       
@@ -195,9 +198,9 @@ const QuizEdit = () => {
                         })
 
                         let quizTakers = []
+                        console.log(formData['students']);
                         for (let i = 0; i < formData['students'].length; i++) {
-                            if (!(courseStudents.includes(formData['students'][i]))) {          
-                                toast.success("Quiz edited successfully!") 
+                            if (!(courseStudents.includes(formData['students'][i]))) {                  
                                 toast.error('The student is not enrolled in the proper course! Sharing to student(s) failed!')
                                 return
                             }
@@ -215,13 +218,10 @@ const QuizEdit = () => {
                         .insert(quizTakers)
                         .select()
                         
-                        
                         if (!hasError && !error) {
-                            toast.success("Quiz edited successfully!");
                             quizTakers = []
                         } else {
                             if (error && error.code === '23503') {
-                                toast.success("Quiz edited successfully!")
                                 toast.error("Email does not exist in the database! Sharing to students failed!")                            
                                 return
                             } else {
@@ -307,8 +307,7 @@ const QuizEdit = () => {
                 title: fetchedQuizInfo['title'],
                 duration: fetchedQuizInfo['duration'],
                 instruction: fetchedQuizInfo['instruction'],
-                examinationTags: fetchedQuizInfo['tags'],
-                students: fetchedQuizInfo['students'],
+                examinationTags: fetchedQuizInfo['tags'],                
                 courseCode: fetchedQuizInfo['course_code']
             })
 

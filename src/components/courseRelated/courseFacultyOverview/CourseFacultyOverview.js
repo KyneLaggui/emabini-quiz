@@ -17,7 +17,6 @@ const CourseFacultyOverview = () => {
     const navigate = useNavigate();
 
     const handleClick = (id) => {
-        console.log('okay')
         navigate(`/faculty-courses/${id}`)
     } 
 
