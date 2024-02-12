@@ -3,7 +3,7 @@ import "./CourseState.scss"
 import { Link } from 'react-router-dom';
 
 
-const CourseState = ({quizTitle, quizDate, quizTime, quizState}) => {
+const CourseState = ({title, created_at, duration, quizState}) => {
     let csExamStateClass = '';
 
     if (quizState === 'Done') {
@@ -14,6 +14,40 @@ const CourseState = ({quizTitle, quizDate, quizTime, quizState}) => {
         csExamStateClass = 'na'; 
     }
     
+    const extractDate = (timestampz) => {
+        // Parse the timestampz string to create a Date object
+        const dateObject = new Date(timestampz);
+
+        // Extract the date components
+        const year = dateObject.getUTCFullYear();
+        const month = dateObject.getUTCMonth() + 1; // Note: Month is zero-indexed, so we add 1
+        const day = dateObject.getUTCDate();
+
+        // Create a formatted date string
+        const formattedDate = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}`;
+        return formattedDate;
+    }
+
+    const extractTime = (timestampz) => {
+        // Parse the timestampz string to create a Date object
+        const dateObject = new Date(timestampz);
+
+        // Extract the time components
+        let hours = dateObject.getHours();
+        const minutes = dateObject.getMinutes();
+
+        // Determine AM/PM indication
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+
+        // Convert hours to 12-hour format
+        hours %= 12;
+        hours = hours || 12; // If hours is 0, set it to 12
+
+        // Create a formatted time string
+        const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
+
+       return formattedTime
+    }
 
     return (
         <div className="cs-topic-cont">
@@ -21,9 +55,9 @@ const CourseState = ({quizTitle, quizDate, quizTime, quizState}) => {
             <div className="cs-container">
                 
                 <div className="cs-left">
-                    <h1><Link>{quizTitle}</Link></h1>
-                    <p><Link>{quizDate}</Link></p>
-                    <p><Link>{quizTime}</Link></p>
+                    <h1><Link>{title}</Link></h1>
+                    <p><Link>Posted at: {extractDate(created_at)} {extractTime(created_at)}</Link></p>
+                    <p><Link>Duration: {duration} minutes</Link></p>
                 </div>
 
                 <div className="cs-right">

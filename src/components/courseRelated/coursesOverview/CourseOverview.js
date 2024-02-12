@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectEmail, selectUserID } from '../../../redux/slice/authSlice';
 import { supabase } from '../../../supabase/config';
 import FetchCoursesStudent from '../../../customHooks/fetchCoursesStudent';
+import { useNavigate } from 'react-router-dom';
 
 const CourseOverview = () => {
     const [courses, setCourses] = useState([])
