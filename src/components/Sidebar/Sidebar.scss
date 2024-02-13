@@ -135,11 +135,14 @@
     align-items: center;
     text-decoration: none;
     border-radius: 0.8rem;
+
 }
+    
 
 .sidebar ul li .navlink:hover, .sidebar ul li .navlink.active {
     background-color: var(--red);
     color: var(--asideWhite);
+    
 }
 
 .sidebar ul li .navlink .link-icon {
@@ -148,6 +151,10 @@
     text-align: center;
     border-radius: 12px;
     line-height: 50px;
+
+    &:hover {
+        color: var(--asideWhite);
+    }
 }
 
 .sidebar .nav-item {

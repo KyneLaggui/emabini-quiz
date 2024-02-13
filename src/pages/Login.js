@@ -8,9 +8,11 @@ import { selectUserID } from '../redux/slice/authSlice';
 import PageLayout from '../layouts/pageLayout/PageLayout';
 import Loader from '../components/loader/Loader';
 import LoginPicture from "../assets/login-pic.png"
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const id = useSelector(selectUserID)
     const { userData, isLoadingProfile } = FetchUserProfile(id) 
@@ -68,6 +70,10 @@ const Login = () => {
         getSession()        
     }, [id, navigate, userData])
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
+
     return (
         <PageLayout>
             {
@@ -78,9 +84,19 @@ const Login = () => {
                         <div className='login-left'>
                             <h1>eMabini.</h1>
                             <div className='login-inputs'>
-                                <input type="text" name='email' placeholder= "Email" onChange={(e) => onInputHandleChange(e)} />
-                                
-                                <input type="text" name='password'  placeholder= "Password" onChange={(e) => onInputHandleChange(e)} />
+                                <div className='input-style'>
+                                    <input type="text" name='email' placeholder= "Email" onChange={(e) => onInputHandleChange(e)}/>
+                                </div>
+                                <div className='input-style-password'>
+                                    <input type={showPassword ? 'text' : 'password'}  name='password'  placeholder= "Password" onChange={(e) => onInputHandleChange(e)} />
+                                    <span 
+                                        className='password-toggle' 
+                                        onClick={togglePasswordVisibility}
+                                    >
+                                        {showPassword ?  <FaRegEye size={18} /> : <FaRegEyeSlash size={18} /> }
+                                    </span>
+                                </div>
+                               
                             </div>
                            
                         
