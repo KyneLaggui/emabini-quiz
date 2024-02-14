@@ -43,6 +43,13 @@ const FacultyCourse = () => {
         const { name, checked } = event.target;
         setCheckedItems({ ...checkedItems, [name]: checked });
     };
+    // const [searchInput, setSearchInput] = useState("")
+    // const [filteredCourses, setFilteredCourses] = useState([])
+
+    // const alterInput = (newValue) => {
+    //     setSearchInput(newValue)
+    // }
+
 
     // const StepOne = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
     //     useEffect(() => {
