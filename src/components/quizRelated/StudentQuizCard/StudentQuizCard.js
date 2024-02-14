@@ -21,9 +21,9 @@ const StudentQuizCard = ({ quiz, number, addAnswer, answerCompilation }) => {
             <div className="student-quiz-card-container">
                 <div className="student-question-number">{number}</div>
                 <div className="student-question-point">{`${points} ${points > 1 ? `points` : `point`}`}</div>
-                <div className="volume-container">
+                {/* <div className="volume-container">
                     <FaVolumeUp size={20} />
-                </div>
+                </div> */}
                 <div className="student-quiz-question">{question}</div>
             </div>
             <div className="student-questions-container">
