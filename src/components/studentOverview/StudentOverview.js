@@ -8,7 +8,7 @@ import {
     ArcElement
 } from 'chart.js';
 
-import { Doughnut, Radar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import './StudentOverview.scss';
 
 ChartJS.register(
