@@ -294,23 +294,23 @@ const StudentQuiz = () => {
 
    const [quizData, setQuizData] = useState([]);
 
-   useEffect(() => {
-     // Function to fetch data from Supabase
-     async function fetchData() {
-       try {
-         const { data, error } = await supabase.from('question_answer').select('*');
-         if (error) {
-           throw error;
-         }
-         // Assuming your data structure is an array of objects with 'question' and 'answer' properties
-         setQuizData(data);
-       } catch (error) {
-         console.error('Error fetching quiz data:', error.message);
-       }
-     }
+  //  useEffect(() => {
+  //    // Function to fetch data from Supabase
+  //    async function fetchData() {
+  //      try {
+  //        const { data, error } = await supabase.from('question_answer').select('*');
+  //        if (error) {
+  //          throw error;
+  //        }
+  //        // Assuming your data structure is an array of objects with 'question' and 'answer' properties
+  //        setQuizData(data);
+  //      } catch (error) {
+  //        console.error('Error fetching quiz data:', error.message);
+  //      }
+  //    }
  
-     fetchData(); // Call the function to fetch data when the component mounts
-   }, []); 
+  //    fetchData(); // Call the function to fetch data when the component mounts
+  //  }, []); 
 
   return (
     <>
