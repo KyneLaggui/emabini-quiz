@@ -351,32 +351,12 @@ const CreateMultipleChoice = () => {
 
                         <button className='cmc-quiz-button' onClick={addQuizComponent}>Add Question</button>
                     </div>
-                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore}/>
+                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore} new={"new"}/>
                     
                  </div>     
                 {/* {activeTab === 'shared' && (                    
-
                 )} */}                
                 </div>
-                {isPopupMinimized ? <div className={`popup-book ${isPopupMinimized ? 'minimized' : ''}`} onClick={togglePopup}><FaBook className='book-itself'/></div> : (
-                    <div className={`selected-questions-popup ${selectedQuestions.length > 0 ? 'show' : ''} ${isPopupMinimized ? 'minimized' : ''}`}>
-                    <div className="popup-header" onClick={togglePopup}>
-                        <h3>Selected Questions</h3>
-                        <button>
-                            <FaTimes onClick={togglePopup}/>
-                        </button>
-                    </div>
-                    <div className="popup-body">
-                        
-                        {selectedQuestions.map((question, index) => (
-                            <div key={index}>
-                                <p>{question}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                )}
-
             </FacultyOnly>
         </PageLayout>
     </>
