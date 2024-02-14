@@ -17,6 +17,7 @@ import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard';
 import Swal from 'sweetalert2';
 import { selectEmail } from '../../../redux/slice/authSlice';
 import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard/StudentAnswerCard';
+import { FaClock } from 'react-icons/fa';
 
 const StudentQuiz = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const StudentQuiz = () => {
     duration: "",
     totalScore: 0
   })
+
+  const [completedTotalScore, setCompletedTotalScore] = useState(0)
 
   const {quizId} = useParams();
 
@@ -70,7 +73,8 @@ const StudentQuiz = () => {
             courseCode: fetchedQuizInfo['course_code'],        
             duration: fetchedQuizInfo['duration'],
             totalScore: fetchedQuizInfo['overall_score'],
-            courseId: courseDetails.data['id']
+            courseId: courseDetails.data['id'],
+            courseInstruction: fetchedQuizInfo['instruction']
           })
 
           setRemainingTime(fetchedQuizInfo['duration'] * 60);
@@ -262,6 +266,8 @@ const StudentQuiz = () => {
       score: totalScore
     })
 
+   
+
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: "btn btn-success",
@@ -315,20 +321,39 @@ const StudentQuiz = () => {
    useEffect(() => {
      // Function to fetch data from Supabase
      async function fetchData() {
-       try {
-         const { data, error } = await supabase.from('question_answer').select('*');
-         if (error) {
-           throw error;
-         }
-         // Assuming your data structure is an array of objects with 'question' and 'answer' properties
-         setQuizData(data);
-       } catch (error) {
-         console.error('Error fetching quiz data:', error.message);
-       }
-     }
- 
-     fetchData(); // Call the function to fetch data when the component mounts
-   }, []); 
+      if (studentEmail && fetchedQuizInfo){
+          try {
+            const { data, error } = await supabase.from('question_answer').select('*')
+            .eq('student_email',studentEmail).eq('quiz_id', fetchedQuizInfo['id']);
+            if (error) {
+              throw error;
+            }
+            // Assuming your data structure is an array of objects with 'question' and 'answer' properties
+            setQuizData(data);
+          } catch (error) {
+            console.error('Error fetching quiz data:', error.message);
+          }
+        }
+    
+        
+      }
+      fetchData();
+        // Call the function to fetch data when the component mounts
+   }, [studentEmail, fetchedQuizInfo]); 
+
+   useEffect(() => {
+    if (quizTaken) {
+      async function fetchData() {
+        const {data, error} = await supabase
+        .from('quiz_grades')
+        .select().eq('student_email', studentEmail).eq('quiz_id', quizId).single()
+        setCompletedTotalScore(data.score)
+        }
+
+        fetchData()
+      }
+        
+    }, [quizTaken, quizId])
 
   return (
     <>
@@ -340,15 +365,44 @@ const StudentQuiz = () => {
                 (
                   <>
                     {/* <StudentQuizCard number={quizCards.length}  />
-                    <StudentQuizTracker />    */}
-
-                    {quizData.map((quizItem, index) => (
-                      <div key={index}>
-                        
-                        <StudentAnswerCard quizItem={quizItem} />
-                        
+                        */}
+                    <div className='qt-container'>
+                      <div className='student-quiz-answer-container'>
+                        {quizData.map((quizItem, index) => (
+                          <div key={index}>
+                            
+                              <StudentAnswerCard quizItem={quizItem} number={index + 1} />
+                          </div>
+                          
+                        ))} 
                       </div>
-                    ))}  
+                      <div className='quiz-navigation'>
+                        <div className='qn-top'>
+                          <h1 className='qn-title'>{quizDetails.quizTitle}</h1>
+                          <div className='qn-desc'>
+                              <p className='eb-standard qn-duration'><FaClock /> {quizDetails.duration} minute/s |</p>
+                              <p className='eb-standard'>Points: <span className='qn-score'>{completedTotalScore}/{quizDetails.totalScore}</span></p>
+                          </div>
+                       
+                          
+                        </div>
+                        
+                        <div className='qn-instruction'>
+                          <p className='eb-standard'>Instructions</p>
+                          <p className='qn-ins-text'>{quizDetails.courseInstruction}</p>
+                        </div>
+                        
+                        <div className='sq-tracker'>
+                          <StudentQuizTracker number={quizData.length} />
+                        </div>
+                          
+                      </div>
+                    </div>
+                   
+
+                    
+                    
+                    
                   </>        
                 )
                 :

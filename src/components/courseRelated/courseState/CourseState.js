@@ -67,14 +67,15 @@ const CourseState = ({ title, created_at, duration, quizState, taken }) => {
                     <div className={`cs-exam-state ${csExamStateClass}`}>
                         <h1><Link>{quizState}</Link></h1>
                     </div>
+                        <div className={`changing-text ${taken ? 'completed' : 'incomplete'}`}>
+                        {taken ? 'Completed' : 'Take now'}
+                    </div>
                     <FaAngleRight />
 
                 </div>
 
                 {/* Text with changing background and text based on boolean value */}
-                <div className={`changing-text ${taken ? 'completed' : 'incomplete'}`}>
-                    {taken ? 'Completed' : 'Take now'}
-                </div>
+               
 
             </div>
         </div>

@@ -72,10 +72,10 @@
 .completed, .incomplete {
   background: var(--green);
   font-size: 0.875rem;
-  padding: 10px;
-  margin-top: 10px;
   color: white;
   border-radius: 10px;
+  padding-inline: 0.6875rem;
+  border-radius: 4px;
 }
 
 .completed {
