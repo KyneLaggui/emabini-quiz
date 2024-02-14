@@ -291,7 +291,7 @@ const StudentQuiz = () => {
 
    }
 
-    // Automically deem quiz as completed when the student clicks on the quiz
+    // Automically deem quiz as completed when the student clicks on the quizz
   useEffect(() => {
     const updateQuizStatus = async() => {
       if (quizId) {
