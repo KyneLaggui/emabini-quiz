@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./QuizCreation.scss"
+import "./QuizCreationReuse.scss"
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 import Swal from 'sweetalert2';
@@ -7,7 +7,7 @@ import { ADD_QUESTION, REMOVE_QUESTION, selectCurrentQuestions } from '../../../
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
+const QuizCreationReuse = ({ manipulateQuestion, number, questionInfo }) => {
     // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
@@ -418,4 +418,4 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
   )
 }
 
-export default QuizCreation
+export default QuizCreationReuse

@@ -4,7 +4,6 @@ import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
-import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
 import { FaArrowLeft, FaBook, FaTimes } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -15,7 +14,9 @@ import { useSelector } from 'react-redux'
 import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 import QuizCart from '../quizCart/quizCart'
+import QuizCreationReuse from '../quizCreationReuse/QuizCreationReuse'
 import Swal from 'sweetalert2'
+
 
 const QuizReuseQuestions = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -101,7 +102,7 @@ const QuizReuseQuestions = () => {
     const addQuizComponent = (questionInfo) => {
         const newKey = quizComponents.length;   
        
-        const newComponent = <QuizCreation key={newKey} manipulateQuestion={alterQuestion} number={newKey} questionInfo={questionInfo}/>;
+        const newComponent = <QuizCreationReuse key={newKey} manipulateQuestion={alterQuestion} number={newKey} questionInfo={questionInfo}/>;
         setQuizComponents([...quizComponents, newComponent]);
         setCount([...count, newKey]);
         
@@ -439,7 +440,7 @@ const QuizReuseQuestions = () => {
         if (Object.keys(fetchedQuizInfo).length !== 0) {            
 
             const newComponents = fetchedQuizInfo['questions'].map((question, index) => (
-                <QuizCreation key={index} manipulateQuestion={alterQuestion} number={index} questionInfo={question}/>
+                <QuizCreationReuse key={index} manipulateQuestion={alterQuestion} number={index} questionInfo={question}/>
             ));
     
             setQuizComponents(newComponents);
