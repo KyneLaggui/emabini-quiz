@@ -19,6 +19,7 @@ import FacultyQuiz from './pages/faculty/FacultyQuiz/FacultyQuiz';
 import FacultyQuizResult from './pages/faculty/FacultyQuizResult/FacultyQuizResult';
 import CreateVideoQuiz from './pages/faculty/CreateVideoQuiz/CreateVideoQuiz';
 import QuizEdit from './components/courseRelated/quizEdit/QuizEdit';
+import QuizReuseQuestions from './components/courseRelated/quizReuseQuestions/QuizReuseQuestions';
 
 
 function App() {
@@ -41,7 +42,8 @@ function App() {
           <Route path="/faculty-courses/:id" element={ <EachFacultyCourse/>}></Route>  
           <Route path="/faculty-quizzes" element={ <FacultyQuiz/>}></Route>  
           <Route path="/create-multiple-choice-quiz" element={ <CreateMultipleChoice/>}></Route> 
-          <Route path="/create-multiple-choice-chosen-quiz" element={ <CreateMultipleChoice/>}></Route> 
+          {/* <Route path="/create-multiple-choice-chosen-quiz" element={ <CreateMultipleChoice/>}></Route>  */}
+          <Route path="/create-reused-questions-quiz" element={ <QuizReuseQuestions/>}></Route> 
           <Route path="/create-multiple-choice-quiz/:quizId" element={ <QuizEdit/>}></Route> 
           <Route path="/create-video-quiz" element={ <CreateVideoQuiz/>}></Route> 
           <Route path="/quiz-id-result" element={ <FacultyQuizResult/>}></Route> 

@@ -1,0 +1,135 @@
+.selected-questions-popup {
+    position: fixed;
+    top: 40%;
+    right: 40px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 50px 30px 30px 30px;
+    z-index: 999;
+    max-height: 60vh; /* Adjust as needed */
+    overflow-y: auto;
+
+    &.show {
+        display: block;
+    }
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+
+        h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: transparent;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+    }
+
+    .popup-body {
+        > div {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h4 {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+
+            svg {
+                margin-right: 5px;
+            }
+        }
+
+        p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+        }
+    }
+}
+
+
+.selected-questions-popup .popup-header .question-cart-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--red);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+    z-index: 1000;
+
+    &:hover {
+        opacity: 0.7;
+    }
+
+    .fa-times {
+        &:hover {
+            color: white;
+        }
+    }
+}
+
+.indiv-question-cart-container {
+    position: relative;
+    background: var(--gray);
+    border-radius: 5px;
+    padding: 30px 20px 20px 20px;
+
+    span {
+        font-weight: bold;
+    }
+}
+
+.minus-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: var(--red);
+
+    &:hover {
+        opacity: 0.7
+    }
+}
+
+.use-button, .select-all-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.use-button {
+    background: #4fd673;
+}
+
+.select-all-button {
+    background: #97c0fc
+}

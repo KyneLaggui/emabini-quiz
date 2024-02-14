@@ -3,8 +3,8 @@ import "./QuizCreation.scss"
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 import Swal from 'sweetalert2';
-import { ADD_QUESTION } from '../../../redux/slice/quizReuseSlice';
-import { useDispatch } from 'react-redux';
+import { ADD_QUESTION, REMOVE_QUESTION, selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
     // const [question, setQuestion] = useState('');
@@ -23,7 +23,8 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
         choiceInput: ['', '', ''],
         quizTags: [],
         answerInput: [''],
-        points: 1
+        points: 1,
+        questionId: ''
     })
 
     const handleConfirm = () => {
@@ -256,13 +257,13 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
 
     useEffect(() => {
         if (questionInfo) { 
-            console.log(questionInfo)
             const newInfo = {
                 question: questionInfo['question'],
                 choiceInput: questionInfo['choice'],
                 quizTags: questionInfo['tag'],
                 answerInput: questionInfo['answer'],
-                points: questionInfo['points']                
+                points: questionInfo['points'],
+                questionId: questionInfo['id'],              
             }
 
             setConfirmedQuizTags(questionInfo['tag'])
@@ -277,13 +278,27 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
     // For question reuses
     const dispatch = useDispatch();
 
+    const reduxCurrentQuestions = useSelector(selectCurrentQuestions);
+
     const addQuestion = () => {
         setShowCheckbox(!showCheckbox)
-
-        dispatch(ADD_QUESTION(questionData))
+        if (showCheckbox) {
+            dispatch(REMOVE_QUESTION(questionData))
+        } else {
+            console.log(questionData)
+            dispatch(ADD_QUESTION(questionData))
+        }
     }
  
-
+    useEffect(() => {
+        if (questionInfo) {
+            reduxCurrentQuestions.map((question) => {
+                if (question.questionId === questionInfo['id']){
+                    setShowCheckbox(!showCheckbox)
+            }
+        })
+        }
+    }, [reduxCurrentQuestions, questionInfo])
 
   return (
     <div className='qc-container'>

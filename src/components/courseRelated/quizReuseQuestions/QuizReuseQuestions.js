@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import "./QuizEdit.scss"
+import "./QuizReuseQuestions.scss"
 import Sidebar from '../../../components/Sidebar/Sidebar'
 import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
@@ -16,7 +16,7 @@ import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 import QuizCart from '../quizCart/quizCart'
 
-const QuizEdit = () => {
+const QuizReuseQuestions = () => {
     const [activeTab, setActiveTab] = useState('examination');
     // const [quizInformation, setQuizInformation] = useState({
     //     title: '',
@@ -25,9 +25,9 @@ const QuizEdit = () => {
 
     const id = useSelector(selectUserID)
 
-    const { quizId } = useParams();
+    // const { quizId } = useParams();
 
-    const { fetchedQuizInfo } = FetchQuizInformation(quizId);
+    // const { fetchedQuizInfo } = FetchQuizInformation(quizId);
 
     const [isPopupMinimized, setIsPopupMinimized] = useState(false);
 
@@ -88,6 +88,12 @@ const QuizEdit = () => {
         setActiveTab(tabName);
     };
 
+    const deleteCourse = async (id) => {
+        const { error } = await supabase
+        .from('quiz')
+        .delete()
+        .eq('id', id)
+    }
     
     const [count, setCount] = useState([])
 
@@ -103,23 +109,23 @@ const QuizEdit = () => {
         updateTagTracker();
       };
 
-      const revertQuizDetails = async () => {
-        const { data } = await supabase
-        .from('quiz')
-        .update([{
-            title: fetchedQuizInfo['title'],
-            instruction: fetchedQuizInfo['instruction'],
-            overall_score: fetchedQuizInfo['overall_score'],
-            tags: fetchedQuizInfo['tags'],
-            duration: fetchedQuizInfo['duration'],
-            status: fetchedQuizInfo['status'],                                
-            instructor_id: formData['instructorId'],
-            course_code: formData['courseCode'],
-        }])
-        .eq('id', quizId)
-        .select()
-        .single()
-    }
+    //   const revertQuizDetails = async () => {
+    //     const { data } = await supabase
+    //     .from('quiz')
+    //     .update([{
+    //         title: fetchedQuizInfo['title'],
+    //         instruction: fetchedQuizInfo['instruction'],
+    //         overall_score: fetchedQuizInfo['overall_score'],
+    //         tags: fetchedQuizInfo['tags'],
+    //         duration: fetchedQuizInfo['duration'],
+    //         status: fetchedQuizInfo['status'],                                
+    //         instructor_id: formData['instructorId'],
+    //         course_code: formData['courseCode'],
+    //     }])
+    //     .eq('id', quizId)
+    //     .select()
+    //     .single()
+    // }
 
     // const deleteQuestions = async (questionIds) => {
     //     // Deletion of all the questions related to this quiz because it will be replaced by new
@@ -135,25 +141,51 @@ const QuizEdit = () => {
       const handleCreate = async (status) => {    
         let hasError = false;
 
-  
-        if (quizId) {
-            console.log(questionData)
-            try {                                                             
+        console.log(formData);
+
+        try {
+            const { error, data } = await supabase
+            .from('quiz')
+            .insert([{
+                title: formData['title'],
+                instruction: formData['instructions'],
+                overall_score: totalScore,
+                tags: formData['examinationTags'],
+                duration: formData['duration'],
+                status,                                
+                instructor_id: formData['instructorId'],
+                course_code: formData['courseCode']
+            }])
+            .select()
+            .single()
+
+            if (error) {
+                if (error.code === '23503') {
+                    toast.error("Course code does not exist!")
+                    hasError =  true;        
+                    deleteCourse(data.id)            
+                    return
+                }                
+            }
+
+            if (data) {
+                const quizId = data.id
                 const questions = []
                 for (let i = 0; i < questionData.length; i++) {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
                         if (answer === '')  {
                             toast.error("All questions must have an answer")
-                            hasError = true;
+                            deleteCourse(quizId)  
+                            hasError = true
                             return
                         }
-                    })                                                            
-                    
+                    })
+
                     // Creation of the question rows
                     const newQuestion = {
                         question: questionData[i]['question'],
-                        quiz_id: quizId,
+                        quiz_id: data.id,
                         tag: questionData[i]['quizTags'],
                         answer: questionData[i]['answerInput'],
                         points: questionData[i]['points'],
@@ -164,87 +196,57 @@ const QuizEdit = () => {
                     questions.push(newQuestion)        
                 }    
 
-                if (!hasError) {                    
-                    const updateResult = await supabase
-                    .from('quiz')
-                    .update([{
-                        title: formData['title'],
-                        instruction: formData['instruction'],
-                        overall_score: totalScore,
-                        tags: formData['examinationTags'],
-                        duration: formData['duration'],
-                        status,                                
-                        instructor_id: formData['instructorId']
-                    }])
-                    .eq('id', quizId)
-                    .select()
-                    .single()
+                const { error } = await supabase.from('question')
+                .insert(questions)
+                .select()
 
-                    if (!updateResult.error) {
-                        toast.success("Quiz edited successfully!");
+                
+                if (!error && !hasError) {
+                    const {data} = await supabase.from('course_enrollee')
+                    .select('email')
+                    .eq('course_code', formData['courseCode'])      
+                    
+                    const courseStudents = data.map((student) => {
+                        return student['email']
+                    })
+
+                    const quizTakers = []
+                    for (let i = 0; i < formData['students'].length; i++) {
+                        if (!(courseStudents.includes(formData['students'][i]))) {                        
+                            toast.error('The student is not enrolled in the proper course!')
+                            deleteCourse(quizId)  
+                            return
+                        }
+
+                        const newTaker = {
+                            student_email: formData['students'][i],
+                            quiz_id: quizId
+                        }
+
+                        quizTakers.push(newTaker)
                     }
-                    // Deletion of all the questions related to this quiz because it will be replaced by new
-                    // set of questions
-                    await supabase
-                    .from('question')
-                    .delete()
-                    .eq('quiz_id', quizId)
 
-                    const { error } = await supabase.from('question')
-                    .insert(questions)
+                    const { error } = await supabase.from('quiz_assignment')
+                    .insert(quizTakers)
                     .select()
                     
-                    if (!error && formData['students'] && !hasError && updateResult.data) {
-                        const quizId = updateResult.data.id                                                
-                        const courseEnrollees = await supabase.from('course_enrollee')
-                        .select('email')
-                        .eq('course_code', formData['courseCode'])       
-                          
-
-                        const courseStudents = courseEnrollees.data.map((student) => {
-                            return student['email']
-                        })
-
-                        let quizTakers = []
-                        console.log(formData['students']);
-                        for (let i = 0; i < formData['students'].length; i++) {
-                            if (!(courseStudents.includes(formData['students'][i]))) {                  
-                                toast.error('The student is not enrolled in the proper course! Sharing to student(s) failed!')
-                                return
-                            }
-
-                            const newTaker = {
-                                student_email: formData['students'][i],
-                                quiz_id: quizId
-                            }
-    
-                            quizTakers.push(newTaker)
-                        }
-                        
-                        
-                        const { error } = await supabase.from('quiz_assignment')
-                        .insert(quizTakers)
-                        .select()
-                        
-                        if (!hasError && !error) {
-                            quizTakers = []
+                    if (!hasError) {
+                        toast.success("Quiz created successfully!");
+                    } else {
+                        if (error && error.code === '23503') {
+                            toast.error("Email does not exist in the database!")
+                            deleteCourse(quizId)  
+                            return
                         } else {
-                            if (error && error.code === '23503') {
-                                toast.error("Email does not exist in the database! Sharing to students failed!")                            
-                                return
-                            } else {
-                                if (error) {
-                                    toast.error(error.message)
-                                }
+                            if (error) {
+                                toast.error(error.message)
                             }
                         }
                     }
-                } else {
-                    revertQuizDetails();
-                }                              
-            } catch(error) {
-                toast.error(error.message)
+                }
             }
+        } catch(error) {
+            toast.error(error.message)
         }
 
         
@@ -292,9 +294,10 @@ const QuizEdit = () => {
             students: newArr
         })
     }
-
+    const [fetchedQuizInfo, setFetchedQuizInfo] = useState({})
     const [currentReusableQuestions, setCurrentReusableQuestions] = useState([])
-    
+    const fetchedCurrentQuestions = useSelector(selectCurrentQuestions)
+
     useEffect(() => {
         setFormData({
             ...formData,
@@ -305,23 +308,19 @@ const QuizEdit = () => {
     // useEffect(() => {
     //     console.log(quizComponents)
     // }, [quizComponents])
-
     useEffect(() => {
-        console.log(count)
-    }, [count])
+        if (fetchedCurrentQuestions) {
+            setFetchedQuizInfo({
+                ...fetchedQuizInfo,
+                questions: fetchedCurrentQuestions
+            })
+        }
+    }, [fetchedCurrentQuestions])
 
     useEffect(() => {
         // setQuizInformation(fetchedQuizInfo)     
         
         if (Object.keys(fetchedQuizInfo).length !== 0) {            
-            console.log(fetchedQuizInfo)
-            setFormData({
-                title: fetchedQuizInfo['title'],
-                duration: fetchedQuizInfo['duration'],
-                instruction: fetchedQuizInfo['instruction'],
-                examinationTags: fetchedQuizInfo['tags'],                
-                courseCode: fetchedQuizInfo['course_code']
-            })
 
             const newComponents = fetchedQuizInfo['questions'].map((question, index) => (
                 <QuizCreation key={index} manipulateQuestion={alterQuestion} number={index} questionInfo={question}/>
@@ -419,4 +418,4 @@ const QuizEdit = () => {
   )
 }
 
-export default QuizEdit
+export default QuizReuseQuestions
