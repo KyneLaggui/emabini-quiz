@@ -8,6 +8,7 @@ import { supabase } from '../../../supabase/config';
 import { toast } from 'react-toastify';
 import SearchBar from '../../filters/SearchBar'
 import Sort from '../../filters/Sort/Sort'
+import Swal from 'sweetalert2';
 
 
 
@@ -90,10 +91,42 @@ const AccountManagementHeader = () => {
                 }
             )
             if (error) throw error;
-            toast.success("Check the email(s) for the email verification.")
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'success',
+                title: 'Check the email(s) for the email verification.',
+                
+            })
 
         } catch(error) {
-            toast.error(error);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error.message,
+                
+            })
         }
       }
 
