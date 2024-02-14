@@ -44,7 +44,7 @@ const StudentOverview = () => {
     return (
         <>
             <div className="student-overview-container">
-                <p className="eb-semi-titles">My Overview</p>
+                <p className="eb-semi-titles soc-title">My Overview</p>
                 <div className='soc-contents'>
                     <div className='soc-scores'>
                         <h1>Math: <span className='soc-total'>100</span></h1>

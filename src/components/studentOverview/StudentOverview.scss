@@ -1,20 +1,21 @@
 .student-overview-container {
     position: relative;
     display: flex;
-    padding: 20px;
+    padding: 20px 40px;
     max-width: 1200px;
     min-height: 300px;
     background: #F3F6FF;
     border-radius: 20px;
     justify-content: flex-start;
     flex-wrap: wrap;
+    border: 1px solid #e4e4e4;
 }
 
 .radar-chart {
     position: relative;
     width: 100%;
-    max-width: 230px;
-    min-height: 230px;
+    max-width: 250px;
+    min-height: 250px;
 }
 
 .soc-contents {
