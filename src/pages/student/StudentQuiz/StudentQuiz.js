@@ -292,6 +292,24 @@ const StudentQuiz = () => {
 
    }
 
+    // Automically deem quiz as completed when the student clicks on the quizz
+  useEffect(() => {
+    const updateQuizStatus = async() => {
+      if (quizId) {
+        const {data, error} = await supabase
+        .from('quiz_assignment')
+        .update({
+          taken: true
+        })
+        .eq('student_email', studentEmail)
+        .eq('quiz_id', fetchedQuizInfo['id'])
+        .single()
+      }
+    }
+    
+    updateQuizStatus()
+  }, [studentEmail, fetchedQuizInfo])
+  
    const [quizData, setQuizData] = useState([]);
 
   //  useEffect(() => {
