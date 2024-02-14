@@ -16,3 +16,11 @@
     color: white;
     /* Add any additional styling as needed */
 }
+
+.student-quiz-answer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}

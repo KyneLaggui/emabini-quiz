@@ -312,23 +312,28 @@ const StudentQuiz = () => {
   
    const [quizData, setQuizData] = useState([]);
 
-  //  useEffect(() => {
-  //    // Function to fetch data from Supabase
-  //    async function fetchData() {
-  //      try {
-  //        const { data, error } = await supabase.from('question_answer').select('*');
-  //        if (error) {
-  //          throw error;
-  //        }
-  //        // Assuming your data structure is an array of objects with 'question' and 'answer' properties
-  //        setQuizData(data);
-  //      } catch (error) {
-  //        console.error('Error fetching quiz data:', error.message);
-  //      }
-  //    }
- 
-  //    fetchData(); // Call the function to fetch data when the component mounts
-  //  }, []); 
+   useEffect(() => {
+     // Function to fetch data from Supabase
+     async function fetchData() {
+      if (studentEmail && fetchedQuizInfo){
+          try {
+            const { data, error } = await supabase.from('question_answer').select('*')
+            .eq('student_email',studentEmail).eq('quiz_id', fetchedQuizInfo['id']);
+            if (error) {
+              throw error;
+            }
+            // Assuming your data structure is an array of objects with 'question' and 'answer' properties
+            setQuizData(data);
+          } catch (error) {
+            console.error('Error fetching quiz data:', error.message);
+          }
+        }
+    
+        
+      }
+      fetchData();
+        // Call the function to fetch data when the component mounts
+   }, [studentEmail, fetchedQuizInfo]); 
 
   return (
     <>
@@ -340,15 +345,28 @@ const StudentQuiz = () => {
                 (
                   <>
                     {/* <StudentQuizCard number={quizCards.length}  />
-                    <StudentQuizTracker />    */}
+                        */}
+                   <div className='student-quiz-answer-container'>
+                      {quizData.map((quizItem, index) => (
+                        <div key={index}>
+                          
+                            <StudentAnswerCard quizItem={quizItem} number={index + 1}/>
 
-                    {quizData.map((quizItem, index) => (
-                      <div key={index}>
+                            
+                          
+                          
+                        </div>
                         
-                        <StudentAnswerCard quizItem={quizItem} />
+                      ))} 
+                     
+
                         
-                      </div>
-                    ))}  
+                      
+                    </div>
+                    
+                    
+                    
+                    
                   </>        
                 )
                 :
