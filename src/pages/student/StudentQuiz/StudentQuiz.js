@@ -17,6 +17,7 @@ import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard';
 import Swal from 'sweetalert2';
 import { selectEmail } from '../../../redux/slice/authSlice';
 import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard/StudentAnswerCard';
+import { FaClock } from 'react-icons/fa';
 
 const StudentQuiz = () => {
   const dispatch = useDispatch();
@@ -370,16 +371,27 @@ const StudentQuiz = () => {
                         {quizData.map((quizItem, index) => (
                           <div key={index}>
                             
-                              <StudentAnswerCard quizItem={quizItem} number={index + 1}/>
+                              <StudentAnswerCard quizItem={quizItem} number={index + 1} />
                           </div>
                           
                         ))} 
                       </div>
                       <div className='quiz-navigation'>
-                        <h1>{quizDetails.quizTitle}</h1>
-                        <p>{quizDetails.duration}</p>
-                        <p>Score: {completedTotalScore}</p>
-                        <p>{quizDetails.courseInstruction}</p>
+                        <div className='qn-top'>
+                          <h1 className='qn-title'>{quizDetails.quizTitle}</h1>
+                          <div className='qn-desc'>
+                              <p className='eb-standard qn-duration'><FaClock /> {quizDetails.duration} minute/s |</p>
+                              <p className='eb-standard'>Points: <span className='qn-score'>{completedTotalScore}/{quizDetails.totalScore}</span></p>
+                          </div>
+                       
+                          
+                        </div>
+                        
+                        <div className='qn-instruction'>
+                          <p className='eb-standard'>Instructions</p>
+                          <p className='qn-ins-text'>{quizDetails.courseInstruction}</p>
+                        </div>
+                        
                         <div className='sq-tracker'>
                           <StudentQuizTracker number={quizData.length} />
                         </div>
