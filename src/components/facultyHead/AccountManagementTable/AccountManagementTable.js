@@ -7,6 +7,7 @@ import Modal from 'react-modal';
 import { FaX } from "react-icons/fa";
 import { supabase } from '../../../supabase/config';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 
 const AccountManagementTable = ({ users, changeData }) => {
@@ -96,11 +97,44 @@ const AccountManagementTable = ({ users, changeData }) => {
           .select()
   
           if (error) throw error;
-          toast.success("Profile details updated successfully!")
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+    
+            Toast.fire({
+            icon: 'success',
+            title: 'Profile details updated successfully',
+            
+        })
           changeData();
 
         } catch(error) {
-          toast.error(error.message)
+          
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+    
+            Toast.fire({
+            icon: 'error',
+            title: error.message,
+            
+        })
         }
         
       }

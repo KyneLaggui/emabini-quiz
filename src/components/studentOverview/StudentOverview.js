@@ -4,10 +4,11 @@ import {
     PointElement,
     Tooltip,
     Legend,
-    RadialLinearScale
+    RadialLinearScale,
+    ArcElement
 } from 'chart.js';
 
-import { Radar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import './StudentOverview.scss';
 
 ChartJS.register(
@@ -15,47 +16,53 @@ ChartJS.register(
     PointElement,
     Tooltip,
     Legend,
-    RadialLinearScale
+    RadialLinearScale,
+    ArcElement
 );
 
 const StudentOverview = () => {
     const data = {
-        labels: ['Thing1', 'Thing2', 'Thing3', 'Thing4', 'Thing6'],
+        labels: ['Math', 'Science', 'Language', 'Social Studies', 'Sports', 'Arts'],
         datasets: [{
-            label: [3, 6, 9],
-            backgroundColor: 'aqua',
-            borderColor: 'black',
-            data: '5',
+            label: 'Performance Grades',
+            backgroundColor: ['#ff7400', '#ff0000', '#ffc100'],
+            borderColor: 'white',
+            data: [10, 0, 90, 65, 50, 95],
         }]
     }
 
     const options = {
-        scales: {
-            r: {
-              ticks: {
-                display: false // Hides the labels in the middle (numbers)
-              }
-            }
-        },
-        plugins:{
-            legend:{
-                display:false
-            }
-        },
-        maintainAspectRatio: false
+        
+            plugins:{
+                legend:{
+                    display:false
+                }
+            },
+            maintainAspectRatio: false
     }
 
     return (
         <>
             <div className="student-overview-container">
-                <p className="bold">My Overview</p>
-               
-                <div className="radar-chart">
-                    <Radar
-                        data = {data}
-                        options = {options}
-                    ></Radar>
-                </div>                
+                <p className="eb-semi-titles soc-title">My Overview</p>
+                <div className='soc-contents'>
+                    <div className='soc-scores'>
+                        <h1>Math: <span className='soc-total'>100</span></h1>
+                        <h1>Social Studies: </h1>
+                        <h1>Sports: </h1>
+                        <h1>Arts: </h1>
+                        <h1>Science: </h1>
+                        <h1>Language: </h1>
+                    </div>
+                
+                    <div className="radar-chart">
+                        <Doughnut
+                            data = {data}
+                            options = {options}
+                        ></Doughnut>
+                    </div>   
+                </div>
+                             
             </div>
         </>
     );

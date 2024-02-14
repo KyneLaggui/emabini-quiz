@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import FetchCoursesFaculty from '../../../customHooks/fetchCoursesFaculty'
 import { useNavigate } from 'react-router-dom'
 import Multiselect from 'multiselect-react-dropdown'
+import Swal from 'sweetalert2'
 // import MultiStep from 'react-multistep'
 // import { PiBooksFill, PiMathOperationsBold, PiPaintBrushFill } from "react-icons/pi";
 // import { MdScience, MdSportsFootball } from 'react-icons/md'
@@ -277,7 +278,24 @@ const FacultyCourse = () => {
         // Validation check for empty formData properties
         for (const key in formData) {
             if (formData.hasOwnProperty(key) && formData[key] === '') {
-                toast.error(`${key} cannot be empty`);
+                
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+            
+                    Toast.fire({
+                    icon: 'error',
+                    title: `${key} cannot be empty`,
+                    
+                })
                 return; // Exit the function if any property is empty
             }
         }
@@ -313,7 +331,24 @@ const FacultyCourse = () => {
                             course_code: formData.courseCode
                         }
                     } catch(error) {
-                        toast.error(error.message)
+                        
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'error',
+                            title: error.message,
+                            
+                        })
                     }                                
                 }))
 
@@ -329,10 +364,43 @@ const FacultyCourse = () => {
             }
 
             if (error) throw error;
-            toast.success("Course successfully added!");
+            
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'success',
+                title: 'Course successfully added!',
+                
+            })
             setDataChange(!dataChange)
         } catch(error) {
-            toast.error(error.message)
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error.message,
+                
+            })
         }
         
     }

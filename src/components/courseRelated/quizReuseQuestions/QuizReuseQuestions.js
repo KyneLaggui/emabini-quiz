@@ -15,6 +15,8 @@ import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 import QuizCart from '../quizCart/quizCart'
 import QuizCreationReuse from '../quizCreationReuse/QuizCreationReuse'
+import Swal from 'sweetalert2'
+
 
 const QuizReuseQuestions = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -161,7 +163,23 @@ const QuizReuseQuestions = () => {
 
             if (error) {
                 if (error.code === '23503') {
-                    toast.error("Course code does not exist!")
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                        })
+                
+                        Toast.fire({
+                        icon: 'error',
+                        title: 'Course code does not exist!',
+                        
+                    })
                     hasError =  true;        
                     deleteCourse(data.id)            
                     return
@@ -175,7 +193,23 @@ const QuizReuseQuestions = () => {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
                         if (answer === '')  {
-                            toast.error("All questions must have an answer")
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: 'All questions must have an answer',
+                                
+                            })
                             deleteCourse(quizId)  
                             hasError = true
                             return
@@ -213,7 +247,24 @@ const QuizReuseQuestions = () => {
                     const quizTakers = []
                     for (let i = 0; i < formData['students'].length; i++) {
                         if (!(courseStudents.includes(formData['students'][i]))) {                        
-                            toast.error('The student is not enrolled in the proper course!')
+                            
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: 'The student is not enrolled in the proper course!',
+                                
+                            })
                             deleteCourse(quizId)  
                             return
                         }
@@ -231,22 +282,88 @@ const QuizReuseQuestions = () => {
                     .select()
                     
                     if (!hasError) {
-                        toast.success("Quiz created successfully!");
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'Quiz Created Successfully!',
+                            
+                        })
                     } else {
                         if (error && error.code === '23503') {
-                            toast.error("Email does not exist in the database!")
+                            
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: 'Email does not exist in the database!',
+                                
+                            })
                             deleteCourse(quizId)  
                             return
                         } else {
                             if (error) {
-                                toast.error(error.message)
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                    })
+                            
+                                    Toast.fire({
+                                    icon: 'error',
+                                    title: error.message,
+                                    
+                                })
+                                
                             }
                         }
                     }
                 }
             }
         } catch(error) {
-            toast.error(error.message)
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error.message,
+                
+            })
         }
 
         

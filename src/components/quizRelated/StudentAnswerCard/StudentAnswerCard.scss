@@ -1,3 +1,4 @@
+
 .student-quiz-card-container {
     position: relative;
     display: flex;
@@ -70,6 +71,87 @@
         width: 100%;
         background: var(--gray);
         padding: 10px;
+
+       
+    }
+    .correct {
+        background: green;
+        color: white;
+    }
+    
+    /* Wrong guess */
+    .wrong {
+        background: red;
+        color: white;
+    }
+    
+    /* Highlight correct answer */
+    .highlight {
+        border: 2px solid yellow;
     }
 }
+
+
+.wrongAns {
+    background: red !important;
+}
+.correctAns {
+    background: green !important;
+    
+}
+.rightAns {
+    background: yellow !important;
+}
+
+.correct-answer-container {
+    position:relative;
+    .check-icon {
+        position: absolute;
+        left: -4px;
+        top: -4px;
+        background-color: var(--green);
+        padding: 3px;
+        border-radius: 50px;
+        color: white;
+    }
+    button {
+        background-color: var(--blue);
+        color: var(--asideWhite);
+    }
+}
+
+.wrong-answer-container {
+    position:relative;
+    .wrong-icon {
+        position: absolute;
+        left: -4px;
+        top: -4px;
+        background-color: var(--red);
+        padding: 2px;
+        border-radius: 50px;
+        color: white;
+    }
+    button {
+        background-color: var(--blue);
+        color: var(--asideWhite);
+    }
+}
+
+.right-answer-container {
+    position:relative;
+    .check-icon {
+        position: absolute;
+        left: -4px;
+        top: -4px;
+        background-color: var(--green);
+        padding: 3px;
+        border-radius: 50px;
+        color: white;
+    }
+    button {
+        background-color: #000;
+        color: var(--asideWhite);
+    }
+}
+
 

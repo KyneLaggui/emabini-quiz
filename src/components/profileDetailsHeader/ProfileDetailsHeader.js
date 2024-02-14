@@ -29,7 +29,6 @@ const ProfileDetailsHeader = () => {
     return (
         <>
             <div className="profile-details-container">
-                <img src={userIcon} alt="User Icon" className="user-icon"/>
                 <div>
                     <p className="eb-titles">{`${userInformation.firstName} ${userInformation.middleName} ${userInformation.lastName}`}</p>
                     <p className="eb-standard red">2021-05787-MN-0</p>

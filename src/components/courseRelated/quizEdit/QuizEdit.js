@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
 import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 import QuizCart from '../quizCart/quizCart'
+import Swal from 'sweetalert2'
 
 const QuizEdit = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -144,7 +145,23 @@ const QuizEdit = () => {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
                         if (answer === '')  {
-                            toast.error("All questions must have an answer")
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: 'All questions must have an answer',
+                                
+                            })
                             hasError = true;
                             return
                         }
@@ -181,7 +198,23 @@ const QuizEdit = () => {
                     .single()
 
                     if (!updateResult.error) {
-                        toast.success("Quiz edited successfully!");
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'success',
+                            title: 'Edited Successfully',
+                            
+                        })
                     }
                     // Deletion of all the questions related to this quiz because it will be replaced by new
                     // set of questions
@@ -209,7 +242,23 @@ const QuizEdit = () => {
                         console.log(formData['students']);
                         for (let i = 0; i < formData['students'].length; i++) {
                             if (!(courseStudents.includes(formData['students'][i]))) {                  
-                                toast.error('The student is not enrolled in the proper course! Sharing to student(s) failed!')
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                    })
+                            
+                                    Toast.fire({
+                                    icon: 'error',
+                                    title: 'The student is not enrolled in the proper course! Sharing to student(s) failed!',
+                                    
+                                })
                                 return
                             }
 
@@ -230,11 +279,44 @@ const QuizEdit = () => {
                             quizTakers = []
                         } else {
                             if (error && error.code === '23503') {
-                                toast.error("Email does not exist in the database! Sharing to students failed!")                            
+                                
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                    })
+                            
+                                    Toast.fire({
+                                    icon: 'error',
+                                    title: 'Email does not exist in the database! Sharing to students failed!',
+                                    
+                                })                            
                                 return
                             } else {
                                 if (error) {
-                                    toast.error(error.message)
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        didOpen: (toast) => {
+                                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                        }
+                                        })
+                                
+                                        Toast.fire({
+                                        icon: 'error',
+                                        title: error.message,
+                                        
+                                    })
                                 }
                             }
                         }
@@ -243,7 +325,23 @@ const QuizEdit = () => {
                     revertQuizDetails();
                 }                              
             } catch(error) {
-                toast.error(error.message)
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+            
+                    Toast.fire({
+                    icon: 'error',
+                    title: error.message,
+                    
+                })
             }
         }
 
