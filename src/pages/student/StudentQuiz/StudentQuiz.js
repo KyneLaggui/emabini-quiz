@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import StudentQuizPagination from '../../../components/quizRelated/studentQuizPagination/StudentQuizPagination';
 import StudentQuizTracker from '../../../components/quizRelated/StudentQuizTracker/StudentQuizTracker';
 import StudentOnly from '../../../layouts/studentOnly/StudentOnly';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import FetchQuizInformation from '../../../customHooks/fetchQuizInformation';
 import { supabase } from '../../../supabase/config';
 import { current } from '@reduxjs/toolkit';
@@ -17,7 +17,7 @@ import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard';
 import Swal from 'sweetalert2';
 import { selectEmail } from '../../../redux/slice/authSlice';
 import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard/StudentAnswerCard';
-import { FaClock } from 'react-icons/fa';
+import { FaArrowLeft, FaClock } from 'react-icons/fa';
 
 const StudentQuiz = () => {
   const dispatch = useDispatch();
@@ -366,7 +366,15 @@ const StudentQuiz = () => {
                   <>
                     {/* <StudentQuizCard number={quizCards.length}  />
                         */}
+                    <div className='back-sq-page'>
+                      <Link to="/student-courses" className='back-courses'>
+                            <FaArrowLeft name='back-arrow'/>                        
+                            <p>Back to Quizzes</p>
+                        </Link>
+                    </div>
+                        
                     <div className='qt-container'>
+                      
                       <div className='student-quiz-answer-container'>
                         {quizData.map((quizItem, index) => (
                           <div key={index}>

@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
 import VideoQuizNavigation from '../../../components/quizRelated/VideoQuizNavigation/VideoQuizNavigation'
 import { FaPlus } from 'react-icons/fa';
+import Swal from 'sweetalert2'
 
 const CreateVideoQuiz = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -107,7 +108,24 @@ const CreateVideoQuiz = () => {
                     // Checking if all questions have a designated answer
                     questionData[i]['answerInput'].forEach(async (answer) => {
                         if (answer === '')  {
-                            toast.error("All questions must have an answer")
+                            
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: 'ALl questions must have an answer',
+                                
+                            })
                             const { error } = await supabase
                             .from('quiz')
                             .delete()
@@ -134,11 +152,45 @@ const CreateVideoQuiz = () => {
                 .insert(questions)
                 .select()
                 if (!error) {
-                    toast.success("Quiz created successfully!");
+                    
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                        })
+                
+                        Toast.fire({
+                        icon: 'success',
+                        title: 'Quiz created successfully!',
+                        
+                    })
                 }
             }
         } catch(error) {
-            toast.error(error.message)
+           
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error.message,
+                
+            })
         }
         
       }
