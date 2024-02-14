@@ -192,7 +192,6 @@ const StudentQuiz = () => {
   // Showing modal upon quiz completion
    const handleSubmit = async () => {
     let totalScore = 0;
-    console.log(answerCompilation);
     Object.keys(answerCompilation).map((key) => {
       let questionPoints = checkAnswer(key, answerCompilation[key])
       totalScore += questionPoints
@@ -204,6 +203,9 @@ const StudentQuiz = () => {
     
       // Extract question ID from the quiz card
       const questionId = quizCard.id;
+
+      // Extract choices for the question
+      const choices = quizCard.choice
     
       // Find the right answer for the current question ID
       const rightAnswer = quizCard.answer;
@@ -235,6 +237,7 @@ const StudentQuiz = () => {
       }
     
       // Populate the temporary storage object with the required properties
+      tempStorage['choices'] = choices;
       tempStorage['question_id'] = questionId;
       tempStorage['answer'] = rightAnswer;
       tempStorage['possibleScore'] = possibleScore;
@@ -288,42 +291,6 @@ const StudentQuiz = () => {
     // console.log(answerCompilation)
 
    }
-
-   const [quizData, setQuizData] = useState([]);
-
-  useEffect(() => {
-    // Function to fetch data from Supabase
-    async function fetchData() {
-      try {
-        const { data, error } = await supabase.from('question_answer').select('*');
-        if (error) {
-          throw error;
-        }
-        // Assuming your data structure is an array of objects with 'question' and 'answer' properties
-        setQuizData(data);
-      } catch (error) {
-        console.error('Error fetching quiz data:', error.message);
-      }
-    }
-
-    fetchData(); // Call the function to fetch data when the component mounts
-  }, []);
-
-  //   useEffect(() => {
-  //   const updateQuizStatus = async() => {
-  //     if (quizId) {
-  //       const {data, error} = await supabase
-  //       .from('quiz_assignment')
-  //       .select()
-  //       .eq('student_email', studentEmail)
-  //       .eq('quiz_id', fetchedQuizInfo['id'])
-  //       .single()
-  //     }
-  //   }
-    
-  //   updateQuizStatus()
-  // }, [studentEmail, fetchedQuizInfo, quizId])
-
 
   return (
     <>
@@ -398,6 +365,20 @@ export default StudentQuiz
 
 
  // Automically deem quiz as completed when the student clicks on the quiz
+  // useEffect(() => {
+  //   const updateQuizStatus = async() => {
+  //     if (quizId) {
+  //       const {data, error} = await supabase
+  //       .from('quiz_assignment')
+  //       .select()
+  //       .eq('student_email', studentEmail)
+  //       .eq('quiz_id', fetchedQuizInfo['id'])
+  //       .single()
+  //     }
+  //   }
+    
+  //   updateQuizStatus()
+  // }, [studentEmail])
 
 
 
