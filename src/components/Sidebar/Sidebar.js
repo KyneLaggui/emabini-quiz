@@ -11,6 +11,7 @@ import { FacultyHeadOnlyLink, FacultyOnlyLink, StudentOnlyLink } from "../../lay
 import { toast } from "react-toastify";
 import FetchUserProfile from "../../customHooks/fetchUserProfile";
 import { IoNewspaperSharp } from "react-icons/io5";
+import Swal from "sweetalert2";
 
 const activeLink = ({isActive, isPending}) => 
   (isActive ? `active navlink` : "navlink")
@@ -34,7 +35,23 @@ const Sidebar = () => {
     const handleLogout = async () => {
         const { error } = await supabase.auth.signOut();
         if (error) {
-            alert(error)
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error,
+                
+            })
             return
         }
         else {
@@ -42,7 +59,23 @@ const Sidebar = () => {
                 REMOVE_ACTIVE_USER()
             );
             
-            toast.success('Successfully logged out!')
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'success',
+                title: 'Successfully Logout',
+                
+            })
             navigate("/")
         }         
     }

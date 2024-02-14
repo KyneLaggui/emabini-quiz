@@ -14,11 +14,11 @@ import { supabase } from '../../../supabase/config'
 import { toast } from "react-toastify";
 import FetchCoursesFaculty from '../../../customHooks/fetchCoursesFaculty'
 import { useNavigate } from 'react-router-dom'
-import MultiStep from 'react-multistep'
-import { PiBooksFill, PiMathOperationsBold, PiPaintBrushFill } from "react-icons/pi";
-import { MdScience, MdSportsFootball } from 'react-icons/md'
-import { TiGroup } from "react-icons/ti";
-import { IoMdCopy } from 'react-icons/io'
+// import MultiStep from 'react-multistep'
+// import { PiBooksFill, PiMathOperationsBold, PiPaintBrushFill } from "react-icons/pi";
+// import { MdScience, MdSportsFootball } from 'react-icons/md'
+// import { TiGroup } from "react-icons/ti";
+// import { IoMdCopy } from 'react-icons/io'
 
 class EmailError extends Error {
     constructor(message, field) {
@@ -44,187 +44,187 @@ const FacultyCourse = () => {
         setCheckedItems({ ...checkedItems, [name]: checked });
     };
 
-    const StepOne = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
-        useEffect(() => {
-            console.log('okay')
-        }, [])
+    // const StepOne = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
+    //     useEffect(() => {
+    //         console.log('okay')
+    //     }, [])
 
-        return (
-            <>
-            <div className='course-information'>
-                <div className='modal-each-input'>
-                    <h1>Course Name:</h1>
-                    <input type='text' placeholder='Enter Course Name...' name='courseName' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)}  value={formData['courseName']} />
-                </div>
-                <div className='modal-each-input'>
-                    <h1>Course Code:</h1>
-                    <input type='text' placeholder='Enter Course Code...' name='courseCode' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)} />
-                </div>
-            </div>
+    //     return (
+    //         <>
+    //         <div className='course-information'>
+    //             <div className='modal-each-input'>
+    //                 <h1>Course Name:</h1>
+    //                 <input type='text' placeholder='Enter Course Name...' name='courseName' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)}  value={formData['courseName']} />
+    //             </div>
+    //             <div className='modal-each-input'>
+    //                 <h1>Course Code:</h1>
+    //                 <input type='text' placeholder='Enter Course Code...' name='courseCode' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)} />
+    //             </div>
+    //         </div>
             
-            </>
+    //         </>
             
-        );
-    };
+    //     );
+    // };
 
-    const StepTwo = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
-        return (
-            <>
-            <fieldset className="checkbox-group">
-                <legend className="checkbox-group-legend">Choose Genre</legend>
+    // const StepTwo = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
+    //     return (
+    //         <>
+    //         <fieldset className="checkbox-group">
+    //             <legend className="checkbox-group-legend">Choose Genre</legend>
                 
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Math"
-                        checked={checkedItems['Math']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <PiMathOperationsBold size={30}/>
-                        <span className="checkbox-label">Math</span>
-                    </span>
-                    </label>
-                </div>
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Science"
-                        checked={checkedItems['Science']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <MdScience size={30} />
-                        <span className="checkbox-label">Science</span>
-                    </span>
-                    </label>
-                </div>
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Language"
-                        checked={checkedItems['Language']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <PiBooksFill size={30}/>
-                        <span className="checkbox-label">Language</span>
-                    </span>
-                    </label>
-                </div>
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Social_Studies"
-                        checked={checkedItems['Social_Studies']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <TiGroup size={30} />
-                        <span className="checkbox-label">Social Studies</span>
-                    </span>
-                    </label>
-                </div>
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Sports"
-                        checked={checkedItems['Sports']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <MdSportsFootball size={30}/>
-                        <span className="checkbox-label">Sports</span>
-                    </span>
-                    </label>
-                </div>
-                <div className="checkbox">
-                    <label className="checkbox-wrapper">
-                    <input
-                        type="checkbox"
-                        className="checkbox-input"
-                        name="Arts"
-                        checked={checkedItems['Arts']}
-                        onChange={handleCheckboxChange}
-                    />
-                    <span className="checkbox-tile">
-                        <PiPaintBrushFill size={30}/>
-                        <span className="checkbox-label">Arts</span>
-                    </span>
-                    </label>
-                </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Math"
+    //                     checked={checkedItems['Math']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <PiMathOperationsBold size={30}/>
+    //                     <span className="checkbox-label">Math</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Science"
+    //                     checked={checkedItems['Science']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <MdScience size={30} />
+    //                     <span className="checkbox-label">Science</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Language"
+    //                     checked={checkedItems['Language']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <PiBooksFill size={30}/>
+    //                     <span className="checkbox-label">Language</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Social_Studies"
+    //                     checked={checkedItems['Social_Studies']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <TiGroup size={30} />
+    //                     <span className="checkbox-label">Social Studies</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Sports"
+    //                     checked={checkedItems['Sports']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <MdSportsFootball size={30}/>
+    //                     <span className="checkbox-label">Sports</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
+    //             <div className="checkbox">
+    //                 <label className="checkbox-wrapper">
+    //                 <input
+    //                     type="checkbox"
+    //                     className="checkbox-input"
+    //                     name="Arts"
+    //                     checked={checkedItems['Arts']}
+    //                     onChange={handleCheckboxChange}
+    //                 />
+    //                 <span className="checkbox-tile">
+    //                     <PiPaintBrushFill size={30}/>
+    //                     <span className="checkbox-label">Arts</span>
+    //                 </span>
+    //                 </label>
+    //             </div>
                 
-            </fieldset>
+    //         </fieldset>
            
-            </>
+    //         </>
             
-        );
-    };
+    //     );
+    // };
 
-    const StepThree = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
-        return (
-            <>
-                <div className='st-container'>
-                    <h1 className='st-title'>Invite Students</h1>
-                    <div className='st-self-enroll'>
-                        <h1>Invite Code:</h1>
-                        <button className='button-copy'>
-                            <span className='button-text'>
-                                CMPE1234    
-                            </span>
-                            <span className='copy-icon'><IoMdCopy size={20} /></span>
+    // const StepThree = ({ formData, setFormData, onInputHandleChange, handleKeyDown }) => {
+    //     return (
+    //         <>
+    //             <div className='st-container'>
+    //                 <h1 className='st-title'>Invite Students</h1>
+    //                 <div className='st-self-enroll'>
+    //                     <h1>Invite Code:</h1>
+    //                     <button className='button-copy'>
+    //                         <span className='button-text'>
+    //                             CMPE1234    
+    //                         </span>
+    //                         <span className='copy-icon'><IoMdCopy size={20} /></span>
                             
-                        </button>
-                    </div>
-                    <div className='st-add-manually'>
-                        <h1>Add Manually:</h1>
-                        <RecipientBox modifyStudentRecipients={modifyStudentRecipients}/>
-                    </div>
-                </div>
-            </>
+    //                     </button>
+    //                 </div>
+    //                 <div className='st-add-manually'>
+    //                     <h1>Add Manually:</h1>
+    //                     <RecipientBox modifyStudentRecipients={modifyStudentRecipients}/>
+    //                 </div>
+    //             </div>
+    //         </>
             
-        );
-    };
+    //     );
+    // };
 
-    const prevButton = {
-        title : 'Back',
-        style : {
-            padding: '10px 20px',
-            border: 'none',
-            cursor: 'pointer',
-            color: 'var(--blue)',
-            backgroundColor: 'var(--gray)',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontFamily: 'Inter, sans-serif',
-            marginRight : '10px',
+    // const prevButton = {
+    //     title : 'Back',
+    //     style : {
+    //         padding: '10px 20px',
+    //         border: 'none',
+    //         cursor: 'pointer',
+    //         color: 'var(--blue)',
+    //         backgroundColor: 'var(--gray)',
+    //         borderRadius: '8px',
+    //         fontSize: '1rem',
+    //         fontFamily: 'Inter, sans-serif',
+    //         marginRight : '10px',
 
-        }
-    }
-    const nextButton = {
-        title : 'Proceed',
-        style : {
-            padding: '10px 20px',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#fff', 
-            backgroundColor: 'var(--blue)',
-            borderRadius: '8px',
-            fontSize: '1rem',
-            fontFamily: 'Inter, sans-serif'
+    //     }
+    // }
+    // const nextButton = {
+    //     title : 'Proceed',
+    //     style : {
+    //         padding: '10px 20px',
+    //         border: 'none',
+    //         cursor: 'pointer',
+    //         color: '#fff', 
+    //         backgroundColor: 'var(--blue)',
+    //         borderRadius: '8px',
+    //         fontSize: '1rem',
+    //         fontFamily: 'Inter, sans-serif'
 
-        }
-    }
+    //     }
+    // }
     
     // Form related variables states
     const [modalIsOpen, setIsOpen] = useState(false);

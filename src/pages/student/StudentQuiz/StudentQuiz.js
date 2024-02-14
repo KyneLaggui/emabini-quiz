@@ -16,6 +16,7 @@ import { current } from '@reduxjs/toolkit';
 import QuizCard from '../../../components/quizRelated/QuizCard/QuizCard';
 import Swal from 'sweetalert2';
 import { selectEmail } from '../../../redux/slice/authSlice';
+import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard/StudentAnswerCard';
 
 const StudentQuiz = () => {
   const dispatch = useDispatch();
@@ -291,24 +292,25 @@ const StudentQuiz = () => {
 
    }
 
-    // Automically deem quiz as completed when the student clicks on the quiz
-  useEffect(() => {
-    const updateQuizStatus = async() => {
-      if (quizId) {
-        const {data, error} = await supabase
-        .from('quiz_assignment')
-        .update({
-          taken: true
-        })
-        .eq('student_email', studentEmail)
-        .eq('quiz_id', fetchedQuizInfo['id'])
-        .single()
-      }
-    }
-    
-    updateQuizStatus()
-  }, [studentEmail, fetchedQuizInfo])
+   const [quizData, setQuizData] = useState([]);
 
+   useEffect(() => {
+     // Function to fetch data from Supabase
+     async function fetchData() {
+       try {
+         const { data, error } = await supabase.from('question_answer').select('*');
+         if (error) {
+           throw error;
+         }
+         // Assuming your data structure is an array of objects with 'question' and 'answer' properties
+         setQuizData(data);
+       } catch (error) {
+         console.error('Error fetching quiz data:', error.message);
+       }
+     }
+ 
+     fetchData(); // Call the function to fetch data when the component mounts
+   }, []); 
 
   return (
     <>
@@ -318,7 +320,18 @@ const StudentQuiz = () => {
               {
                 quizTaken ? 
                 (
-                  <p>Quiz taken</p>              
+                  <>
+                    {/* <StudentQuizCard number={quizCards.length}  />
+                    <StudentQuizTracker />    */}
+
+                    {quizData.map((quizItem, index) => (
+                      <div key={index}>
+                        
+                        <StudentAnswerCard quizItem={quizItem} />
+                        
+                      </div>
+                    ))}  
+                  </>        
                 )
                 :
                 (<div className="student-quiz-container">
@@ -371,6 +384,21 @@ export default StudentQuiz
 
 
 
+ // Automically deem quiz as completed when the student clicks on the quiz
+  // useEffect(() => {
+  //   const updateQuizStatus = async() => {
+  //     if (quizId) {
+  //       const {data, error} = await supabase
+  //       .from('quiz_assignment')
+  //       .select()
+  //       .eq('student_email', studentEmail)
+  //       .eq('quiz_id', fetchedQuizInfo['id'])
+  //       .single()
+  //     }
+  //   }
+    
+  //   updateQuizStatus()
+  // }, [studentEmail])
 
 
 

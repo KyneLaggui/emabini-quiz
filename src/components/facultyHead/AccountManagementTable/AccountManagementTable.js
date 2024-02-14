@@ -205,7 +205,7 @@ const AccountManagementTable = ({ users, changeData }) => {
                               }                            
                             </select>
                         </div>       
-                        <button type="submit" className="register-button">Save Changes</button>                                         
+                        <button type="submit" className="register-button">Save</button>                                         
                     </form>
                 </div>
             </Modal>

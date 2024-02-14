@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import RecipientBox from '../recipientBox/RecipientBox';
 import { supabase } from '../../../supabase/config';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 class EmailError extends Error {
     constructor(message, field) {
@@ -83,7 +84,23 @@ const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
                     }
     
                 } catch(error) {
-                    toast.error(error.message)
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                        })
+                
+                        Toast.fire({
+                        icon: error,
+                        title: error,
+                        
+                    })
                 }                                
             }))
     
@@ -95,11 +112,44 @@ const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
             .insert(enrollees)
             
             if (error) throw error;   
-            toast.success("Students enrolled successfully!");
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'success',
+                title: 'Students Enrolled',
+                
+            })
 
         } catch(error) {
             if (error.message === "duplicate key value violates unique constraint \"course_enrollee_pkey\"") {
-                toast.error("One of the student(s) is already enrolled!")
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+            
+                    Toast.fire({
+                    icon: 'error',
+                    title: 'One of the student(s) is already enrolled!',
+                    
+                })
+                
             }
         }
         
