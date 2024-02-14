@@ -358,7 +358,7 @@ const CreateMultipleChoice = () => {
 
                 )} */}                
                 </div>
-                {isPopupMinimized ? <div className="popup-book" onClick={togglePopup}><FaBook className='book-itwel'/></div> : (
+                {isPopupMinimized ? <div className={`popup-book ${isPopupMinimized ? 'minimized' : ''}`} onClick={togglePopup}><FaBook className='book-itself'/></div> : (
                     <div className={`selected-questions-popup ${selectedQuestions.length > 0 ? 'show' : ''} ${isPopupMinimized ? 'minimized' : ''}`}>
                     <div className="popup-header" onClick={togglePopup}>
                         <h3>Selected Questions</h3>
