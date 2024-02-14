@@ -367,6 +367,7 @@ const CreateMultipleChoice = () => {
                         </button>
                     </div>
                     <div className="popup-body">
+                        
                         {selectedQuestions.map((question, index) => (
                             <div key={index}>
                                 <p>{question}</p>
