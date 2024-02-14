@@ -16,6 +16,7 @@ import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 import QuizCart from '../quizCart/quizCart'
 import QuizCreationReuse from '../quizCreationReuse/QuizCreationReuse'
 import Swal from 'sweetalert2'
+import FetchAllCourses from '../../../customHooks/fetchAllCourses'
 
 
 const QuizReuseQuestions = () => {
@@ -139,237 +140,6 @@ const QuizReuseQuestions = () => {
     //     .in('id', [questionIds])
     // }
 
-      // Form submission handler
-      const handleCreate = async (status) => {    
-        let hasError = false;
-
-        console.log(formData);
-
-        try {
-            const { error, data } = await supabase
-            .from('quiz')
-            .insert([{
-                title: formData['title'],
-                instruction: formData['instructions'],
-                overall_score: totalScore,
-                tags: formData['examinationTags'],
-                duration: formData['duration'],
-                status,                                
-                instructor_id: formData['instructorId'],
-                course_code: formData['courseCode']
-            }])
-            .select()
-            .single()
-
-            if (error) {
-                if (error.code === '23503') {
-                    const Toast = Swal.mixin({
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.addEventListener('mouseenter', Swal.stopTimer)
-                            toast.addEventListener('mouseleave', Swal.resumeTimer)
-                        }
-                        })
-                
-                        Toast.fire({
-                        icon: 'error',
-                        title: 'Course code does not exist!',
-                        
-                    })
-                    hasError =  true;        
-                    deleteCourse(data.id)            
-                    return
-                }                
-            }
-
-            if (data) {
-                const quizId = data.id
-                const questions = []
-                for (let i = 0; i < questionData.length; i++) {
-                    // Checking if all questions have a designated answer
-                    questionData[i]['answerInput'].forEach(async (answer) => {
-                        if (answer === '')  {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                                })
-                        
-                                Toast.fire({
-                                icon: 'error',
-                                title: 'All questions must have an answer',
-                                
-                            })
-                            deleteCourse(quizId)  
-                            hasError = true
-                            return
-                        }
-                    })
-
-                    // Creation of the question rows
-                    const newQuestion = {
-                        question: questionData[i]['question'],
-                        quiz_id: data.id,
-                        tag: questionData[i]['quizTags'],
-                        answer: questionData[i]['answerInput'],
-                        points: questionData[i]['points'],
-                        choice: questionData[i]['choiceInput'],
-                        number: questionData[i]['number']
-                    }
-
-                    questions.push(newQuestion)        
-                }    
-
-                const { error } = await supabase.from('question')
-                .insert(questions)
-                .select()
-
-                
-                if (!error && !hasError) {
-                    const {data} = await supabase.from('course_enrollee')
-                    .select('email')
-                    .eq('course_code', formData['courseCode'])      
-                    
-                    const courseStudents = data.map((student) => {
-                        return student['email']
-                    })
-
-                    const quizTakers = []
-                    for (let i = 0; i < formData['students'].length; i++) {
-                        if (!(courseStudents.includes(formData['students'][i]))) {                        
-                            
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                                })
-                        
-                                Toast.fire({
-                                icon: 'error',
-                                title: 'The student is not enrolled in the proper course!',
-                                
-                            })
-                            deleteCourse(quizId)  
-                            return
-                        }
-
-                        const newTaker = {
-                            student_email: formData['students'][i],
-                            quiz_id: quizId
-                        }
-
-                        quizTakers.push(newTaker)
-                    }
-
-                    const { error } = await supabase.from('quiz_assignment')
-                    .insert(quizTakers)
-                    .select()
-                    
-                    if (!hasError) {
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                            })
-                    
-                            Toast.fire({
-                            icon: 'success',
-                            title: 'Quiz Created Successfully!',
-                            
-                        })
-                    } else {
-                        if (error && error.code === '23503') {
-                            
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                                didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                }
-                                })
-                        
-                                Toast.fire({
-                                icon: 'error',
-                                title: 'Email does not exist in the database!',
-                                
-                            })
-                            deleteCourse(quizId)  
-                            return
-                        } else {
-                            if (error) {
-                                const Toast = Swal.mixin({
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
-                                    didOpen: (toast) => {
-                                        toast.addEventListener('mouseenter', Swal.stopTimer)
-                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                    }
-                                    })
-                            
-                                    Toast.fire({
-                                    icon: 'error',
-                                    title: error.message,
-                                    
-                                })
-                                
-                            }
-                        }
-                    }
-                }
-            }
-        } catch(error) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-                })
-        
-                Toast.fire({
-                icon: 'error',
-                title: error.message,
-                
-            })
-        }
-
-        
-        
-      }
-
     // New state variables for question tracker and examination tag tracker
     const [questionTracker, setQuestionTracker] = useState([]);
     const [tagTracker, setTagTracker] = useState([]);
@@ -414,6 +184,247 @@ const QuizReuseQuestions = () => {
     const [fetchedQuizInfo, setFetchedQuizInfo] = useState({})
     const [currentReusableQuestions, setCurrentReusableQuestions] = useState([])
     const fetchedCurrentQuestions = useSelector(selectCurrentQuestions)
+    
+    const [allCourses, setAllCourses] = useState([]);
+
+    // Fetch all courses
+    const {coursesData} = FetchAllCourses()
+
+    useEffect(() => {
+        setAllCourses(coursesData)
+    }, [coursesData])
+
+    // Form submission handler
+    const handleCreate = async (status) => {    
+    let hasError = false;
+
+
+    try {
+        console.log(formData)
+        const { error, data } = await supabase
+        .from('quiz')
+        .insert([{
+            title: formData['title'],
+            instruction: formData['instruction'],
+            overall_score: totalScore,
+            tags: formData['examinationTags'],
+            duration: formData['duration'],
+            status,                                
+            instructor_id: formData['instructorId'],
+            course_code: formData['courseCode']
+        }])
+        .select()
+        .single()
+
+
+        if (error) {
+            if (error.code === '23503') {
+                
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+            
+                    Toast.fire({
+                    icon: 'error',
+                    title: 'Course code does not exist!',
+                    
+                })
+                hasError =  true;        
+                deleteCourse(data.id)            
+                return
+            }                
+        }
+
+        if (data) {
+            const quizId = data.id
+            const questions = []
+            for (let i = 0; i < questionData.length; i++) {
+                // Checking if all questions have a designated answer
+                questionData[i]['answerInput'].forEach(async (answer) => {
+                    if (answer === '')  {
+                        
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'error',
+                            title: 'All questions must have an answer',
+                            
+                        })
+                        deleteCourse(quizId)  
+                        hasError = true
+                        return
+                    }
+                })
+
+                // Creation of the question rows
+                const newQuestion = {
+                    question: questionData[i]['question'],
+                    quiz_id: data.id,
+                    tag: questionData[i]['quizTags'],
+                    answer: questionData[i]['answerInput'],
+                    points: questionData[i]['points'],
+                    choice: questionData[i]['choiceInput'],
+                    number: questionData[i]['number']
+                }
+
+                questions.push(newQuestion)        
+            }    
+
+            const { error } = await supabase.from('question')
+            .insert(questions)
+            .select()
+
+            
+            if (!error && !hasError) {
+                const {data} = await supabase.from('course_enrollee')
+                .select('email')
+                .eq('course_code', formData['courseCode'])      
+                
+                const courseStudents = data.map((student) => {
+                    return student['email']
+                })
+
+                const quizTakers = []
+                for (let i = 0; i < formData['students'].length; i++) {
+                    if (!(courseStudents.includes(formData['students'][i]))) {                        
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'error',
+                            title: 'The student is not enrolled in the proper course!',
+                            
+                        })
+                        deleteCourse(quizId)  
+                        return
+                    }
+
+                    const newTaker = {
+                        student_email: formData['students'][i],
+                        quiz_id: quizId
+                    }
+
+                    quizTakers.push(newTaker)
+                }
+
+                const { error } = await supabase.from('quiz_assignment')
+                .insert(quizTakers)
+                .select()
+                
+                if (!hasError) {
+                    
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                        })
+                
+                        Toast.fire({
+                        icon: 'success',
+                        title: 'Quiz created successfully!',
+                        
+                    })
+                } else {
+                    if (error && error.code === '23503') {
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                            })
+                    
+                            Toast.fire({
+                            icon: 'error',
+                            title: 'Email does not exist in the database',
+                            
+                        })
+                        deleteCourse(quizId)  
+                        return
+                    } else {
+                        if (error) {
+                            toast.error(error.message)
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                                })
+                        
+                                Toast.fire({
+                                icon: 'error',
+                                title: error.message,
+                                
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    } catch(error) {
+        
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+            })
+    
+            Toast.fire({
+            icon: 'error',
+            title: error.message,
+            
+        })
+    }
+    
+    }
 
     useEffect(() => {
         setFormData({
@@ -471,6 +482,19 @@ const QuizReuseQuestions = () => {
                                     <input type='number' placeholder='Enter Duration...' name="duration" onChange={(e) => onInputHandleChange(e)} value={formData['duration']}  />
                                 </div>                                
                             </div>
+                            <div className='cmc-input course-code'>
+                                    <h1>Course Code:</h1>
+                                    {/* <input type='text' placeholder='Enter Course Code...' name="courseCode" onChange={(e) => onInputHandleChange(e)} /> */}
+                                    <select name="courseCode" id="" onChange={(e) => onInputHandleChange(e)} placeholder="Select course code">
+                                        <option value="" disabled selected>Select a course code</option>
+                                        {
+                                            allCourses.map((course, index) => {
+                                                const code = course.code;                                                                                            
+                                                return <option value={code} key={index}>{code}</option>
+                                            })
+                                        }
+                                    </select>
+                                </div>  
                             <div className='cmc-bottom'>
                                 <div className='cmc-input'>
                                         <h1>Quiz Instructions:</h1>
@@ -496,8 +520,8 @@ const QuizReuseQuestions = () => {
 
                         </div>
                         <div className='cmc-creation'>
-                            <button onClick={() => handleCreate('published')}>Edit</button>
-                            <button onClick={() => handleCreate('draft')}>Save as draft</button>
+                            <button onClick={() => handleCreate('published')}>Create</button>
+                            {/* <button onClick={() => handleCreate('draft')}>Save as draft</button> */}
                         </div>
                         
                     </div>

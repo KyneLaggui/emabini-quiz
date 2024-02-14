@@ -287,7 +287,7 @@ const CreateVideoQuiz = () => {
                         </div>
                         <div className='cmc-creation'>
                             <button onClick={() => handleCreate('completed')}>Create</button>
-                            <button onClick={() => handleCreate('draft')}>Save as draft</button>
+                            {/* <button onClick={() => handleCreate('draft')}>Save as draft</button> */}
                         </div>
                         
                     </div>

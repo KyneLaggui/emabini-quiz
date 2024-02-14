@@ -3,8 +3,11 @@ import "./QuizCard.scss";
 import { Link } from 'react-router-dom';
 import { MdGroup } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
+import { FaTrash } from 'react-icons/fa';
+import Swal from 'sweetalert2';
+import { supabase } from '../../../supabase/config';
 
-const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
+const QuizCard = ({ title, students, status, tags, activeTab, id, onDelete}) => {
 
   const qcuTagsContainer = useRef(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -12,6 +15,42 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
   const [scrollLeft, setScrollLeft] = useState(null);
 
   const [studentsCount, setStudentsCount] = useState(0);
+
+  const confirmDelete = (e) => {
+    e.stopPropagation()
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const deleteCourse = async() => {
+          const {data, error} = await supabase.from('quiz')
+          .delete()
+          .eq('id', id)
+          .select()
+
+          if (!(error)) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "The quiz been deleted.",
+              icon: "success"
+            });
+
+            onDelete()
+          }
+        }
+        
+        deleteCourse()
+        
+      }
+    });
+  }
 
   useEffect(() => {
     if (qcuTagsContainer.current) {
@@ -60,6 +99,10 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
     }
   }, [students])
 
+  useEffect(() => {
+    console.log(onDelete)
+  }, [onDelete])
+
   const isExploreTab = activeTab === 'explore';
 
   return (
@@ -101,7 +144,7 @@ const QuizCard = ({ title, students, status, tags, activeTab, id }) => {
         </div>
         <IoIosMore />
       </div>
-      
+      <FaTrash className="trash-icon" onClick={(e) => confirmDelete(e)}/>
     </div>
   );
 };
