@@ -41,6 +41,7 @@ function App() {
           <Route path="/faculty-courses/:id" element={ <EachFacultyCourse/>}></Route>  
           <Route path="/faculty-quizzes" element={ <FacultyQuiz/>}></Route>  
           <Route path="/create-multiple-choice-quiz" element={ <CreateMultipleChoice/>}></Route> 
+          <Route path="/create-multiple-choice-chosen-quiz" element={ <CreateMultipleChoice/>}></Route> 
           <Route path="/create-multiple-choice-quiz/:quizId" element={ <QuizEdit/>}></Route> 
           <Route path="/create-video-quiz" element={ <CreateVideoQuiz/>}></Route> 
           <Route path="/quiz-id-result" element={ <FacultyQuizResult/>}></Route> 

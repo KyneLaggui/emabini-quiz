@@ -5,7 +5,7 @@ import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaBook, FaTimes } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
@@ -248,6 +248,18 @@ const CreateMultipleChoice = () => {
         })
     } 
 
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+
+    const [isPopupMinimized, setIsPopupMinimized] = useState(false);
+
+    const togglePopup = () => {
+        setIsPopupMinimized(!isPopupMinimized);
+    };
+
+    const addSelectedQuestion = (question) => {
+        setSelectedQuestions([...selectedQuestions, question]);
+    };
+
     useEffect(() => {
         setFormData({
             ...formData,
@@ -346,6 +358,24 @@ const CreateMultipleChoice = () => {
 
                 )} */}                
                 </div>
+                {isPopupMinimized ? <div className="popup-book" onClick={togglePopup}><FaBook className='book-itwel'/></div> : (
+                    <div className={`selected-questions-popup ${selectedQuestions.length > 0 ? 'show' : ''} ${isPopupMinimized ? 'minimized' : ''}`}>
+                    <div className="popup-header" onClick={togglePopup}>
+                        <h3>Selected Questions</h3>
+                        <button>
+                            <FaTimes onClick={togglePopup}/>
+                        </button>
+                    </div>
+                    <div className="popup-body">
+                        {selectedQuestions.map((question, index) => (
+                            <div key={index}>
+                                <p>{question}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                )}
+
             </FacultyOnly>
         </PageLayout>
     </>
