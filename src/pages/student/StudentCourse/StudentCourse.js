@@ -13,10 +13,15 @@ import { supabase } from '../../../supabase/config';
 
 
 const StudentCourse = () => {
-
     const [courses, setCourses] = useState([])
-
+    const [filteredCourses, setFilteredCourses] = useState([])
     const email = useSelector(selectEmail);
+
+    const [searchInput, setSearchInput] = useState("")
+
+    const alterInput = (newValue) => {
+        setSearchInput(newValue)
+    }
 
     useEffect(() => {   
         const fetchCourses = async() => {
@@ -42,6 +47,15 @@ const StudentCourse = () => {
         fetchCourses();
     }, [email])
 
+
+    useEffect(() => {
+        const filteredCoursesData = courses.filter(course => {
+            console.log(course.data.name, searchInput)
+            return ((course.data.name).toLowerCase()).includes(searchInput.toLowerCase())
+        })
+
+        setFilteredCourses(filteredCoursesData)
+    }, [searchInput, courses])
     console.log(courses)
   return (
     <>
@@ -49,21 +63,19 @@ const StudentCourse = () => {
         <PageLayout>
             <StudentOnly>
                 <div className='courses-filters-container'>
-                    <SearchBar></SearchBar>
+                    <SearchBar courses={courses} updateSearchInput={alterInput}></SearchBar>
                     <Sort></Sort>
                 </div>
                 <div className='courses-orie'>
-                    {courses.length === 0 ? (
+                    {filteredCourses.length === 0 ? (
                         <p>No courses found.</p>
-                        ) : (
-                            
-                            courses.map((course, i) => {
+                        ) : (                            
+                            filteredCourses.map((course, i) => {
                                 return (
                                     <CourseCard {...course.data} key={i}/>                                    
                                 )
                             })
-                        )
-                    
+                        )                    
                     }
                 </div>
             </StudentOnly>            
