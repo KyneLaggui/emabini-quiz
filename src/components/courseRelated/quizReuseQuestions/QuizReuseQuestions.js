@@ -400,7 +400,7 @@ const QuizReuseQuestions = () => {
 
                         <button className='cmc-quiz-button' onClick={() => addQuizComponent(null)}>Add Question</button>
                     </div>
-                    <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore} fetchedQuizTags={formData['examinationTags']}/>
+                    {/* <QuizNavigation alterFormData={alterFormData} questionTracker={questionTracker} tagTracker={tagTracker} quizPoints={totalScore} /> */}
                     
                  </div>     
                 {/* {activeTab === 'shared' && (                    

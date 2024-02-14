@@ -5,8 +5,9 @@ import { IoMdRemoveCircle } from 'react-icons/io';
 import Swal from 'sweetalert2';
 import { ADD_QUESTION, REMOVE_QUESTION, selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
+const QuizCreation = ({ manipulateQuestion, number, questionInfo, newQuiz }) => {
     // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
@@ -289,12 +290,33 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
             dispatch(ADD_QUESTION(questionData))
         }
     }
+
+    const {quizId} = useParams()
+
+    const [isNew, setIsNew] = useState(true)
+    useEffect(() => {
+        if (quizId) {
+            setIsNew(false)
+        }
+    }, [quizId])
  
     useEffect(() => {
         if (questionInfo) {
             reduxCurrentQuestions.map((question) => {
                 if (question.questionId === questionInfo['id']){
+                    console.log(question.questionId, questionInfo['id'])
                     setShowCheckbox(!showCheckbox)
+            }
+        })
+        }
+    }, [])
+
+    useEffect(() => {
+        if (questionInfo) {
+            reduxCurrentQuestions.map((question) => {
+                if (question.questionId === questionInfo['id']){
+                    console.log(question.questionId, questionInfo['id'])
+                    setShowCheckbox(true)
             }
         })
         }
@@ -302,13 +324,20 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
 
   return (
     <div className='qc-container'>
-        <div className='qc-checkbox'>
-                <input
-                    type="checkbox"
-                    checked={showCheckbox}
-                    onChange={() => addQuestion()}
-                />
+        {
+           !isNew && (
+            <div className='qc-checkbox'>
+            <input
+                type="checkbox"
+                checked={showCheckbox}
+                onChange={() => addQuestion()}
+            />
             </div>
+        )
+        }
+ 
+     
+ 
         <div className='qc-inputs'>
             <div className='qc-question-top'>
                 <h2>Question:</h2>
@@ -324,7 +353,7 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
         <div className='qc-inputs'>
             <h1>Correct Answer/s:</h1>
             <div className='qc-dynamic-inputs'>
-                {questionData['answerInput'].map((inputs, index) => (
+                {questionData && questionData['answerInput'].map((inputs, index) => (
                     <div className='qc-input-settings' key={index}>
                         <select name={`answer${index}`} id=""
                         key={index}
