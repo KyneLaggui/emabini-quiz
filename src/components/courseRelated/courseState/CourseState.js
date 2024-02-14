@@ -1,19 +1,20 @@
 import { FaAngleRight } from "react-icons/fa";
 import "./CourseState.scss"
 import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { supabase } from "../../../supabase/config";
 
-
-const CourseState = ({title, created_at, duration, quizState}) => {
+const CourseState = ({ title, created_at, duration, quizState, taken }) => {
     let csExamStateClass = '';
 
     if (quizState === 'Done') {
-        csExamStateClass = 'done'; 
+        csExamStateClass = 'done';
     } else if (quizState === 'Take Now') {
-        csExamStateClass = 'tn'; 
+        csExamStateClass = 'tn';
     } else if (quizState === 'Not Available') {
-        csExamStateClass = 'na'; 
+        csExamStateClass = 'na';
     }
-    
+
     const extractDate = (timestampz) => {
         // Parse the timestampz string to create a Date object
         const dateObject = new Date(timestampz);
@@ -46,30 +47,38 @@ const CourseState = ({title, created_at, duration, quizState}) => {
         // Create a formatted time string
         const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
 
-       return formattedTime
+        return formattedTime
     }
+
+
 
     return (
         <div className="cs-topic-cont">
-            
+
             <div className="cs-container">
-                
+
                 <div className="cs-left">
                     <h1><Link>{title}</Link></h1>
                     <p><Link>Posted at: {extractDate(created_at)} {extractTime(created_at)}</Link></p>
-                    <p><Link>Duration: {duration} minutes</Link></p>
+                    <p><Link>Duration: {`${duration} ${duration > 1 ? 'minutes' : 'minute'}`}</Link></p>
                 </div>
 
                 <div className="cs-right">
                     <div className={`cs-exam-state ${csExamStateClass}`}>
                         <h1><Link>{quizState}</Link></h1>
                     </div>
-                    <FaAngleRight/>
+                    <FaAngleRight />
 
                 </div>
+
+                {/* Text with changing background and text based on boolean value */}
+                <div className={`changing-text ${taken ? 'completed' : 'incomplete'}`}>
+                    {taken ? 'Completed' : 'Take now'}
+                </div>
+
             </div>
         </div>
-        
+
     )
 }
 

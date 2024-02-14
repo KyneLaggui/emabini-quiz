@@ -4,6 +4,7 @@ import "./QuizzesOverview.scss"
 import FetchStudentQuizzes from '../../../customHooks/fetchStudentQuizzes'
 import { Zoom } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../../supabase/config'
 
 const QuizzesOverview = ({email, courseCode}) => {
     // const quizzes = [
@@ -36,6 +37,7 @@ const QuizzesOverview = ({email, courseCode}) => {
     //         quizTopic: 'Departamentals Exam'
     //     },            
     // ]
+
     const {quizzesData} = FetchStudentQuizzes(email, courseCode)
     
     const [quizzes, setQuizzes] = useState([])
@@ -53,13 +55,27 @@ const QuizzesOverview = ({email, courseCode}) => {
 
     const handleClick = (quizId) => {
         navigate(`/student-quiz/${quizId}`)
-    }
-    
+    }        
+
     useEffect(() => {
-        if (quizzesData) {
-            setQuizzes(quizzesData)
-            console.log(quizzesData)
+        const getData = async() => {
+            if (quizzesData) {
+                const quizResults = await Promise.all((quizzesData).map(async(quizData) => {
+                    const {data, error} = await supabase
+                    .from('quiz_assignment')
+                    .select()
+                    .eq('student_email', email)
+                    .eq('quiz_id', quizData['id'])
+                    .single()        
+                    
+                    return {...quizData, taken: data.taken}
+                }))       
+                
+                setQuizzes(quizResults)
+            }
         }
+
+        getData()
     }, [quizzesData])
 
   return (
@@ -82,7 +98,7 @@ const QuizzesOverview = ({email, courseCode}) => {
             <div className="courses-quizzes">
                 {quizzes.map((quiz, index) => (              
                     <div className="quiz-course-container"onClick={() => handleClick(quiz.id)}>
-                        <CourseState {...quiz} key={index}/>                    
+                        <CourseState {...quiz} key={index} email={email}/>                    
                     </div>
                 ))}
             </div>            
@@ -91,5 +107,4 @@ const QuizzesOverview = ({email, courseCode}) => {
     )
   )
 }
-
 export default QuizzesOverview
