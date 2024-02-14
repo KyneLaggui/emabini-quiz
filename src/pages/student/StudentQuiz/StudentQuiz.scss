@@ -5,6 +5,7 @@
     gap: 80px;
     margin: 0px auto;
 
+
     & > div:first-child {
         width: 500px;
     }
@@ -14,7 +15,7 @@
 .student-questions-container button.selected {
     background-color: maroon;
     color: white;
-    /* Add any additional styling as needed */
+    
 }
 
 .student-quiz-answer-container {
@@ -23,12 +24,21 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    position: relative;
+    max-width: 30rem;
+
+    & > div {
+        width: 100%;
+        position: relative;
+    }
 }
 
 .qt-container {
     display: flex;
     align-items: flex-start;
     justify-content: space-around;
+    flex-wrap: wrap;
 
     
 }
@@ -97,3 +107,19 @@
     font-weight: 400;
 }
 
+.back-sq-page {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 508px) {
+    .qt-container {
+        width: 100%;
+    }
+
+    
+    .student-quiz-answer-container {
+        
+        width: 100% !important;
+    }
+    
+}
