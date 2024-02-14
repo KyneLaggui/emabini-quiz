@@ -479,7 +479,7 @@ const QuizEdit = () => {
                         </div>
                         <div className='cmc-creation'>
                             <button onClick={() => handleCreate('published')}>Edit</button>
-                            <button onClick={() => handleCreate('draft')}>Save as draft</button>
+                            {/* <button onClick={() => handleCreate('draft')}>Save as draft</button> */}
                         </div>
                         
                     </div>

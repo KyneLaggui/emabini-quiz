@@ -44,14 +44,17 @@ const QuizzesOverview = ({email, courseCode}) => {
 
     const navigate = useNavigate()
 
-    const groupedQuizzes = quizzes.reduce((acc, quiz) => {
-        const { quizTopic } = quiz;
-        if (!acc[quizTopic]) {
-            acc[quizTopic] = [];
-        }
-        acc[quizTopic].push(quiz);
-        return acc;
-    }, {});
+    // const groupedQuizzes = quizzes.reduce((acc, quiz) => {
+    //     if (quiz) {
+    //     const { quizTopic } = quiz;
+    //     if (!acc[quizTopic]) {
+    //         acc[quizTopic] = [];
+    //     }
+    //     acc[quizTopic].push(quiz);
+    //     return acc;
+    //     }
+
+    // }, {});
 
     const handleClick = (quizId) => {
         navigate(`/student-quiz/${quizId}`)
@@ -60,17 +63,19 @@ const QuizzesOverview = ({email, courseCode}) => {
     useEffect(() => {
         const getData = async() => {
             if (quizzesData) {
-                const quizResults = await Promise.all((quizzesData).map(async(quizData) => {
+                let quizResults = await Promise.all((quizzesData).map(async(quizData) => {
                     const {data, error} = await supabase
                     .from('quiz_assignment')
                     .select()
                     .eq('student_email', email)
                     .eq('quiz_id', quizData['id'])
                     .single()        
-                    
-                    return {...quizData, taken: data.taken}
-                }))       
-                
+
+                    if (data) {
+                        return {...quizData, taken: data.taken}
+                    }
+                }))      
+                quizResults = quizResults.filter(item => item !== undefined);
                 setQuizzes(quizResults)
             }
         }

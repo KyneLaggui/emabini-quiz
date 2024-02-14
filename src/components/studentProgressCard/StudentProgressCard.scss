@@ -6,9 +6,11 @@
     background: var(--asideWhite);
     padding-block: 20px;
     border-radius: 20px;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
     border: 1px solid #e4e4e4;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .progress-left-details {
@@ -29,4 +31,11 @@
     max-width: 200px;
     min-height: 220px;
     width: 100%;
+}
+.progress-data-score {
+    background: #37996B;
+    color: white;
+    padding: 3px 7px;
+    border-radius: 3px;
+    font-size: 0.775rem;
 }

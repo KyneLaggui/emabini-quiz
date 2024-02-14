@@ -68,7 +68,13 @@ const FacultyQuiz = () => {
     function closeModal() {
         setIsOpen(false);
     }
-  
+
+    const handleDelete = (id) => {
+        setQuizzes(prevQuizzes => {
+          return prevQuizzes.filter(quiz => quiz.id !== id)
+        })
+      }
+
     useEffect(() => {
         setQuizzes(quizzesData);
         console.log(quizzesData)
@@ -110,7 +116,7 @@ const FacultyQuiz = () => {
                     ) : (
                         filteredQuizzes.map((quiz, i) => {
                             return (
-                                <QuizCard {...quiz} key={i} activeTab={activeTab}/>
+                                <QuizCard {...quiz} key={i} activeTab={activeTab} onDelete={() => handleDelete(quiz.id)}/>
                             )
                         })          
                     )              
@@ -127,7 +133,7 @@ const FacultyQuiz = () => {
                             ) : (
                                 filteredQuizzes.map((quiz, i) => {
                                     return (
-                                        <QuizCard {...quiz} key={i} activeTab={activeTab}/>
+                                        <QuizCard {...quiz} key={i} activeTab={activeTab} onDelete={() => handleDelete(quiz.id)}/>
                                     )
                                 })          
                             )              

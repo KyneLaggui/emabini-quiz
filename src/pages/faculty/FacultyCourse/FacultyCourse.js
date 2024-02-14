@@ -479,6 +479,12 @@ const FacultyCourse = () => {
         {name: "Sports", id: 6},
     ])
     
+    const handleDelete = (code) => {
+        setCourses(prevCourses => {
+          return prevCourses.filter(course => course.code !== code)
+        })
+      }
+
     useEffect(() => {
         setFormData({
             ...formData,
@@ -511,7 +517,7 @@ const FacultyCourse = () => {
                     ) : (                        
                         courses.map((course, i) => {
                             return (
-                                <CourseFacultyCard {...course} key={i} onClick={() => handleClick(course['id'])}/>                                
+                                <CourseFacultyCard {...course} key={i} onClick={() => handleClick(course['id'])} onDelete={() => handleDelete(course.code)}/>                                
                             )
                         })
                     )                

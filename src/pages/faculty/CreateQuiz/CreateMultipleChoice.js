@@ -449,7 +449,7 @@ const CreateMultipleChoice = () => {
                         </div>
                         <div className='cmc-creation'>
                             <button onClick={() => handleCreate('published')}>Create</button>
-                            <button onClick={() => handleCreate('draft')}>Save as draft</button>
+                            {/* <button onClick={() => handleCreate('draft')}>Save as draft</button> */}
                         </div>
                         
                     </div>

@@ -258,16 +258,18 @@ const QuizCreationReuse = ({ manipulateQuestion, number, questionInfo }) => {
 
     useEffect(() => {
         if (questionInfo) { 
+            console.log(questionInfo)
             const newInfo = {
                 question: questionInfo['question'],
-                choiceInput: questionInfo['choice'],
-                quizTags: questionInfo['tag'],
-                answerInput: questionInfo['answer'],
+                choiceInput: questionInfo['choiceInput'],
+                quizTags: questionInfo['quizTags'],
+                answerInput: questionInfo['answerInput'],
                 points: questionInfo['points'],
-                questionId: questionInfo['id'],              
+                questionId: questionInfo['questionId'],              
             }
 
-            setConfirmedQuizTags(questionInfo['tag'])
+            console.log(newInfo)
+            setConfirmedQuizTags(questionInfo['quizTags'])
             manipulateQuestion(newInfo, number)
             setQuestionData(newInfo)               
             return
