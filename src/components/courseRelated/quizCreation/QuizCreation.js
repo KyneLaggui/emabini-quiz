@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./QuizCreation.scss"
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
+import Swal from 'sweetalert2';
 
 const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
     // const [question, setQuestion] = useState('');
@@ -208,7 +209,23 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
             delete newSelectedAnswers[`answer${index}`]
             setSelectedAnswers(newSelectedAnswers)
 
-            alert("No duplicate answers")
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: 'No duplicate answers',
+                
+            })
         } else {
             
 

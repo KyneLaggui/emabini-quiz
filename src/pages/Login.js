@@ -9,6 +9,7 @@ import PageLayout from '../layouts/pageLayout/PageLayout';
 import Loader from '../components/loader/Loader';
 import LoginPicture from "../assets/login-pic.png"
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -33,9 +34,9 @@ const Login = () => {
         })
       }
     
-    const handleSubmit = async (event) => {
+      const handleSubmit = async (event) => {
         event.preventDefault();
-
+        
         try {
             const { data, error } = await supabase.auth.signInWithPassword(
                 {
@@ -43,16 +44,71 @@ const Login = () => {
                     password: formData.password,
                 }
             )
+           
+            if (error) {
+                throw error;
+                
+            } else {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
             
-            if (error) throw error;
-            alert("Successfully logged in!")
-            navigate("/student-home")
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Successfully Login',
+                    
+                })
+                navigate("/student-home")
+            }
+        } catch (error) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: "Credentials Invalid",
+            })
+        }
+    };
+
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     try {
+    //         const { data, error } = await supabase.auth.signInWithPassword(
+    //             {
+    //                 email: formData.email,
+    //                 password: formData.password,
+    //             }
+    //         )
+            
+    //         if (error) throw error;
+    //         alert("Successfully logged in!")
+    //         navigate("/student-home")
             
 
-        } catch(error) {
-                alert(error);
-        }
-    }
+    //     } catch(error) {
+    //             alert(error);
+    //     }
+    // }
+    
     // Check whether if a user is already logged in and their type of role
     useEffect(() => {
         const getSession = async() => {            
