@@ -345,7 +345,7 @@
 
 .selected-questions-popup {
   position: fixed;
-  top: 50%;
+  top: 10%;
   right: 40px;
   transform: translateY(-50%);
   background-color: #fff;
@@ -415,7 +415,22 @@
   overflow-y: auto;
 }
 
-.popup-book:hover {
-  background: var(--red);
+/* Add this CSS to your existing stylesheet or create a new one */
 
+// .popup-book {
+//   color: black; /* Initially, set the color to black */
+//   transition: color 0.3s ease; /* Add transition effect for smooth color change */
+// }
+
+.popup-book:hover {
+  background: var(--red); /* Change the color to white on hover */
+  color: yellow;
+}
+
+.book-itself {
+  font-size: 1.2rem;
+
+  &:hover {
+    color: yellow;
+  }
 }
