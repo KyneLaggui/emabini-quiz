@@ -16,31 +16,6 @@ const StudentQuizCard = ({ quiz, number, addAnswer, answerCompilation }) => {
         addAnswer(chosenAnswer, id, answer.length);
     };
 
-    // const evaluateAnswer = (chosenAnswer) => {
-    //     console.log(chosenAnswer);
-    //     // const verdict = checkAnswer(chosenAnswer);
-    //     // if (verdict) {
-    //     //     compileScore(id, 0)
-    //     // } else {
-    //     //     compileScore(id, points)
-    //     // }
-
-    //     // if (currentPage < totalQuizCards) {
-    //     //     paginateNext()
-    //     // }
-    // }
-
-    // const currentPage = useSelector(selectCurrentPage)
-    // const dispatch = useDispatch();
-
-    // Go to the next page
-    // const paginateNext = () => {
-    //     dispatch(
-    //         SET_CURRENT_PAGE(currentPage + 1)
-    //     )
-    // }
-
-
     return (
         <>
             <div className="student-quiz-card-container">

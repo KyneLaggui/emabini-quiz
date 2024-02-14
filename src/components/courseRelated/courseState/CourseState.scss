@@ -86,6 +86,9 @@
   background: var(--yellow);
 }
 
+.changing-text.incomplete {
+  text-align: center;
+}
 
 @media only screen and (max-width: 960px) {
   .cs-container {

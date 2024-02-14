@@ -14,6 +14,7 @@ import { supabase } from '../../../supabase/config'
 import { toast } from "react-toastify";
 import FetchCoursesFaculty from '../../../customHooks/fetchCoursesFaculty'
 import { useNavigate } from 'react-router-dom'
+import Multiselect from 'multiselect-react-dropdown'
 // import MultiStep from 'react-multistep'
 // import { PiBooksFill, PiMathOperationsBold, PiPaintBrushFill } from "react-icons/pi";
 // import { MdScience, MdSportsFootball } from 'react-icons/md'
@@ -29,7 +30,6 @@ class EmailError extends Error {
   }
 
 const FacultyCourse = () => {
-
     const [checkedItems, setCheckedItems] = useState({
         Math: false,
         Science: true,
@@ -234,7 +234,8 @@ const FacultyCourse = () => {
             students: [
 
             ],
-            instructorId: ''
+            instructorId: '',
+            courseCategory: ''
         }
     )
 
@@ -266,6 +267,14 @@ const FacultyCourse = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        // Validation check for empty formData properties
+        for (const key in formData) {
+            if (formData.hasOwnProperty(key) && formData[key] === '') {
+                toast.error(`${key} cannot be empty`);
+                return; // Exit the function if any property is empty
+            }
+        }
+
         try {
             const { data, error } = await supabase
             .from('course')
@@ -273,6 +282,7 @@ const FacultyCourse = () => {
                 name: formData.courseName,
                 code: formData.courseCode,
                 instructor_id: formData.instructorId,
+                category: formData.courseCategory
             }])
             .select()
             .single();
@@ -347,6 +357,26 @@ const FacultyCourse = () => {
         
       };
 
+      const selectStyles = {
+        multiselectContainer: {
+            padding: "0.5rem",
+            background: "white",
+            "min-width" : "500px"                        
+        },
+        searchBox: {
+            border: "none",
+            color: "black",
+        },
+        chips: { 
+            background: "var(--redLO)"
+        },
+        option: { 
+            background: "var(--gray)",
+            color: 'var(--blue)',
+            
+        },
+    }     
+
     const [courses, setCourses] = useState([])
 
     const id = useSelector(selectUserID)
@@ -365,6 +395,14 @@ const FacultyCourse = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
 
+    const [categories, setCategories] = useState([
+        {name: "Math", id: 1},
+        {name: "Science", id: 2},
+        {name: "Language", id: 3},
+        {name: "Social Studies", id: 4},
+        {name: 'Arts', id: 5},
+        {name: "Sports", id: 6},
+    ])
     
     useEffect(() => {
         setFormData({
@@ -373,7 +411,7 @@ const FacultyCourse = () => {
         })
 
         setCourses(coursesData)
-        console.log(formData)
+        console.log(coursesData)
 
     }, [coursesData, id])
 
@@ -454,6 +492,22 @@ const FacultyCourse = () => {
                         <div className='modal-each-input'>
                             <h1>Course Code:</h1>
                             <input type='text' placeholder='Enter Course Code...' name='courseCode' onKeyDown={handleKeyDown} onChange={(e) => onInputHandleChange(e)} />
+                        </div>
+                        <div className='modal-each-input'>
+                            <h1>Course Category:</h1>
+                            <Multiselect
+                                options={categories}
+                                displayValue="name" 
+                                placeholder="Select Category"
+                                style={selectStyles}
+                                singleSelect={true}
+                                name="courseCategory"
+                                onSelect={(selectedList) => {
+                                    setFormData({
+                                    ...formData,
+                                    courseCategory: selectedList[0].name
+                                })}}
+                            />
                         </div>
                         <div className='modal-each-input'>
                             <h1>Students</h1>
