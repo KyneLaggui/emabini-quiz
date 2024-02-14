@@ -24,3 +24,23 @@
     justify-content: center;
     gap: 2rem;
 }
+
+.qt-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.quiz-navigation {
+    width: 350px;
+    margin-top: 1rem;
+    background-color: var(--gray);
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    
+}

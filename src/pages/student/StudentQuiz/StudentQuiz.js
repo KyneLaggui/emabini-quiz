@@ -37,6 +37,8 @@ const StudentQuiz = () => {
     totalScore: 0
   })
 
+  const [completedTotalScore, setCompletedTotalScore] = useState(0)
+
   const {quizId} = useParams();
 
   const { fetchedQuizInfo } = FetchQuizInformation(quizId);
@@ -70,7 +72,8 @@ const StudentQuiz = () => {
             courseCode: fetchedQuizInfo['course_code'],        
             duration: fetchedQuizInfo['duration'],
             totalScore: fetchedQuizInfo['overall_score'],
-            courseId: courseDetails.data['id']
+            courseId: courseDetails.data['id'],
+            courseInstruction: fetchedQuizInfo['instruction']
           })
 
           setRemainingTime(fetchedQuizInfo['duration'] * 60);
@@ -262,6 +265,8 @@ const StudentQuiz = () => {
       score: totalScore
     })
 
+   
+
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: "btn btn-success",
@@ -335,6 +340,20 @@ const StudentQuiz = () => {
         // Call the function to fetch data when the component mounts
    }, [studentEmail, fetchedQuizInfo]); 
 
+   useEffect(() => {
+    if (quizTaken) {
+      async function fetchData() {
+        const {data, error} = await supabase
+        .from('quiz_grades')
+        .select().eq('student_email', studentEmail).eq('quiz_id', quizId).single()
+        setCompletedTotalScore(data.score)
+        }
+
+        fetchData()
+      }
+        
+    }, [quizTaken, quizId])
+
   return (
     <>
         <Sidebar />
@@ -346,24 +365,29 @@ const StudentQuiz = () => {
                   <>
                     {/* <StudentQuizCard number={quizCards.length}  />
                         */}
-                   <div className='student-quiz-answer-container'>
-                      {quizData.map((quizItem, index) => (
-                        <div key={index}>
-                          
-                            <StudentAnswerCard quizItem={quizItem} number={index + 1}/>
-
+                    <div className='qt-container'>
+                      <div className='student-quiz-answer-container'>
+                        {quizData.map((quizItem, index) => (
+                          <div key={index}>
                             
+                              <StudentAnswerCard quizItem={quizItem} number={index + 1}/>
+                          </div>
                           
-                          
+                        ))} 
+                      </div>
+                      <div className='quiz-navigation'>
+                        <h1>{quizDetails.quizTitle}</h1>
+                        <p>{quizDetails.duration}</p>
+                        <p>Score: {completedTotalScore}</p>
+                        <p>{quizDetails.courseInstruction}</p>
+                        <div className='sq-tracker'>
+                          <StudentQuizTracker number={quizData.length} />
                         </div>
-                        
-                      ))} 
-                     
-
-                        
-                      
+                          
+                      </div>
                     </div>
-                    
+                   
+
                     
                     
                     
