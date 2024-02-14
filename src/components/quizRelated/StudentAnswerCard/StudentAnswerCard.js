@@ -4,6 +4,7 @@ import { FaCheck, FaVolumeUp } from 'react-icons/fa';
 import { supabase } from '../../../supabase/config';
 import { RxCross2 } from "react-icons/rx";
 
+
 const StudentAnswerCard = ( {quizItem, number} ) => {
     // console.log(quizItem)
     // console.log(quizItem.isCorrect)
@@ -93,9 +94,9 @@ const StudentAnswerCard = ( {quizItem, number} ) => {
                         {number}
                     </div>
                     {/* <div className="student-question-point">{`${quizItem.points} ${quizItem.points > 1 ? `points` : `point`}`}</div> */}
-                    <div className="volume-container">
+                    {/* <div className="volume-container">
                         <FaVolumeUp size={20} />
-                    </div>
+                    </div> */}
                     <div className="student-quiz-question">{quizQuestion}</div>
                 </div>
                 <div className="student-questions-container">
