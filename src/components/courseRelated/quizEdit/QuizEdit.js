@@ -5,7 +5,7 @@ import PageLayout from '../../../layouts/pageLayout/PageLayout'
 import FacultyOnly from '../../../layouts/facultyOnly/FacultyOnly'
 import RecipientBox from '../../../components/courseRelated/recipientBox/RecipientBox'
 import QuizCreation from '../../../components/courseRelated/quizCreation/QuizCreation'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaBook, FaTimes } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { supabase } from '../../../supabase/config'
@@ -13,6 +13,7 @@ import QuizNavigation from '../../../components/quizRelated/QuizNavigation/QuizN
 import { selectUserID } from '../../../redux/slice/authSlice'
 import { useSelector } from 'react-redux'
 import FetchQuizInformation from '../../../customHooks/fetchQuizInformation'
+import { selectCurrentQuestions } from '../../../redux/slice/quizReuseSlice'
 
 const QuizEdit = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -26,6 +27,14 @@ const QuizEdit = () => {
     const { quizId } = useParams();
 
     const { fetchedQuizInfo } = FetchQuizInformation(quizId);
+
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+
+    const [isPopupMinimized, setIsPopupMinimized] = useState(false);
+
+    const togglePopup = () => {
+        setIsPopupMinimized(!isPopupMinimized);
+    };
 
     const alterQuestion = (question, index) => {
         const newQuestions = questionData
@@ -283,6 +292,15 @@ const QuizEdit = () => {
         })
     }
 
+    const [currentReusableQuestions, setCurrentReusableQuestions] = useState([])
+
+    // For quiz question reusing
+    const fetchedCurrentQuestions = useSelector(selectCurrentQuestions);
+
+    useEffect(() => {
+        console.log(fetchedCurrentQuestions);
+    }, [fetchedCurrentQuestions])
+    
     useEffect(() => {
         setFormData({
             ...formData,
@@ -396,6 +414,24 @@ const QuizEdit = () => {
 
                 )} */}                
                 </div>
+                {isPopupMinimized ? <div className={`popup-book ${isPopupMinimized ? 'minimized' : ''}`} onClick={togglePopup}><FaBook className='book-itself'/></div> : (
+                    <div className={`selected-questions-popup ${selectedQuestions.length > 0 ? 'show' : ''} ${isPopupMinimized ? 'minimized' : ''}`}>
+                    <div className="popup-header" onClick={togglePopup}>
+                        <h3>Selected Questions</h3>
+                        <button>
+                            <FaTimes onClick={togglePopup}/>
+                        </button>
+                    </div>
+                    <div className="popup-body">
+                        
+                        {selectedQuestions.map((question, index) => (
+                            <div key={index}>
+                                <p>{question}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                )}
             </FacultyOnly>
         </PageLayout>
     </>

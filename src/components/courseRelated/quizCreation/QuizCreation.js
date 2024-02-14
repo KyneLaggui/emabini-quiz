@@ -3,12 +3,14 @@ import "./QuizCreation.scss"
 import { IoBatteryCharging, IoLockOpen, IoRemoveCircleSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from 'react-icons/io';
 import Swal from 'sweetalert2';
+import { ADD_QUESTION } from '../../../redux/slice/quizReuseSlice';
+import { useDispatch } from 'react-redux';
 
 const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
     // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
-
+    const [showCheckbox, setShowCheckbox] = useState(false);
     // const [answerInput, setAnswerInput] = useState(['']);
 
     const [selectedAnswers, setSelectedAnswers] = useState([]);
@@ -272,11 +274,26 @@ const QuizCreation = ({ manipulateQuestion, number, questionInfo }) => {
         manipulateQuestion(questionData, number)
     }, [questionInfo])
 
+    // For question reuses
+    const dispatch = useDispatch();
 
+    const addQuestion = () => {
+        setShowCheckbox(!showCheckbox)
+
+        dispatch(ADD_QUESTION(questionData))
+    }
+ 
 
 
   return (
     <div className='qc-container'>
+        <div className='qc-checkbox'>
+                <input
+                    type="checkbox"
+                    checked={showCheckbox}
+                    onChange={() => addQuestion()}
+                />
+            </div>
         <div className='qc-inputs'>
             <div className='qc-question-top'>
                 <h2>Question:</h2>
