@@ -460,6 +460,8 @@ const FacultyCourse = () => {
         navigate(`/faculty-courses/${id}`)
     } 
 
+    
+
 
     const [currentStep, setCurrentStep] = useState(1);
 

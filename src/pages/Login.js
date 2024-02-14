@@ -157,7 +157,7 @@ const Login = () => {
                            
                         
                         
-                            <a className='forgot-password'>Forgot Password?</a>
+                            {/* <a className='forgot-password'>Forgot Password?</a> */}
 
                             <button type="submit" className="login-button">Login</button>  
                         </div>
