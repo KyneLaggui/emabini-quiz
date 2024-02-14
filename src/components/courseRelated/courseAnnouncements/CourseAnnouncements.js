@@ -11,6 +11,7 @@ import { AiOutlineSync } from 'react-icons/ai';
 import { Link } from "react-router-dom";
 import FetchCourseAnnouncement from "../../../customHooks/fetchCourseAnnouncements";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 Modal.setAppElement('#root');
 
@@ -122,14 +123,46 @@ export const CourseAnnouncements = ({ courseCode, code, name, role }) => {
                 })
                 
                 if (error) throw error;
-                toast.success('Announcement created successfully!')
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                    })
+            
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Announcement Created',
+                    
+                })
                 setDataChange(!dataChange)
             }
     
             insertAnnouncement();   
 
         } catch(error) {
-            toast.error(error)
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+                })
+        
+                Toast.fire({
+                icon: 'error',
+                title: error,
+                
+            })
         }
               
     }
