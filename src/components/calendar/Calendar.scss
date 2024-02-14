@@ -84,7 +84,8 @@
         }
 
         li:hover::before {
-            background: #dddddd;
+            background: var(--yellow);
+            
         }
     }   
 }
