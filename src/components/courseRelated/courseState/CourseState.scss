@@ -69,6 +69,23 @@
     }
 }
 
+.completed, .incomplete {
+  background: var(--green);
+  font-size: 0.875rem;
+  padding: 10px;
+  margin-top: 10px;
+  color: white;
+  border-radius: 10px;
+}
+
+.completed {
+  background: var(--green);
+}
+
+.incomplete {
+  background: var(--yellow);
+}
+
 
 @media only screen and (max-width: 960px) {
   .cs-container {
@@ -86,3 +103,5 @@
       
     }
 }
+
+

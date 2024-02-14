@@ -129,7 +129,7 @@ const QuizEdit = () => {
 
   
         if (quizId) {
-            
+            console.log(questionData)
             try {                                                             
                 const questions = []
                 for (let i = 0; i < questionData.length; i++) {

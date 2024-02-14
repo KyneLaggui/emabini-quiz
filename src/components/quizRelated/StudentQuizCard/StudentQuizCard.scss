@@ -28,6 +28,19 @@
         color: white;     
     }
 
+    .student-question-point {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 10px;   
+        background-color: var(--green);
+        color: white;     
+    }
+
     .volume-container {
         position: absolute;
         display: flex;
