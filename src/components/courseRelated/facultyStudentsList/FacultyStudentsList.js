@@ -6,6 +6,7 @@ import RecipientBox from '../recipientBox/RecipientBox';
 import { supabase } from '../../../supabase/config';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { FaUserAlt } from 'react-icons/fa';
 
 class EmailError extends Error {
     constructor(message, field) {
@@ -165,8 +166,9 @@ const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
         }
     }, [students])
 
+
   return (
-    <div className='fsl-container' style={{ height: dynamicHeight }}>
+    <div className='fsl-container'>
         <div className='fsl-title-wrapper'>
             <h1>Students</h1>
             <p onClick={openModal}>View</p>
@@ -175,7 +177,7 @@ const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
                 {limitStudentNames.length ? limitStudentNames.map((student, index) => (
                      <div className='fsl-students-settings' key={index}>
                         <h1 key={index}>{student}</h1>
-                        <IoRemoveCircle onClick={(() => console.log('remove'))}/>
+                        <FaUserAlt />
                     </div>
                 )) : <p>No students yet.</p>}
         </div>
