@@ -1,7 +1,7 @@
 import './ProfileDetailsHeader.scss';
 import userIcon from '../../assets/user_icon.png';
 import { useSelector } from 'react-redux';
-import { selectUserID } from '../../redux/slice/authSlice';
+import { selectEmail, selectUserID } from '../../redux/slice/authSlice';
 import FetchUserProfile from '../../customHooks/fetchUserProfile';
 import { useEffect, useState } from 'react';
 
@@ -10,18 +10,21 @@ const ProfileDetailsHeader = () => {
         firstName: '',
         middleName: '',
         lastName: '',
+        email: ''
     })
 
     const id = useSelector(selectUserID)
-
+    const email = useSelector(selectEmail)
     const {userData} = FetchUserProfile(id)
 
     useEffect(() => {        
-        if (userData) {
+        if (userData && email) {
             setUserInformation({
                 firstName: userData.first_name,
                 middleName: userData.middle_name,
                 lastName: userData.last_name,
+                email : email,
+                
             })
         }        
     }, [userData])
@@ -31,7 +34,7 @@ const ProfileDetailsHeader = () => {
             <div className="profile-details-container">
                 <div>
                     <p className="eb-titles">{`${userInformation.firstName} ${userInformation.middleName} ${userInformation.lastName}`}</p>
-                    <p className="eb-standard red">2021-05787-MN-0</p>
+                    <p className="eb-standard red">{userInformation.email}</p>
                 </div>
             </div>
         </>
