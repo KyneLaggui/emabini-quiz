@@ -12,6 +12,7 @@ import { supabase } from '../../../supabase/config'
 import VideoQuizNavigation from '../../../components/quizRelated/VideoQuizNavigation/VideoQuizNavigation'
 import { FaPlus } from 'react-icons/fa';
 import Swal from 'sweetalert2'
+import QuizCreationVideo from '../../../components/courseRelated/quizCreationVideo/QuizCreationVideo'
 
 const CreateVideoQuiz = () => {
     const [activeTab, setActiveTab] = useState('examination');
@@ -35,7 +36,7 @@ const CreateVideoQuiz = () => {
         updateTotalPoints();
     }
 
-    const [quizComponents, setQuizComponents] = useState([<QuizCreation key={0} manipulateQuestion={alterQuestion} number={0} />]);
+    const [quizComponents, setQuizComponents] = useState([<QuizCreationVideo key={0} manipulateQuestion={alterQuestion} number={0} />]);
 
     const [formData, setFormData] = useState({
         title: "", 
@@ -229,9 +230,20 @@ const CreateVideoQuiz = () => {
     }
 
 
+    const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+
     // Function to handle file upload
     const handleFileUpload = (e) => {
-        // Implement your file upload logic here
+        const file = e.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setVideoPreviewUrl(reader.result);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
     };
 
     // useEffect(() => {
