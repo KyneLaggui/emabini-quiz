@@ -152,7 +152,7 @@ const EachFacultyCourse = () => {
                       
                       <div className='courses-information' ref={fslContainerRef}>
                           <div className='courses-weeks'>
-                              <QuizzesFacultyOverview /> 
+                              {courseInfo && <QuizzesFacultyOverview  courseCode={courseInfo.code} /> }
                           </div>
                           {
                             courseInfo && <FacultyStudentsList dynamicHeight={fslContainerHeight} students={enrolledStudents} {...courseData} />

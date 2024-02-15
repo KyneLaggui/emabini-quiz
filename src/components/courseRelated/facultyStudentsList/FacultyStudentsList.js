@@ -231,7 +231,7 @@ const FacultyStudentsList = ({ dynamicHeight, students, code, name }) => {
                              <h1 className='sl-title'>Students</h1>
                              <form className='sl-enroll-container' onSubmit={handleSubmit}>
                                 <RecipientBox  modifyStudentRecipients={modifyStudentRecipients}/>
-                                <button className='sl-csv'>Import CSV</button>
+                                {/* <button className='sl-csv'>Import CSV</button> */}
 
                                 <div className='sl-confirmation'>
                                     <button className='sl-cancel' onClick={closeModal}>Cancel</button>
