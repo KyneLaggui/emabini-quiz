@@ -51,9 +51,29 @@
     height: 100%;
     padding: 20px;
     border-radius: 20px;
+
+    p {
+        color: black;
+    }
 }
 
 .announcement-preview-row {
-    border-bottom: 2px solid black;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+    border-bottom: 1px solid black;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.apr-code {
+    background-color: var(--red);
+    color: white !important;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
