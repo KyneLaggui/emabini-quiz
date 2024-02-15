@@ -58,7 +58,11 @@ const QuizzesOverview = ({courseCode}) => {
     }, [])
   return (
     quizzes.length === 0 ? (
+        <>
+        <h1 className='eb-semi-titles'>Student Examination Results</h1>
         <p>No quizzes found.</p>
+        </>
+       
     ) : (
         <div className='efc-main-container'>
             <h1 className='eb-semi-titles'>Student Examination Results</h1>
