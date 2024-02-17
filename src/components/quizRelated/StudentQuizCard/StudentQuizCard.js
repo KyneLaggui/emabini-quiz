@@ -16,14 +16,19 @@ const StudentQuizCard = ({ quiz, number, addAnswer, answerCompilation }) => {
         addAnswer(chosenAnswer, id, answer.length);
     };
 
+    const handleSpeakQuestion = () => {
+        const speech = new SpeechSynthesisUtterance(question);
+        window.speechSynthesis.speak(speech);
+    };
+
     return (
         <>
             <div className="student-quiz-card-container">
                 <div className="student-question-number">{number}</div>
                 <div className="student-question-point">{`${points} ${points > 1 ? `points` : `point`}`}</div>
-                {/* <div className="volume-container">
-                    <FaVolumeUp size={20} />
-                </div> */}
+                <div className="volume-container">
+                    <FaVolumeUp size={20} onClick={handleSpeakQuestion} />
+                </div>
                 <div className="student-quiz-question">{question}</div>
             </div>
             <div className="student-questions-container">

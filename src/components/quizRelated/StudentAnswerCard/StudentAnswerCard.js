@@ -85,6 +85,10 @@ const StudentAnswerCard = ( {quizItem, number} ) => {
         
     }, [quizItem])
 
+    const handleSpeakQuestion = () => {
+        const speech = new SpeechSynthesisUtterance(quizQuestion);
+        window.speechSynthesis.speak(speech);
+    };
 
   return (
     <>  
@@ -94,9 +98,9 @@ const StudentAnswerCard = ( {quizItem, number} ) => {
                         {number}
                     </div>
                     {/* <div className="student-question-point">{`${quizItem.points} ${quizItem.points > 1 ? `points` : `point`}`}</div> */}
-                    {/* <div className="volume-container">
-                        <FaVolumeUp size={20} />
-                    </div> */}
+                    <div className="volume-container">
+                        <FaVolumeUp size={20} onClick={handleSpeakQuestion} />
+                    </div>
                     <div className="student-quiz-question">{quizQuestion}</div>
                 </div>
                 <div className="student-questions-container">
