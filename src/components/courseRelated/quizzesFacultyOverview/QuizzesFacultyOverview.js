@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import CourseState from '../courseState/CourseState'
 import "./QuizzesFacultyOverview.scss"
-import FetchStudentQuizzes from '../../../customHooks/fetchStudentQuizzes'
 import { Zoom } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../supabase/config'
@@ -67,11 +65,6 @@ const QuizzesOverview = ({courseCode}) => {
         <div className='efc-main-container'>
             <h1 className='eb-semi-titles'>Student Examination Results</h1>
             <div className="courses-quizzes">
-                {/* {quizzes.map((quiz, index) => (              
-                    <div className="quiz-course-container"onClick={() => handleClick(quiz.id)}>
-                        <CourseState {...quiz} key={index} email={email}/>                    
-                    </div>
-                ))} */}
                 {
                   quizzes.map((quiz, index) => {
                     return (

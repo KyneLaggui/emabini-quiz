@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './StudentQuiz.scss';
-import StudentQuizHeader from '../../../components/quizRelated/studentQuizHeader/StudentQuizHeader';
+import './StudentVideoQuiz.scss';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../layouts/pageLayout/PageLayout';
 import StudentQuizCard from '../../../components/quizRelated/StudentQuizCard/StudentQuizCard';
@@ -18,8 +17,10 @@ import Swal from 'sweetalert2';
 import { selectEmail } from '../../../redux/slice/authSlice';
 import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard/StudentAnswerCard';
 import { FaArrowLeft, FaClock } from 'react-icons/fa';
+import StudentVideoQuizHeader from '../StudentVideoQuizHeader/StudentVideoQuizHeader';
+import FetchVideoQuizInformation from '../../../customHooks/fetchVideoQuizInformation';
 
-const StudentQuiz = () => {
+const StudentVideoQuiz = () => {
   const dispatch = useDispatch();
   const studentEmail = useSelector(selectEmail)
 
@@ -29,6 +30,11 @@ const StudentQuiz = () => {
   // Pagination states 
   const currentPage = useSelector(selectCurrentPage);
   const [productsPerPage] = useState(1);
+
+  // For video quizzing
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [src, setSrc] = useState(videoPreviewUrl);
+  const [currentVidTime, setCurrentVidTime] = useState(0);
 
   const [quizDetails, setQuizDetails] = useState({
     quizTitle: "",
@@ -42,7 +48,7 @@ const StudentQuiz = () => {
 
   const {quizId} = useParams();
 
-  const { fetchedQuizInfo } = FetchQuizInformation(quizId);
+  const { fetchedQuizInfo } = FetchVideoQuizInformation(quizId);
 
   const navigate = useNavigate()
 
@@ -55,6 +61,7 @@ const StudentQuiz = () => {
 
     const getHeaderInfo = async() => {
       if (fetchedQuizInfo) {
+        console.log(fetchedQuizInfo)
         const {data} = await supabase
         .from('course')
         .select()
@@ -299,22 +306,22 @@ const StudentQuiz = () => {
    }
 
     // Automically deem quiz as completed when the student clicks on the quizz
-  useEffect(() => {
-    const updateQuizStatus = async() => {
-      if (quizId) {
-        const {data, error} = await supabase
-        .from('quiz_assignment')
-        .update({
-          taken: true
-        })
-        .eq('student_email', studentEmail)
-        .eq('quiz_id', fetchedQuizInfo['id'])
-        .single()
-      }
-    }
+//   useEffect(() => {
+//     const updateQuizStatus = async() => {
+//       if (quizId) {
+//         const {data, error} = await supabase
+//         .from('quiz_assignment')
+//         .update({
+//           taken: true
+//         })
+//         .eq('student_email', studentEmail)
+//         .eq('quiz_id', fetchedQuizInfo['id'])
+//         .single()
+//       }
+//     }
     
-    updateQuizStatus()
-  }, [studentEmail, fetchedQuizInfo])
+//     updateQuizStatus()
+//   }, [studentEmail, fetchedQuizInfo])
   
    const [quizData, setQuizData] = useState([]);
 
@@ -356,6 +363,29 @@ const StudentQuiz = () => {
       }
         
     }, [quizTaken, quizId])
+
+    useEffect(() => {
+        const getVideo = async() => {
+            // const {data, error} =  await supabase
+            // .storage 
+            // .from('video_quiz')
+            // .list(`${quizId}/`,{
+            //     limit: 1,
+            //     offset: 0,
+            //     sortBy: { column: 'name', order: 'asc' },
+            // })
+            setSrc(`https://ysoivydntceylxsduxhh.supabase.co/storage/v1/object/public/video_quiz/${quizId}/${quizId}`)
+        }
+
+        getVideo();
+
+    }, [quizId])
+
+    // Function to handle video time update
+    const handleVideoTimeUpdate = (event) => {
+        const currentTime = event.target.currentTime;
+        setCurrentVidTime(Math.floor(currentTime));
+    };
 
   return (
     <>
@@ -408,24 +438,28 @@ const StudentQuiz = () => {
                           
                       </div>
                     </div>
-                   
-
-                    
-                    
-                    
                   </>        
                 )
                 :
                 (<div className="student-quiz-container">
                 <div>
-                  <StudentQuizHeader 
+                  <StudentVideoQuizHeader 
                     {...quizDetails} 
                     handleSubmit={handleSubmit} 
                     remainingTime={remainingTime} // Pass down remainingTime state
                     setRemainingTime={setRemainingTime} // Pass down setter function
                     showAnswer={showAnswer}
                   />
-                    <div>
+                                      {(
+                        src && <div className="video-preview-container">
+                            <h2>Video Preview:</h2>
+                            <video controls key={src} onTimeUpdate={handleVideoTimeUpdate}>
+                                <source src={src}/>
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    )}
+                    {/* <div>
                       {
                         currentQuestion.map((quizCard, index) => {                             
                           return (
@@ -442,14 +476,14 @@ const StudentQuiz = () => {
                           )
                         })
                       }
-                    </div>
-                    <StudentQuizPagination 
+                    </div> */}
+                    {/* <StudentQuizPagination 
                       productsPerPage={productsPerPage}
                       totalQuizCards={quizCards.length}
                       handleSubmit={handleSubmit}
-                    />
+                    /> */}
                 </div>
-                <StudentQuizTracker number={quizCards.length} />
+                {/* <StudentQuizTracker number={quizCards.length} /> */}
                 </div>)
               }        
              
@@ -460,64 +494,7 @@ const StudentQuiz = () => {
   )
 }
 
-export default StudentQuiz
+export default StudentVideoQuiz
 
-
-
-
-
- // Automically deem quiz as completed when the student clicks on the quiz
-  // useEffect(() => {
-  //   const updateQuizStatus = async() => {
-  //     if (quizId) {
-  //       const {data, error} = await supabase
-  //       .from('quiz_assignment')
-  //       .select()
-  //       .eq('student_email', studentEmail)
-  //       .eq('quiz_id', fetchedQuizInfo['id'])
-  //       .single()
-  //     }
-  //   }
     
-  //   updateQuizStatus()
-  // }, [studentEmail])
 
-
-
-  // const quizCards = [
-  //   {
-  //     'question': 'What is the powerhouse of the cell?',
-  //     'choices': [
-  //       'Mitochondira', 'Nucleus', 'Endoplasmic reticulum', 'Golgi apparatus'
-  //     ],
-  //     'answer': 'Mitochondria'
-  //   },
-  //   {
-  //     'question': 'What is the chemical symbol for water?',
-  //     'choices': [
-  //       'O2', 'H2O', 'CO2', 'NaCl'
-  //     ],
-  //     'answer': 'Mitochondria'
-  //   },
-  //   {
-  //     'question': 'Which planet is known as the "Red Planet"?',
-  //     'choices': [
-  //       'Venus', 'Mars', 'Jupiter', 'Saturn'
-  //     ],
-  //     'answer': 'Mars'
-  //   },
-  //   {
-  //     'question': 'What is the smallest prime number?',
-  //     'choices': [
-  //       '0', '1', '2', '3'
-  //     ],
-  //     'answer': '1'
-  //   },
-  //   {
-  //     'question': 'Which gas is most abundant in Earth\'s atmosphere?',
-  //     'choices': [
-  //       'Oxygen', 'Nitrogen', ' Carbon dioxide', 'Hydrogen'
-  //     ],
-  //     'answer': 'Hydrogen'
-  //   }
-  // ]

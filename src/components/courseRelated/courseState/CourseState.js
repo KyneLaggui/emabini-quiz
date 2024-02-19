@@ -60,7 +60,14 @@ const CourseState = ({ title, created_at, duration, quizState, taken }) => {
                 <div className="cs-left">
                     <h1><Link>{title}</Link></h1>
                     <p><Link>Posted at: {extractDate(created_at)} {extractTime(created_at)}</Link></p>
-                    <p><Link>Duration: {`${duration} ${duration > 1 ? 'minutes' : 'minute'}`}</Link></p>
+                    {
+                        duration ? (
+                            <p><Link>Duration: {`${duration} ${duration > 1 ? 'minutes' : 'minute'}`}</Link></p>
+                        ) : (
+                            <p><Link>Type: Video Quiz</Link></p>
+                        )
+                    }
+                    
                 </div>
 
                 <div className="cs-right">

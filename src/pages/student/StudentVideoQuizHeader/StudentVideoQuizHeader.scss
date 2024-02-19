@@ -1,0 +1,59 @@
+.student-quiz-header-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 50px;
+
+    & > p {
+        font-size: 1.375rem;
+        color: var(--blue);
+        font-weight: 600;
+    }
+}
+
+.quiz-header-details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.student-quiz-header-container {
+    /* Your existing styles */
+  }
+  
+  .quiz-header-details {
+    display: flex;
+    align-items: center; /* Align items vertically in the middle */
+  }
+  
+  .quiz-header-details p {
+    margin: 0; /* Remove default margin */
+  }
+  
+
+  .btn {
+    &.btn-success {
+      background-color: #28a745; // Green color for success button
+      color: #fff; // White text color
+      border: none; // No border
+      border-radius: 5px; // Border radius
+  
+      // Padding
+      padding: 10px 20px; // Adjust padding as needed
+  
+      // Font size
+      font-size: 16px; // Adjust font size as needed
+  
+      // Transition effect for smooth hover animation
+      transition: background-color 0.3s ease;
+  
+      // Shining effect upon hover
+      &:hover {
+        background-color: #218838; // Darker shade of green
+      }
+    }
+  }
+  
+  
+  
