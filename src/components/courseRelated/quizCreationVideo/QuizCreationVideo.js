@@ -7,12 +7,12 @@ import { ADD_QUESTION, REMOVE_QUESTION, selectCurrentQuestions } from '../../../
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
+const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo, propMaxTimestamp, currentTime }) => {
     // const [question, setQuestion] = useState('');
     const [quizTagName, setQuizTagName] = useState('');
     const [confirmedQuizTags, setConfirmedQuizTags] = useState([]);
     const [showCheckbox, setShowCheckbox] = useState(false);
-    // const [answerInput, setAnswerInput] = useState(['']);
+    const [maxTimestamp, setMaxTimestamp] = useState(0)
 
     const [selectedAnswers, setSelectedAnswers] = useState([]);
     // const [choiceInput, setChoiceInput] = useState(['', '', '']);
@@ -26,7 +26,8 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
         answerInput: [''],
         points: 1,
         questionId: '',
-        timestamp: ''
+        timestamp: 0,
+        duration: 0
     })
 
     const handleConfirm = () => {
@@ -205,12 +206,49 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
         setQuestionData(newQuestionData);
     }  
 
-    // Form functions
     const handleTimestampChange = (event) => {
-        const {value} = event.target;
+        let {value, max} = event.target;
+        
+        // Parse value as an integer with base 10
+        const parsedValue = parseInt(value, 10);
+        console.log(parsedValue)
+
+        if (parsedValue > Number(max)) {
+            const newQuestionData = {
+                ...questionData,
+                timestamp: Number(propMaxTimestamp)
+            }
+    
+            manipulateQuestion(
+                newQuestionData, 
+                number
+            )
+            
+            setQuestionData(newQuestionData);
+        } else {
+            const newQuestionData = {
+                ...questionData,
+                timestamp: parsedValue
+            }
+    
+            manipulateQuestion(
+                newQuestionData, 
+                number
+            )
+            
+            setQuestionData(newQuestionData);
+        }
+    }
+
+    const handleDurationChange = (event) => {
+        let {value} = event.target;
+
+        // Parse value as an integer with base 10
+        const parsedValue = parseInt(value, 10);
+
         const newQuestionData = {
             ...questionData,
-            timestamp: value
+            duration: parsedValue
         }
 
         manipulateQuestion(
@@ -219,7 +257,7 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
         )
         
         setQuestionData(newQuestionData);
-    }  
+    }
 
     const handleAnswerChange = (event, index) => {
         const {value} = event.target;
@@ -311,8 +349,6 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
     const {quizId} = useParams()
 
     const [isNew, setIsNew] = useState(true)
-
-    
     useEffect(() => {
         if (quizId) {
             setIsNew(false)
@@ -339,6 +375,14 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
         })
         }
     }, [reduxCurrentQuestions, questionInfo])
+
+    useEffect(() => {
+        setMaxTimestamp(propMaxTimestamp)
+    }, [propMaxTimestamp])
+
+    useEffect(() => {
+        setQuestionData({...questionData, timestamp: currentTime})
+    }, [currentTime])
 
   return (
     <div className='qc-container'>
@@ -434,12 +478,13 @@ const QuizCreationVideo = ({ manipulateQuestion, number, questionInfo }) => {
             
         </div>
         <div className='qc-inputs'>
-            <div className='qc-question-top'>
-                <h2>Timestamp:</h2>
-            </div>
-            
-            <input type='text' placeholder='Enter Question' onChange={handleTimestampChange} value={questionData.timestamp} readOnly/>
-        </div>
+            <h1>Timestamp (seconds):</h1>
+            <input type='number' placeholder='Enter Timestamp...' name="timestamp" onChange={handleTimestampChange} value={questionData.timestamp} max={maxTimestamp} min={0}/>
+        </div>    
+        <div className='qc-inputs'>
+            <h1>Duration (seconds):</h1>
+            <input type='number' placeholder='Enter Duration...' name="duration" onChange={handleDurationChange} max={maxTimestamp} min={1}/>
+        </div>    
     </div>
   )
 }

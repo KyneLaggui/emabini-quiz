@@ -20,6 +20,7 @@ import FacultyQuizResult from './pages/faculty/FacultyQuizResult/FacultyQuizResu
 import CreateVideoQuiz from './pages/faculty/CreateVideoQuiz/CreateVideoQuiz';
 import QuizEdit from './components/courseRelated/quizEdit/QuizEdit';
 import QuizReuseQuestions from './components/courseRelated/quizReuseQuestions/QuizReuseQuestions';
+import StudentVideoQuiz from './pages/student/StudentVideoQuiz/StudentVideoQuiz';
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
           <Route path="/student-progress" element={ <StudentProgress/>}></Route>   
           <Route path="/student-progress-id" element={ <StudentProgressEach/>}></Route>   
           <Route path="/student-quiz/:quizId" element={ <StudentQuiz/>}></Route>   
-
+          <Route path="/student-quiz-video/:quizId" element={ <StudentVideoQuiz/>}></Route>   
 
           {/* Faculty */}
           <Route path="/faculty-home" element={ <FacultyHome />}></Route>  

@@ -56,8 +56,12 @@ const QuizzesOverview = ({email, courseCode}) => {
 
     // }, {});
 
-    const handleClick = (quizId) => {
-        navigate(`/student-quiz/${quizId}`)
+    const handleClick = (quiz) => {
+        if (quiz.hasOwnProperty('duration')) {
+            navigate(`/student-quiz/${quiz.id}`)
+        } else {
+            navigate(`/student-quiz-video/${quiz.id}`)
+        }
     }        
 
     useEffect(() => {
@@ -75,8 +79,26 @@ const QuizzesOverview = ({email, courseCode}) => {
                         return {...quizData, taken: data.taken}
                     }
                 }))      
-                quizResults = quizResults.filter(item => item !== undefined);
-                setQuizzes(quizResults)
+
+                let videoQuizResults = await Promise.all((quizzesData).map(async(quizData) => {
+                    const {data, error} = await supabase
+                    .from('quiz_video_assignment')
+                    .select()
+                    .eq('student_email', email)
+                    .eq('quiz_id', quizData['id'])
+                    .single()        
+
+                    if (data) {
+                        return {...quizData, taken: data.taken}
+                    }
+                }))      
+
+                let compiledResults = quizResults.concat(videoQuizResults)
+
+                compiledResults = compiledResults.filter(item => item !== undefined);
+
+                console.log(compiledResults)
+                setQuizzes(compiledResults)
             }
         }
 
@@ -102,7 +124,7 @@ const QuizzesOverview = ({email, courseCode}) => {
             <h1 className='topic-titles'>Posted Examinations</h1>
             <div className="courses-quizzes">
                 {quizzes.map((quiz, index) => (              
-                    <div className="quiz-course-container"onClick={() => handleClick(quiz.id)}>
+                    <div className="quiz-course-container"onClick={() => handleClick(quiz)}>
                         <CourseState {...quiz} key={index} email={email}/>                    
                     </div>
                 ))}

@@ -63,7 +63,6 @@ const StudentAnswerCard = ( {quizItem, number} ) => {
 
                 })
 
-                console.log(newChoices)
                 setFilteredChoices(newChoices)
             }
         }
