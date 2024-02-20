@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './StudentVideoQuiz.scss';
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import PageLayout from '../../../layouts/pageLayout/PageLayout';
@@ -19,6 +19,7 @@ import StudentAnswerCard from '../../../components/quizRelated/StudentAnswerCard
 import { FaArrowLeft, FaClock } from 'react-icons/fa';
 import StudentVideoQuizHeader from '../StudentVideoQuizHeader/StudentVideoQuizHeader';
 import FetchVideoQuizInformation from '../../../customHooks/fetchVideoQuizInformation';
+import StudentVideoQuizCard from '../../../components/quizRelated/StudentVideoQuizCard/StudentVideoQuizCard';
 
 const StudentVideoQuiz = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const StudentVideoQuiz = () => {
   const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
   const [src, setSrc] = useState(videoPreviewUrl);
   const [currentVidTime, setCurrentVidTime] = useState(0);
+  const vidRef = useRef(null);
 
   const [quizDetails, setQuizDetails] = useState({
     quizTitle: "",
@@ -78,7 +80,6 @@ const StudentVideoQuiz = () => {
             quizTitle: fetchedQuizInfo['title'],
             courseTitle: data.name,
             courseCode: fetchedQuizInfo['course_code'],        
-            duration: fetchedQuizInfo['duration'],
             totalScore: fetchedQuizInfo['overall_score'],
             courseId: courseDetails.data['id'],
             courseInstruction: fetchedQuizInfo['instruction']
@@ -86,7 +87,14 @@ const StudentVideoQuiz = () => {
 
           setRemainingTime(fetchedQuizInfo['duration'] * 60);
 
-          setQuizCards(fetchedQuizInfo['questions'])
+          const questionsWithTrack = (fetchedQuizInfo['questions']).map((question) => {
+            return {
+              ...question,
+              taken: false
+            }
+          })
+
+          setQuizCards(questionsWithTrack)
           let scoresMap = {}
           fetchedQuizInfo['questions'].map((question) => {
             scoresMap[question.id] = question.points
@@ -103,7 +111,6 @@ const StudentVideoQuiz = () => {
   useEffect(() => {
     const fetchTaken = async() => {
       if (fetchedQuizInfo && studentEmail) {    
-        console.log(recentlyUpdated)            
         
         const {data, error} = await supabase
         .from('quiz_assignment')
@@ -260,19 +267,19 @@ const StudentVideoQuiz = () => {
     });
 
     const questionAnswerData = await supabase
-    .from('question_answer')
+    .from('question_video_answer')
     .insert(questionAnswerKey)
 
-    console.log(questionAnswerData);
+    console.log(questionAnswerData.error);
 
     const {data, error} = await supabase
-    .from('quiz_grades')
+    .from('quiz_video_grades')
     .insert({
       student_email: studentEmail,
       quiz_id: quizId,
       score: totalScore
     })
-
+    console.log(error)
    
 
     const swalWithBootstrapButtons = Swal.mixin({
@@ -330,7 +337,7 @@ const StudentVideoQuiz = () => {
      async function fetchData() {
       if (studentEmail && fetchedQuizInfo){
           try {
-            const { data, error } = await supabase.from('question_answer').select('*')
+            const { data, error } = await supabase.from('question_video_answer').select('*')
             .eq('student_email',studentEmail).eq('quiz_id', fetchedQuizInfo['id']);
             if (error) {
               throw error;
@@ -363,7 +370,7 @@ const StudentVideoQuiz = () => {
       }
         
     }, [quizTaken, quizId])
-
+    
     useEffect(() => {
         const getVideo = async() => {
             // const {data, error} =  await supabase
@@ -381,10 +388,54 @@ const StudentVideoQuiz = () => {
 
     }, [quizId])
 
+    const [currentQuestionPopup, setCurrentQuestionPopup] = useState(null);
+
     // Function to handle video time update
     const handleVideoTimeUpdate = (event) => {
         const currentTime = event.target.currentTime;
         setCurrentVidTime(Math.floor(currentTime));
+        if (parseInt(currentTime) === parseInt()) {
+
+        }
+    };
+
+    const emptyCurrent = () => {
+      setCurrentQuestionPopup(null)
+    }
+
+    const [renderedQuestions, setRenderedQuestions] = useState(0)
+    useEffect(() => {
+      const newQuizCards = quizCards.map((quizCard) => {
+        if (parseInt(quizCard['timestamp']) === parseInt(currentVidTime) && !quizCard['taken']) {
+          setRenderedQuestions(renderedQuestions + 1)
+
+          const currentQuestion = <StudentVideoQuizCard
+          quiz={{...quizCard}} 
+          key={renderedQuestions} 
+          number={currentPage} 
+          totalQuizCards={quizCards.length}
+          addAnswer={addAnswer}  
+          answerCompilation={answerCompilation}
+          emptyCurrent={emptyCurrent}
+          />
+          setCurrentQuestionPopup(currentQuestion)
+
+          vidRef.current.pause()
+          return {
+            ...quizCard,
+            taken: true
+          }
+        }
+        return quizCard
+      })
+      
+      setQuizCards(newQuizCards)
+    }, [currentVidTime])
+
+    // Function to handle video end
+    const handleVideoEnd = () => {
+      // Perform any actions you want when the video ends
+      handleSubmit()
     };
 
   return (
@@ -450,10 +501,10 @@ const StudentVideoQuiz = () => {
                     setRemainingTime={setRemainingTime} // Pass down setter function
                     showAnswer={showAnswer}
                   />
+
                                       {(
                         src && <div className="video-preview-container">
-                            <h2>Video Preview:</h2>
-                            <video controls key={src} onTimeUpdate={handleVideoTimeUpdate}>
+                            <video controls key={src} onTimeUpdate={handleVideoTimeUpdate} onEnded={handleVideoEnd} ref={vidRef}>
                                 <source src={src}/>
                                 Your browser does not support the video tag.
                             </video>
@@ -483,6 +534,9 @@ const StudentVideoQuiz = () => {
                       handleSubmit={handleSubmit}
                     /> */}
                 </div>
+                {currentQuestionPopup && (
+                  currentQuestionPopup
+                )}
                 {/* <StudentQuizTracker number={quizCards.length} /> */}
                 </div>)
               }        
