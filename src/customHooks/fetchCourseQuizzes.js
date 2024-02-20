@@ -39,9 +39,16 @@ const FetchCourseQuizzes = (courseCode) => {
           .from("quiz")
           .select()
           .eq('course_code', courseCode)
+
+          const fetchedVideoQuizzes = await supabase    
+          .from("quiz_video")
+          .select()
+          .eq('course_code', courseCode)
+
+          let allQuizzes = (fetchedQuizzes.data).concat(fetchedVideoQuizzes.data)
           
           if (fetchedQuizzes.data) {
-            setQuizzesData(fetchedQuizzes.data)
+            setQuizzesData(allQuizzes)
         }
 
         }

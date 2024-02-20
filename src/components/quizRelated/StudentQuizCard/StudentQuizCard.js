@@ -22,7 +22,7 @@ const StudentQuizCard = ({ quiz, number, addAnswer, answerCompilation }) => {
     };
 
     return (
-        <>
+        <div>
             <div className="student-quiz-card-container">
                 <div className="student-question-number">{number}</div>
                 <div className="student-question-point">{`${points} ${points > 1 ? `points` : `point`}`}</div>
@@ -42,7 +42,7 @@ const StudentQuizCard = ({ quiz, number, addAnswer, answerCompilation }) => {
                     </button>
                 ))}
             </div>
-        </>
+        </div>
     );
 }
 

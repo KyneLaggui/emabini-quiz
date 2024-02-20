@@ -115,8 +115,8 @@
         color: white;
     }
     button {
-        background-color: var(--blue);
-        color: var(--asideWhite);
+        background-color: var(--blue) !important;
+        color: var(--asideWhite) !important; 
     }
 }
 

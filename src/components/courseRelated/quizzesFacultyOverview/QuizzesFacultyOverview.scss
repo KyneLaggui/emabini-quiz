@@ -51,14 +51,14 @@
     }
   }
 
-  .qfc-score {
-    background-color: var(--green);
-    color: #fff;
-    padding: 4px 10px;
-    font-weight: 500;
-    border-radius: 8px;
-    font-size: 12px;
-  }
+  // .qfc-score {
+  //   // background-color: var(--green);
+  //   color: #fff;
+  //   padding: 4px 10px;
+  //   font-weight: 500;
+  //   border-radius: 8px;
+  //   font-size: 12px;
+  // }
 
   @media screen and (max-width: 620px) {
     .student-results-container {
@@ -67,3 +67,25 @@
       margin-left: 0;
     }
   }
+
+
+.csv-button {
+  border-radius: 10px;
+  background: var(--green);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+}
+.quiz-table {
+  border-collapse: collapse; /* Ensures borders between cells */
+
+  th,
+  td {
+    border: 1px solid #ccc; /* Add cell borders */
+    padding: 10px; /* Add space between content and borders */
+  }
+
+  th {
+    background-color: #f2f2f2; /* Optional header background color */
+  }
+}
