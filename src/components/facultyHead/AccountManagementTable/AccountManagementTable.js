@@ -77,6 +77,17 @@ const AccountManagementTable = ({ users, changeData }) => {
       })
     }
 
+    const deleteAccount = async (userId) => {
+      const {data, error} = await supabase
+      .auth
+      .admin
+      .deleteUser(
+        userId
+      )
+
+      
+    }
+
     const handleSubmit = (e) => {
       e.preventDefault();
 
@@ -181,7 +192,12 @@ const AccountManagementTable = ({ users, changeData }) => {
                           className="on-hover" 
                           onClick={() => openModal(email, first_name, middle_name, last_name, role)}
                         />
-                        <FontAwesomeIcon icon={faUserXmark} style={{color: "var(--redLO)"}} className="on-hover" />
+                        <FontAwesomeIcon 
+                          icon={faUserXmark} 
+                          style={{color: "var(--redLO)"}} 
+                          className="on-hover" 
+                          onClick={() => deleteAccount(id)}
+                        />
                       </td>
                       </tr>
                     )
